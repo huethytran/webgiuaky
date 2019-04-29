@@ -1,21 +1,51 @@
-$(".img").mousemove(function(event){
-  
-    //Both the x and y value are calculated by taking the mouse x,y position on the page and subtracting it from the x,y position of the image on the page. "this" is the hovered element with the class of "img"
-    var mousex = event.pageX - $(this).offset().left;
-    var mousey = event.pageY - $(this).offset().top;
-    
-    
-    //If you just used the mouse position values the translation effect will only go up and to the right, by subtracting half of the length / width of the imagevfrom the values  we get either a positive or negitive number so that the image will move in any direction.
-    
-    //The 40 controls the amount of "movement" that will happen by giving us a smaller number, feel free to change it to get the effect that you want.
-    var imgx = (mousex - 300) / 40;
-    var imgy = (mousey - 200) / 40;
-    
-    //Adds a translation css styles to the image element
-    $(this).css("transform", "translate(" + imgx + "px," + imgy + "px)");
+// owl carousel
+  $(document).ready(function() {
+    $("#myowl").owlCarousel({
+      loop:false,
+      margin:10,
+      nav:false,
+      responsive:{
+        0:{
+            items:1,
+        },
+        600:{
+            items:2,
+        }
+    }
+    });
+    var owl = $('.owl-carousel');
+    // Custom Button
+    $('.customNextBtn').click(function() {
+      owl.trigger('next.owl.carousel');
+    });
+    $('.customPrevBtn').click(function() {
+      owl.trigger('prev.owl.carousel');
+    });
   });
-  
-  //This function will fire every time the user mouses off of the image. It resets the translation back to 0.
-  $(".img").mouseout(function(){
-    $(this).css("transform", "translate(0px,0px)");
+  $('.dropdown-item').hover(function() {
+    $(this).parent().siblings('a').color="red";
   });
+
+  //play video
+  $(document).ready(function() {
+
+    // Gets the video src from the data-src on each button
+    var $videoSrc;  
+    $('.video-btn').click(function() {
+        $videoSrc = $(this).data( "src" );
+    });
+    console.log($videoSrc);
+      
+    // when the modal is opened autoplay it  
+    $('#myModal').on('shown.bs.modal', function (e) {
+        
+    // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
+    $("#video").attr('src',$videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0" ); 
+    })
+       
+    // stop playing the youtube video when I close the modal
+    $('#myModal').on('hide.bs.modal', function (e) {
+        // a poor man's stop video
+        $("#video").attr('src',$videoSrc); 
+    }) 
+    });

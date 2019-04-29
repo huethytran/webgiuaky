@@ -10,6 +10,7 @@
   <script type="text/javascript" src="js/jquery.easy-ticker.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">    
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
@@ -22,11 +23,11 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navHeaderCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navHeaderCollapse">
+    <div class="collapse navbar-collapse" id="navHeaderCollapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item bg-warning active"><a class="nav-link" href="#">Trang chủ</a></li>
+      <li class="nav-item bg-warning active"><a class="nav-link" style="padding-top: 14px; padding-bottom: 14px;" href="#">Trang chủ</a></li>
       <li class="nav-item dropdown style1">
-            <a class="nav-link dropdown-toggle" href="#">Tin xã hội</a>          
+            <a class="nav-link dropdown-toggle menu"  href="#">Tin xã hội</a>          
             <div class="dropdown-menu layer2a bg-dark" >
               <a class="dropdown-item text-white" href="#">Thể thao</a>
               <a class="dropdown-item text-white" href="#">Du lịch</a>
@@ -38,7 +39,7 @@
             </div>
         </li>
         <li class="nav-item dropdown style2">
-            <a class="nav-link dropdown-toggle" href="#">Giải trí</a>          
+            <a class="nav-link dropdown-toggle menu"  href="#">Giải trí</a>          
             <div class="dropdown-menu layer2b bg-dark" >
               <a class="dropdown-item text-white" href="#">Âm nhạc</a>
               <a class="dropdown-item text-white" href="#">Điện ảnh</a>
@@ -47,7 +48,7 @@
               </div>
           </li>
           <li class="nav-item dropdown style3">
-              <a class="nav-link dropdown-toggle" href="#">Thời trang</a>          
+              <a class="nav-link dropdown-toggle menu" href="#">Thời trang</a>          
               <div class="dropdown-menu layer2c bg-dark" >
                 <a class="dropdown-item text-white" href="#">Mặc đẹp</a>
                 <a class="dropdown-item text-white" href="#">Làm đẹp</a>
@@ -55,24 +56,23 @@
             </div>
           </li>
           <li class="nav-item dropdown style4">
-              <a class="nav-link dropdown-toggle" href="#">Ẩm thực</a>          
+              <a class="nav-link dropdown-toggle menu" href="#">Ẩm thực</a>          
               <div class="dropdown-menu layer2d bg-dark" >
                 <a class="dropdown-item text-white" href="#">Địa điểm ăn uống</a>
                 <a class="dropdown-item text-white" href="#">Món ngon</a>
             </div>
           </li>
           <li class="nav-item dropdown style5">
-              <a class="nav-link dropdown-toggle" href="#">Công nghệ</a>          
+              <a class="nav-link dropdown-toggle menu" href="#">Công nghệ</a>          
               <div class="dropdown-menu layer2e bg-dark" >
                 <a class="dropdown-item text-white" href="#">Mobile</a>
                 <a class="dropdown-item text-white" href="#">AI</a>
                 <a class="dropdown-item text-white" href="#">Smart Home</a>
               </div>
             </li>            
-    </ul>
-  </div>
+    </ul> 
     <div class="col-sm-3 col-sm-offset-3">
-        <div class="input-group">
+        <div class="input-group search">
             <input type="text" class="form-control" placeholder="Search">
             <div class="input-group-append">
                 <button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button>
@@ -84,39 +84,61 @@
         <li><a class="nav-link" href="#">Đăng nhập</a></li>
     </ul>
   </div>
+  </div>
 </nav>
 </header>
-    <div class="div1">
-      <div class="d-flex">
+    <div class="divtotal">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-lg-12">
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <div class="news-area d-flex align-items-center">
       <div class="title1">
         <p>Tin nổi bật</p>
       </div>
         <div class="vticker">
             <ul>
-              <li><a>List 1</a></li>
-              <li><a>List 2</a></li>
-              <li><a>List 3</a></li>
-              <li><a>List 4</a></li>
-              <li><a>List 5 </a></li>
+              <li><a href="#">List 1</a></li>
+              <li><a href="#">List 2</a></li>
+              <li><a href="#">List 3</a></li>
+              <li><a href="#">List 4</a></li>
+              <li><a href="#">List 5 </a></li>
             </ul>
           </div>
-      </div>
-      <div class="d-flex" style="margin-top:10px">
+              </div>
+              <div class="news-area d-flex align-items-center" style="margin-top:10px">
           <div class="title2">
-            <p>Mới cập nhật</p>
+            <p>Tin mới</p>
           </div>
             <div class="vticker">
                 <ul>
-                  <li><a>List 1</a></li>
-                  <li><a>List 2</a></li>
-                  <li><a>List 3</a></li>
-                  <li><a>List 4</a></li>
-                  <li><a>List 5 </a></li>
+                  <li><a href="#">List 1</a></li>
+                  <li><a href="#">List 2</a></li>
+                  <li><a href="#">List 3</a></li>
+                  <li><a href="#">List 4</a></li>
+                  <li><a href="#">List 5 </a></li>
                 </ul>
               </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <fieldset class="div1">
+                <lengend class="flUs ">Follow Us</lengend>
+                <div class="followUs wellcom ">
+                    <a href="#" class="fb"><i class="fab fa-3x fa-facebook-square"></i></a>
+                    <a href="#" class="twit"><i class="fab fa-3x fa-twitter-square"></i></a>
+                    <a href="#" class="linked"><i class="fab fa-3x fa-linkedin"></i></a>
+                    <a href="#" class="ggplus"><i class="fab fa-3x fa-google-plus-square"></i></a>
+                    <a href="#" class="youtube"><i class="fab fa-3x fa-youtube-square"></i></a>
+                </div>
+                <hr>
+              </fieldset>
+            </div>
           </div>
-          <div class="div2">
-              <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-pause="hover">
+          <div class="row div2">
+              <div class="col-12 col-md-8">
+                <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-pause="hover">
                 <ol class="carousel-indicators">
                   <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                   <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
@@ -124,23 +146,27 @@
                 </ol>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="images/corgi.JPG" class="d-block w-100" alt="...">
+                    <div class="slideimg">
+                        <img src="images/flower.JPG" class="d-block w-100" alt="...">
+                    </div>
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>First slide label</h5>
+                      <h5 class="display-4">First slide label</h5>
                       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <img src="images/corgi.JPG" class="d-block w-100" alt="...">
+                      <div class="slideimg">
+                    <img src="images/flower.JPG" class="d-block w-100" alt="..."></div>
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>Second slide label</h5>
+                      <h5 class="display-4">Second slide label</h5>
                       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                   </div>
                   <div class="carousel-item">
-                    <img src="images/corgi.JPG" class="d-block w-100" alt="...">
+                      <div class="slideimg">
+                    <img src="images/corgi.JPG" class="d-block w-100" alt="..."></div>
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>Third slide label</h5>
+                      <h5 class="display-4">Third slide label</h5>
                       <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
                     </div>
                   </div>
@@ -153,56 +179,205 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="sr-only">Next</span>
                 </a>
+                </div>
+              </div>
+            <div class="col-12 col-md-4">
+              <div class="div1">
+                <div class="singlepost">
+                    <div class="post-thumb img-90">
+                        <div class="img-container">
+                      <a href="#">
+                          <img class="img" src="images/flower.JPG" alt="...">
+                      </a>
+                    </div>  
+                    </div>
+                    <div class="post-data">
+                        <div class="post-category">
+                            <a href="#">Âm nhạc</a>
+                          </div>
+                          <div class="post-title">
+                            <a href="#"><p>Xin chào! Tôi tên là Trần Huệ Thy. Tôi tên là Trần Huệ Thy.</p></a>
+                            <i class="far fa-clock"></i>
+                            <span>20/04/2019 01:42:55</span>                    
+                          </div>
+                    </div>
+                </div>
+                <div class="singlepost">
+                    <div class="post-thumb img-90">
+                        <div class="img-container">
+                      <a href="#">
+                          <img class="img" src="images/corgi.JPG" alt="...">
+                      </a>
+                    </div>  
+                    </div>
+                    <div class="post-data">
+                        <div class="post-category">
+                            <a href="#">Âm nhạc</a>
+                          </div>
+                          <div class="post-title">
+                            <a href="#"><p>Xin chào! Tôi tên là Trần Huệ Thy. Tôi tên là Trần Huệ Thy.</p></a>
+                            <i class="far fa-clock"></i>
+                            <span>20/04/2019 01:42:55</span>                    
+                          </div>
+                    </div>
+                </div>
+                <div class="singlepost">
+                    <div class="post-thumb img-90">
+                        <div class="img-container">
+                      <a href="#">
+                          <img class="img" src="images/flower.JPG" alt="...">
+                      </a>
+                    </div>  
+                    </div>
+                    <div class="post-data">
+                        <div class="post-category">
+                            <a href="#">Âm nhạc</a>
+                          </div>
+                          <div class="post-title">
+                            <a href="#"><p>Xin chào! Tôi tên là Trần Huệ Thy. Tôi tên là Trần Huệ Thy.</p></a>
+                            <i class="far fa-clock"></i>
+                            <span>20/04/2019 01:42:55</span>                    
+                          </div>
+                    </div>
+                </div>
+                <div class="singlepost">
+                    <div class="post-thumb img-90">
+                        <div class="img-container">
+                      <a href="#">
+                          <img class="img" src="images/corgi.JPG" alt="...">
+                      </a>
+                    </div>  
+                    </div>
+                    <div class="post-data">
+                        <div class="post-category">
+                            <a href="#">Âm nhạc</a>
+                          </div>
+                          <div class="post-title">
+                            <a href="#"><p>Xin chào! Tôi tên là Trần Huệ Thy. Tôi tên là Trần Huệ Thy.</p></a>
+                            <i class="far fa-clock"></i>
+                            <span>20/04/2019 01:42:55</span>                    
+                          </div>
+                    </div>
+                </div>
               </div>
             </div>
-      <div class="container">
+          </div>
+          <div class="row">
+              <div class="col-12 col-md-8">
+                <div class="container-fluid">
         <div class="row">
           <div class="col-12 col-lg-12">
               <div class="section-heading">
                 <h6>Xem nhiều nhất</h6>
-              </div>
-          <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="post-thumb">
-                  <div class="img-container">
-                <a>
-                    <img src="images/corgi.JPG" alt="...">
-                </a>
-              </div>
-              </div>
-              <div class="post-data">
-                  <div class="post-category">
-                    <a href="#">Âm nhạc</a>
-                  </div>
-                  <div class="post-title">
-                    <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
-                  </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="post-thumb">
-                    <div class="img-container">
-                  <a>
-                      <img src="images/corgi.JPG" alt="...">
-                  </a>
-                  </div>
-                </div>
-                <div class="post-data">
-                    <div class="post-category">
-                      <a href="#">Âm nhạc</a>
+                <div class="owl-nav">
+                    <div class="customPrevBtn">
+                        <i class="fas fa-2x fa-angle-left"></i>
                     </div>
-                    <div class="post-title">
-                      <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
+                    <div class=" customNextBtn">
+                        <i class="fas fa-2x fa-angle-right"></i>
                     </div>
+                  </div>
+              </div>
+          <div class="row owl-carousel owl-loaded owl-drag" id="myowl">
+              <div class="owl-stage-outer">
+                <div class="owl-stage">
+                  <div class="owl-item active  col-md-6">
+                          <div class="post-thumb img-200">
+                              <div class="img-container">
+                            <a>
+                                <img src="images/flower.JPG" alt="...">
+                            </a>
+                          </div>
+                          </div>
+                          <div class="post-data">
+                              <div class="post-category">
+                                <a href="#">Âm nhạc</a>
+                              </div>
+                              <div class="post-title">
+                                <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
+                              </div>
+                          </div>
+                  </div>
+                  <div class="owl-item active  col-md-6">
+                          <div class="post-thumb img-200">
+                              <div class="img-container">
+                            <a>
+                                <img src="images/flower.JPG" alt="...">
+                            </a>
+                          </div>
+                          </div>
+                          <div class="post-data">
+                              <div class="post-category">
+                                <a href="#">Âm nhạc</a>
+                              </div>
+                              <div class="post-title">
+                                <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
+                              </div>
+                          </div>
+                  </div>
+                  <div class="owl-item  col-md-6">
+                      <div class="post-thumb img-200">
+                          <div class="img-container">
+                        <a>
+                            <img src="images/flower.JPG" alt="...">
+                        </a>
+                      </div>
+                      </div>
+                      <div class="post-data">
+                          <div class="post-category">
+                            <a href="#">Âm nhạc</a>
+                          </div>
+                          <div class="post-title">
+                            <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
+                          </div>
+                      </div>
+              </div>
+                  <div class="owl-item  col-md-6">
+                          <div class="post-thumb img-200">
+                              <div class="img-container">
+                            <a>
+                                <img src="images/flower.JPG" alt="...">
+                            </a>
+                          </div>
+                          </div>
+                          <div class="post-data">
+                              <div class="post-category">
+                                <a href="#">Âm nhạc</a>
+                              </div>
+                              <div class="post-title">
+                                <a href="#"><h6>Xin chào! Tôi tên là Trần Huệ Thy. Praesent commodo cursus magna, vel scelerisque nisl consectetur.</h6></a>
+                              </div>
+                          </div>
+                  </div>                  
                 </div>
               </div>
+           
+          </div>
+           
           </div>
           </div>
         </div>
+                </div>
+              <div class="col-12 col-md-4">
+                <div class="contact">
+                  <h6>Newsletter</h6>
+                  <p>Hãy đăng kí kênh của chúng tôi để nhận được nhiều tin tức mới nhất nhé.</p>
+                  <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Họ tên">
+                      <input type="email" class="form-control" placeholder="Email">
+                      <button type="submit" class="btn">Đăng kí</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+        </div>
       </div>
-  </div>
+    </div>
+  
+</div>
   <div class="div3">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-lg-12">
           <div class="section-heading">
@@ -210,7 +385,7 @@
           </div>
           <div class="row">
             <div class="col-12 col-md-5-5 marr">
-              <div class="post-thumb">
+              <div class="post-thumb img-300">
                   <div class="img-container">
                 <a href="#">
                     <img class="img" src="images/corgi.JPG" alt="...">
@@ -232,10 +407,10 @@
               </div>
             </div>
             <div class="col-12  col-md-5-5 marl">
-              <div class="post-thumb">
+              <div class="post-thumb img-300">
                   <div class="img-container">
                 <a href="#">
-                    <img src="images/corgi.JPG" alt="...">
+                    <img src="images/flower.JPG" alt="...">
                 </a>
                 </div>
               </div>
@@ -255,7 +430,7 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-5-5 marr">
-                  <div class="post-thumb">
+                  <div class="post-thumb img-300">
                       <div class="img-container">
                     <a href="#">
                         <img src="images/corgi.JPG" alt="...">
@@ -277,7 +452,7 @@
                   </div>
                 </div>
                 <div class="col-12  col-md-5-5 marl">
-                  <div class="post-thumb">
+                  <div class="post-thumb img-300">
                       <div class="img-container">
                     <a href="#">
                         <img src="images/corgi.JPG" alt="...">
@@ -300,7 +475,7 @@
             </div>
             <div class="row">
               <div class="col-12 col-md-5-5 marr">
-                <div class="post-thumb">
+                <div class="post-thumb img-300">
                     <div class="img-container">
                   <a href="#">
                       <img src="images/corgi.JPG" alt="...">
@@ -322,7 +497,7 @@
                 </div>
               </div>
               <div class="col-12  col-md-5-5 marl">
-                <div class="post-thumb">
+                <div class="post-thumb img-300">
                     <div class="img-container">
                   <a href="#">
                       <img src="images/corgi.JPG" alt="...">
@@ -345,7 +520,7 @@
           </div>
           <div class="row">
             <div class="col-12 col-md-5-5 marr">
-              <div class="post-thumb">
+              <div class="post-thumb img-300">
                   <div class="img-container">
                 <a href="#">
                     <img src="images/corgi.JPG" alt="...">
@@ -367,7 +542,7 @@
               </div>
             </div>
             <div class="col-12  col-md-5-5 marl">
-              <div class="post-thumb">
+              <div class="post-thumb img-300">
                   <div class="img-container">
                 <a href="#">
                     <img src="images/corgi.JPG" alt="...">
@@ -390,7 +565,7 @@
         </div>
         <div class="row">
           <div class="col-12 col-md-5-5 marr">
-            <div class="post-thumb">
+            <div class="post-thumb img-300">
                 <div class="img-container">
               <a href="#">
                   <img src="images/corgi.JPG" alt="...">
@@ -412,7 +587,7 @@
             </div>
           </div>
           <div class="col-12  col-md-5-5 marl">
-            <div class="post-thumb">
+            <div class="post-thumb img-300">
                 <div class="img-container">
               <a href="#">
                   <img src="images/corgi.JPG" alt="...">
@@ -436,10 +611,61 @@
         </div>
       </div>
     </div>
+  </div></br>
+  <div class="divvideo" style="background-image: url('images/darkcity.JPG'); background-color:rgba(0, 0, 0, .5);">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="divvideo1">
+          <div class="video">
+            <div class="videopost">           
+              <img src="images/corgi.JPG">
+             <button class="playvideo video-btn" data-toggle="modal" data-src="https://www.youtube.com/embed/3fi7uwBU-CE" data-target="#myModal"><i class="fas fa-1x fa-play"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="divvideo1">
+            <div class="video">
+              <div class="videopost">           
+                <img src="images/corgi.JPG">
+               <button class="playvideo video-btn" data-toggle="modal" data-src="https://www.youtube.com/embed/3fi7uwBU-CE" data-target="#myModal"><i class="fas fa-1x fa-play"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="divvideo1">
+              <div class="video">
+                <div class="videopost">           
+                  <img src="images/corgi.JPG">
+                 <button class="playvideo video-btn" data-toggle="modal" data-src="https://www.youtube.com/embed/3fi7uwBU-CE" data-target="#myModal"><i class="fas fa-1x fa-play"></i></button>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+  
+        
+        <div class="modal-body">
+  
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>        
+          <!-- 16:9 aspect ratio -->
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+  </div>
+  </div>
+  </div>
+    </div>
+</div>
+
   <div class="div3">
     <div class="div4">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-12 col-lg-12">
             <div class="row">
@@ -447,7 +673,7 @@
                   <div class="section-heading">
                       <h6>Xã hội</h6>
                   </div>
-                  <div class="post-thumb">
+                  <div class="post-thumb img-250">
                       <div class="img-container">
                     <a href="#">
                         <img src="images/corgi.JPG" alt="...">
@@ -471,7 +697,7 @@
                   <div class="section-heading">
                       <h6>Xã hội</h6>
                   </div>
-                  <div class="post-thumb">
+                  <div class="post-thumb img-250">
                       <div class="img-container">
                     <a href="#">
                         <img src="images/corgi.JPG" alt="...">
@@ -497,7 +723,7 @@
                     <div class="section-heading">
                         <h6>Xã hội</h6>
                     </div>
-                    <div class="post-thumb">
+                    <div class="post-thumb img-250">
                         <div class="img-container">
                       <a href="#">
                           <img src="images/corgi.JPG" alt="...">
@@ -521,10 +747,10 @@
                     <div class="section-heading">
                         <h6>Xã hội</h6>
                     </div>
-                    <div class="post-thumb">
+                    <div class="post-thumb img-250">
                         <div class="img-container">
                       <a href="#">
-                          <img src="images/corgi.JPG" alt="...">
+                          <img src="images/flower.JPG" alt="...">
                       </a>
                       </div>
                     </div>
@@ -564,6 +790,7 @@
     </div>
   </div>
   </div>
+
   <script type="text/javascript">
     $(document).ready(function(){
       var dd = $('.vticker').easyTicker({
@@ -577,10 +804,11 @@
       }).data('easyTicker');  
     });
     </script>
+   
   <script src="js/bootstrap.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/script.js"></script>
-
+  <script src="js/owl.carousel.min.js"></script>
 
 
 </body>
