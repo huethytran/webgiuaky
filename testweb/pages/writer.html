@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Login</title>
+    <title>Tất cả bài viết</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body class="bg-secondary">
 
     <div id="header" style="margin-top:80px;"></div>
     <!-- <div class="container" style="margin-top:80px;"> -->
@@ -29,23 +29,118 @@
 
             <!-- Links -->
             <ul class="navbar-nav">
-                <a class="navbar-brand" href="#">For Writer</a>
+                <a class="navbar-brand" href="#">Dành cho phóng viên</a>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">All post</a>
+                    <a class="nav-link" href="#">Tất cả bài viết</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">New post</a>
+                    <a class="nav-link" href="newpost.html">Tạo bài viết mới</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Drag post</a>
+                    <a class="nav-link" href="#">Bài viết tạm lưu</a>
                 </li>
             </ul>
 
         </nav>
 
         <!-- Page Content -->
-        <div id="content">
-            
+        <div id="content" class="container border bg-white" style="margin-top: 10px;">
+            <h1>Danh sách bài viết</h1>
+            <div class="input-group" style="border-bottom: 5px solid; padding-bottom: 10px">
+                <button type="button" class="btn btn-primary" style="margin-right: 10px">Đã được duyệt & chờ xuất
+                    bản (1)</button>
+                <button type="button" class="btn btn-outline-primary" style="margin-right: 10px">Đã xuất bản (1)</button>
+                <button type="button" class="btn btn-outline-primary" style="margin-right: 10px">Bị từ chối (1)</button>
+                <button type="button" class="btn btn-outline-primary" style="margin-right: 10px">Chưa được duyệt (1)</button>
+                <div class="input-group-append">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Tìm bài viết">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover" style="margin-top: 10px">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tiêu đề</th>
+                        <th scope="col">Chuyên mục</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Bài số 1</td>
+                        <td>Chuyên mục 3</td>
+                        <td><span class="badge badge-success">Đã xuất bản</span></td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button"><i
+                                            class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Bài số 2</td>
+                        <td>Chuyên mục 1</td>
+                        <td><span class="badge badge-primary">Đã được duyệt</span></td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button"><i
+                                            class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bài số 3</td>
+                        <td>Chuyên mục 5</td>
+                        <td><span class="badge badge-warning">Chưa được duyệt</span></td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button"><i
+                                            class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Bài số 4</td>
+                        <td>Chuyên mục 2</td>
+                        <td><span class="badge badge-danger">Đã bị từ chối</span></td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                <div class="input-group-append">
+                                    <button class="btn btn-danger" type="button"><i
+                                            class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul class="pagination d-flex justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
         </div>
 
     </div>
