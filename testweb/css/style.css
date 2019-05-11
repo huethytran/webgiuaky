@@ -1,9 +1,38 @@
 
 body {
     font-family: "Roboto", sans-serif;
-    font-size: 14px;
     height: 100%;
     width: 100%;
+}
+@media all and (min-width: 0px) {
+    body {
+       font-size: 3px;
+    }
+    }
+@media all and (min-width: 320px) {
+    body {
+       font-size: 6px;
+    }
+    }
+/* Dành cho máy tính bảng chiều dọc */
+@media all and (min-width: 600px) {
+    body {
+        font-size: 10px;
+     }
+}
+ 
+/* Dành cho máy tính bảng chiều ngang */
+@media all and (min-width: 1024px) {
+    body {
+        font-size: 12px;
+     }
+}
+ 
+/* Dành cho màn hình desktop */
+@media all and (min-width: 1280px) {
+    body {
+        font-size: 14px;
+     }
 }
  a, a:hover, a:focus {
       -webkit-transition-duration: 500ms;
@@ -20,7 +49,8 @@ body {
 .collapse > ul > li:hover > div.layer2b,
 .collapse > ul > li:hover > div.layer2c,
 .collapse > ul > li:hover > div.layer2d,
-.collapse > ul > li:hover > div.layer2e{
+.collapse > ul > li:hover > div.layer2e,
+div.user-dropdown{
     top: 47px;
 }
 .collapse > ul > li >a.menu:hover{
@@ -51,9 +81,6 @@ body {
     margin-bottom: 2rem;
 }
 .divtotal{
-    margin-left: 9%;
-    margin-right: 9%;
-    margin-top:9%;
     display:flex;
     position: relative;
 }
@@ -65,8 +92,6 @@ body {
     position: relative;
 }
 .flUs{
-    font-size: 20px;
-    font-weight: 600;
     color: #343a40;
 }
 .followUs{
@@ -104,9 +129,7 @@ body {
 
 .news-area .title1{
     text-align: center;
-    padding: 0 20px;
     width: 19%;
-    height: 38px;
     margin-left:0;
     background-color: #ffc107;
 }
@@ -115,12 +138,9 @@ body {
     margin-bottom: 0;
     font-weight: 550;
     color: #fff;
-    line-height: 38px;   
 }
 .news-area .title2{
-    height: 38px;
     text-align: center;
-    padding: 0 20px;
     width: 19%;
     margin-left:0;
     background-color: #343a40;
@@ -128,14 +148,12 @@ body {
 .news-area .title2 p{
     margin-bottom: 0;
     font-weight: 550;
-    color: #fff;
-    line-height: 38px;   
+    color: #fff;  
 }
 .vticker{
     width: 100%;
     position: relative;
     background-color: #f3f5f8;
-    padding: 0 20px;
 }
 .vticker ul{
    width:100%;
@@ -147,10 +165,7 @@ body {
 }
  .vticker ul li a{
     color: #343a40;
-    height: 38px;
-    line-height: 38px;
     font-weight: 550;
-    font-size: 14px;
 }
 .vticker ul li a:hover, .div1 .vticker ul li a:focus{
     color: #ffc107;
@@ -162,15 +177,9 @@ body {
     z-index: 1;
     border-bottom: 1px solid #d0d5d8; }
 .section-heading h6 {
-    font-size: 16px;
     margin-bottom: 0;
-    line-height: 45px;
-     height: 45px;
-     min-width: 140px;
-    padding: 0 30px;
     background-color: #ffc107;
     color: #fff;
-    font-weight: 700;
     display: inline-block;
     text-align: center; 
 }
@@ -187,6 +196,7 @@ body {
     overflow: hidden;
 }
 .img-container {
+    width:100%;
     transition: transform .50s ease;
   }
   
@@ -196,23 +206,10 @@ body {
   .slideimg{
     width: 100%;    
   }
-  .slideimg img{
-      height: 500px;
-  }
-  .post-thumb.img-300 img{
-    height: 300px;
-  }
-  .post-thumb.img-90 img{
-    height: 90px;
-  }
-  .post-thumb.img-200 img{
-    height: 200px;
-  }
-  .post-thumb.img-250 img{
-    height: 250px;
-  }
+  
+  
   .post-thumb img {
-    width: 100%;
+      width:100%;
     opacity: 1;
     transform: translate(0,0);
     transition: opacity .25s ease-in-out;
@@ -220,11 +217,7 @@ body {
   .post-thumb img:hover {
     opacity: .8;
   }
-.post-category {  
-    padding-top: 15px;  
-    padding-bottom: 15px;  
-    font-size: 14px;
-}
+
 .post-category i, .post-title i{
     margin-left: 10px;
     float:right;
@@ -243,15 +236,12 @@ body {
     color: #ffc107;
 }
 .post-title h6{
-    font-size: 18px;
     color: #343a40;
 }
 .post-title h6:hover, .post-title h6:focus{
     color: #ffc107;
 }
 .div3{
-    margin-left: 9%;
-    margin-right: 9%;
     display:flex;
 }
 
@@ -261,9 +251,7 @@ body {
 .post-title h4:hover, .post-title h4:focus{
     color: #ffc107;
 }
-.post-title p{
-    font-size: 15px;
-}
+
 a.post-title{
     color: #343a40;
     font-weight: 550;
@@ -281,6 +269,789 @@ a.post-title:hover, a.post-title:focus{
     width:73%;
     margin-left:0%;
 }
+@media all and (min-width: 0px) {
+    .divtotal{
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top:19%;
+    }
+    .slideimg img{
+        height: 125px;
+    }
+    h3.h3-carousel a{
+        font-size: 6px;
+    }
+    h3{
+        font-size: 6px;
+    }
+    .category-carousel{
+        padding: 1px 2px;
+        font-size: 3px;
+        width: 32px;
+        
+    }
+    .slideimg .time{   
+        margin-left: 132px;
+        margin-top: 1px;
+    }
+    .slideimg span{
+        margin-left: 2px;
+        font-size: 3px;
+    }
+    .slideimg i{
+        margin-left: 2px;
+    }
+    .div5 .top10Categories h6 {
+       font-size: 4px;
+    }
+    .singlepost.another-style .post-thumb{
+        width: 50px;
+        flex: 0 0 50px;
+    }
+    h5{
+        font-size: 5px;
+    }
+    .video img{
+        height: 50px;
+        width: 100%
+    }
+    .contact h6{
+        font-size: 7x;
+    }
+    .contact p{
+        padding: 5px 0px;
+    }
+    .contact input, .contact input:focus{
+        padding: 5px 5px;
+        margin-bottom:5px;
+    }
+    .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: 4px;   
+      }
+      
+      .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-size: 4px;  
+      }
+      
+      .contact ::-ms-input-placeholder { /* Microsoft Edge */
+        font-size: 4px;  
+      }
+      .contact button{
+          margin-top: 1px;
+      }
+    .post-title h6{
+        font-size: 4px;
+    }
+    .div3{
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    .top10Categories{
+        top: 30%;
+    }
+    .top10{
+        padding-top:3%;
+    }
+    .section-heading h6 {
+        font-size: 4px;
+        line-height: 11px;
+         height: 11px;
+        padding: 0 7px;
+        font-weight: 550
+    }
+    .post-thumb.img-300 img{
+        height: 120px;
+      }
+      .post-thumb.img-90 img{
+        height: 22px;
+      }
+      .post-thumb.img-200 img{
+        height: 120px;
+      }
+      .post-thumb.img-250 img{
+        height: 62px;
+      }
+      .post-thumb.img-200-2 img{
+        height: 50px;
+        width: 50px;
+      }
+      .post-thumb.img-300-2 img{
+        height: 75px;
+      }
+      .post-title h4{
+        font-size: 5px;
+    }
+    .post-title p{
+        font-size: 3px;
+    }
+    .singlepost .post-thumb{
+        width: 22x;
+        flex: 0 0 22px;
+      }
+      .singlepost .post-title p{
+        font-size: 7px;
+      }
+      .post-category {  
+        padding-top: 3px;  
+        padding-bottom: 3px;  
+        
+    }
+    .post-category span, .post-category i{
+        font-size: 3px;
+    }
+    .news-area .title1{
+        padding: 0 5px;
+        height: 9px;
+    }      
+    .news-area .title1 p{
+        line-height: 9px;   
+    }
+    .news-area .title2{
+        height: 9px;
+        padding: 0 5px;
+    }
+    .news-area .title2 p{
+        line-height: 9px;   
+    }
+    .vticker{
+        padding: 0 5px;
+    }
+    .vticker ul li a{
+        height: 9px;
+        line-height: 9px;
+    }
+    .flUs{
+        font-size: 5px;
+        font-weight: 550;
+    }
+}
+@media all and (min-width: 320px) {
+    .divtotal{
+        margin-left: 4%;
+        margin-right: 4%;
+        margin-top:13%;
+    }
+    .slideimg img{
+        height: 250px;
+    }
+    h3.h3-carousel a{
+        font-size: 12px;
+    }
+    h3{
+        font-size: 13px;
+    }
+    .category-carousel{
+        padding: 1px 3px;
+        font-size: 6px;
+        width: 65px;
+        
+    }
+    .slideimg .time{   
+        margin-left: 265px;
+        margin-top: 1px;
+    }
+    .slideimg span{
+        margin-left: 4px;
+        font-size: 6px;
+    }
+    .slideimg i{
+        margin-left: 5px;
+    }
+    .div5 .top10Categories h6 {
+       font-size: 7px;
+    }
+    .singlepost.another-style .post-thumb{
+        width: 100px;
+        flex: 0 0 100px;
+    }
+    h5{
+        font-size: 10px;
+    }
+    .video img{
+        height: 100px;
+        width:100%;
+    }
+    .contact h6{
+        font-size: 20px;
+    }
+    .contact p{
+        padding: 10px 0px;
+    }
+    .contact input, .contact input:focus{
+        padding: 10px 10px;
+        margin-bottom:10px;
+    }
+    .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: 7px;   
+      }
+      
+      .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-size: 7px;  
+      }
+      
+      .contact ::-ms-input-placeholder { /* Microsoft Edge */
+        font-size: 7px;  
+      }
+      .contact button{
+          margin-top: 2px;
+      }
+    .post-title h6{
+        font-size: 9px;
+    }
+    .div3{
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+    .top10Categories{
+        top: 25%;
+    }
+    .top10{
+        padding-top:3%;
+    }
+    .section-heading h6 {
+        font-size: 8px;
+        line-height: 23px;
+         height: 23px;
+        padding: 0 15px;
+        font-weight: 550;
+    }
+    .post-thumb.img-300 img{
+        height: 195px;
+      }
+      .post-thumb.img-90 img{
+        height: 45px;
+      }
+      .post-thumb.img-200 img{
+        height: 190px;
+      }
+      .post-thumb.img-250 img{
+        height: 125px;
+      }
+      .post-thumb.img-200-2 img{
+        height: 100px;
+        width:100px;
+      }
+      .post-thumb.img-300-2 img{
+        height: 150px;
+      }
+      .post-title h4{
+        font-size: 11px;
+    }
+    .post-title p{
+        font-size: 7px;
+    }
+      .singlepost .post-thumb{
+        width: 45px;
+        flex: 0 0 45px;
+      }
+      .singlepost .post-title p{
+        font-size: 7px;
+      }
+      .post-category {  
+        padding-top: 7px;  
+        padding-bottom: 7px;  
+    }
+    .post-category span, .post-category i{
+        font-size: 7px;
+    }
+    .news-area .title1{
+        padding: 0 10px;
+        height: 19px;
+    }      
+    .news-area .title1 p{
+        line-height: 19px;   
+    }
+    .news-area .title2{
+        height: 19px;
+        padding: 0 10px;
+    }
+    .news-area .title2 p{
+        line-height: 19px;   
+    }
+    .vticker{
+        padding: 0 10px;
+    }
+    .vticker ul li a{
+        height: 19px;
+        line-height: 19px;
+    }
+    .flUs{
+        font-size: 10px;
+        font-weight: 550;
+    }
+}   
+/* Dành cho máy tính bảng chiều dọc */
+@media all and (min-width: 600px) {
+    .divtotal{
+        margin-left: 6%;
+        margin-right: 6%;
+        margin-top:10%;
+    }
+    .slideimg img{
+        height: 375px;
+    }
+    h3.h3-carousel a{
+        font-size: 19px;
+    }
+    h3{
+        font-size: 19px;
+    }
+    .category-carousel{
+        padding: 2px 5px;
+        font-size: 10px;
+        width: 97px;
+        
+    }
+    .slideimg .time{   
+        margin-left: 397px;
+        margin-top: 2px;
+    }
+    .slideimg span{
+        margin-left: 6px;
+        font-size: 10px;
+    }
+    .slideimg i{
+        margin-left: 7px;
+    }
+    .div5 .top10Categories h6 {
+        font-size: 12px;
+    }
+    .singlepost.another-style .post-thumb{
+        width: 150px;
+        flex: 0 0 150px;
+    }
+    h5{
+        font-size: 15px;
+    }
+    .video img{
+        height: 150px;
+        width:100%
+    }
+    .contact h6{
+        font-size: 21px;
+    }
+    .contact p{
+        padding: 15px 0px;
+    }
+    .contact input, .contact input:focus{
+        padding: 15px 15px;
+        margin-bottom:15px;
+    }
+    .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: 11px;   
+      }
+      
+      .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-size: 11px;  
+      }
+      
+      .contact ::-ms-input-placeholder { /* Microsoft Edge */
+        font-size: 11px;  
+      }
+      .contact button{
+          margin-top: 4px;
+      }
+    .post-title h6{
+        font-size: 13px;
+    }
+    .div3{
+        margin-left: 6%;
+        margin-right: 6%;
+    }
+    .top10Categories{
+        top: 15%;
+    }
+    .top10{
+        padding-top:6%;
+    }
+    .section-heading h6 {
+        font-size: 12px;
+        line-height: 34px;
+         height: 34px;
+        padding: 0 23px;
+        font-weight: 550;
+    }
+    .post-thumb.img-200-2 img{
+        height: 150px;
+        width:150px;
+      }
+      .post-thumb.img-300-2 img{
+        height: 225px;
+      }
+    .post-thumb.img-300 img{
+        
+        height: 263px;
+      }
+      .post-thumb.img-90 img{
+        height: 67px;
+      }
+      .post-thumb.img-200 img{
+        height: 150px;
+      }
+      .post-thumb.img-250 img{
+        height: 187px;
+      }
+      .post-title h4{
+        font-size: 17px;
+    }
+    .post-title p{
+        font-size: 11px;
+    }
+      .singlepost .post-thumb{
+        width: 67px;
+        flex: 0 0 67px;
+      }
+      .singlepost .post-title p{
+        font-size: 11px;
+      }
+      .post-category {  
+        padding-top: 11px;  
+        padding-bottom: 11px; 
+    }
+    .post-category span, .post-category i{
+        font-size: 10px;
+    }
+    .news-area .title1{
+        padding: 0 15px;
+        height: 28px;
+    }      
+    .news-area .title1 p{
+        line-height: 28px;   
+    }
+    .news-area .title2{
+        height: 28px;
+        padding: 0 15px;
+    }
+    .news-area .title2 p{
+        line-height: 28px;   
+    }
+    .vticker{
+        padding: 0 15px;
+    }
+    .vticker ul li a{
+        height: 28px;
+        line-height: 28px;
+    }
+    .flUs{
+        font-size: 15px;
+        font-weight: 550;
+    }
+}
+ 
+/* Dành cho máy tính bảng chiều ngang */
+@media all and (min-width: 1024px) {
+    .divtotal{
+        margin-left: 7%;
+        margin-right: 7%;
+        margin-top:9%;
+    }
+    .slideimg img{
+        height: 437px;
+    }
+    h3.h3-carousel a{
+        font-size: 22px;
+    }
+    h3{
+        font-size: 22px;
+    }
+    .category-carousel{
+        padding: 3px 6px;
+        font-size: 11px;
+        width: 113px;
+        
+    }
+    .slideimg .time{   
+        margin-left: 463px;
+        margin-top: 3px;
+    }
+    .slideimg span{
+        margin-left: 7px;
+        font-size: 11px;
+    }
+    .slideimg i{
+        margin-left: 8px;
+    }
+    .div5 .top10Categories h6{
+        font-size: 15px;
+    }
+    .singlepost.another-style .post-thumb{
+        width: 175px;
+        flex: 0 0 175px;
+    }
+    h5{
+        font-size: 17px;
+    }
+    .video img{
+        height: 175px;
+        width:100%
+    }
+    .contact h6{
+        font-size: 24px;
+    }
+    .contact p{
+        padding: 17px 0px;
+    }
+    .contact input, .contact input:focus{
+        padding: 17px 17px;
+        margin-bottom:17px;
+    }
+    .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: 13px;   
+      }
+      
+      .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-size: 13px;  
+      }
+      
+      .contact ::-ms-input-placeholder { /* Microsoft Edge */
+        font-size: 13px;  
+      }
+      .contact button{
+          margin-top: 5px;
+      }
+    .post-title h6{
+        font-size: 15px;
+    }
+    .div3{
+        margin-left: 7%;
+        margin-right: 7%;
+    }
+    .top10Categories{
+        top: 15%;
+    }
+    .top10{
+        padding-top:7%;
+    }
+    .post-thumb.img-300 img{
+        height: 281px;
+      }
+      .post-thumb.img-90 img{
+        height: 78px;
+      }
+      .post-thumb.img-200 img{
+        height: 175px;
+      }
+      .post-thumb.img-250 img{
+        height: 218px;
+      }
+      .post-thumb.img-200-2 img{
+        height: 175px;
+        width:175px;
+      }
+      .post-thumb.img-300-2 img{
+        height: 262px;
+      }
+    .section-heading h6 {
+        font-size: 16px;
+        line-height: 45px;
+         height: 45px;
+        padding: 0 30px;
+        font-weight: 700;
+    }
+    .post-title h4{
+        font-size: 19px;
+    }
+    .post-title p{
+        font-size: 13px;
+    }
+    .singlepost .post-thumb{
+        width: 78px;
+        flex: 0 0 78px;
+      }
+      .singlepost .post-title p{
+        font-size: 12px;
+      }
+      .post-category {  
+        padding-top: 13px;  
+        padding-bottom: 13px;  
+    }
+    .post-category span, .post-category i{
+        font-size: 11px;
+    }
+    .news-area .title1{
+        padding: 0 17px;
+        height: 33px;
+    }      
+    .news-area .title1 p{
+        line-height: 33px;   
+    }
+    .news-area .title2{
+        height: 33px;
+        padding: 0 17px;
+    }
+    .news-area .title2 p{
+        line-height: 33px;   
+    }
+    .vticker{
+        padding: 0 17px;
+    }
+    .vticker ul li a{
+        height: 33px;
+        line-height: 33px;
+    }
+    .flUs{
+        font-size: 17px;
+        font-weight: 550;
+    }
+}
+ 
+/* Dành cho màn hình desktop */
+@media all and (min-width: 1280px) {
+    .divtotal{
+        margin-left: 9%;
+        margin-right: 9%;
+        margin-top:9%;
+    }
+    .slideimg img{
+        height: 500px;
+    }
+    h3.h3-carousel a{
+        font-size: 25px;
+    }
+    h3{
+        font-size: 26px;
+    }
+    .category-carousel{
+        padding: 3px 7px;
+        font-size: 13px;
+        width: 130px;
+        
+    }
+    .slideimg .time{   
+        margin-left: 530px;
+        margin-top: 3px;
+    }
+    .slideimg span{
+        margin-left: 8px;
+        font-size: 13px;
+    }
+    .slideimg i{
+        margin-left: 10px;
+    }
+    .div5 .top10Categories h6{ 
+        font-size: 20px;
+    }
+    .singlepost.another-style .post-thumb{
+        width: 200px;
+        flex: 0 0 200px;
+    }
+    h5{
+        font-size: 20px;
+    }
+    .video img{
+        height: 200px;
+        width:100%
+    }
+    .contact h6{
+        font-size: 28px;
+        font-weight: 600;
+    }
+    .contact p{
+        padding: 20px 0px;
+    }
+    .contact input, .contact input:focus{
+        padding: 20px 20px;
+        margin-bottom:20px;
+    }
+    .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-size: 15px;   
+      }
+      
+      .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-size: 15px;  
+      }
+      
+      .contact ::-ms-input-placeholder { /* Microsoft Edge */
+        font-size: 15px;  
+      }
+      .contact button{
+          margin-top: 5px;
+      }
+    .post-title h6{
+        font-size: 18px;
+    }
+    .div3{
+        margin-left: 9%;
+        margin-right: 9%;
+    }
+    .top10Categories{
+        top: 15%;
+    }
+    .top10{
+        padding-top:8%;
+    }
+    .section-heading h6 {
+        font-size: 16px;
+        line-height: 45px;
+         height: 45px;
+        padding: 0 30px;
+        font-weight: 700;
+    }
+    .post-thumb.img-300 img{
+        height: 300px;
+      }
+      .post-thumb.img-90 img{
+        height: 90px;
+      }
+      .post-thumb.img-200 img{
+        height: 200px;
+      }
+      .post-thumb.img-250 img{
+        height: 250px;
+      }
+      .post-thumb.img-200-2 img{
+        height: 200px;
+        width:200px;
+      }
+      .post-thumb.img-300-2 img{
+        height: 300px;
+      }
+      .post-title h4{
+          font-size: 22px;
+      }
+      .post-title p{
+          font-size: 15px;
+      }
+      .singlepost .post-thumb{
+        width: 90px;
+        flex: 0 0 90px;
+      }
+      .singlepost .post-title p{
+        font-size: 14px;
+      }
+      .post-category {  
+        padding-top: 15px;  
+        padding-bottom: 15px; 
+    }
+    .post-category span, .post-category i{
+        font-size: 14px;
+    }
+    .news-area .title1{
+        padding: 0 20px;
+        height: 38px;
+    }      
+    .news-area .title1 p{
+        line-height: 38px;   
+    }
+    .news-area .title2{
+        height: 38px;
+        padding: 0 20px;
+    }
+    .news-area .title2 p{
+        line-height: 38px;   
+    }
+    .vticker{
+        padding: 0 20px;
+    }
+    .vticker ul li a{
+        height: 38px;
+        line-height: 38px;
+    }
+    .flUs{
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
 .div5{
     margin-left: 5%;
     width: 23%;
@@ -291,20 +1062,17 @@ a.post-title:hover, a.post-title:focus{
     width: 100%;
     height: auto;
     background-color: #343a40;
-    top: 15%;
     position: -webkit-sticky;
     position:sticky;
 }
+
 .div5 .top10Categories h6{
     border-bottom: 1px solid #d0d5d8;
-    font-size: 20px;
     padding: 10% 13%;
     color: #ffc107;
     font-weight: 700;
 }
-.top10{
-    padding-top:8%;
-}
+
 .div5 .top10Categories a.number{
     color: #ffc107;
     margin-left: 12%;
@@ -332,7 +1100,6 @@ a.post-title:hover, a.post-title:focus{
     margin-left: 5%;
 }
 .singlepost .post-title p{
-    font-size: 14px;
     font-weight: 550;
     color: #343a40;
     margin-bottom: 10px;
@@ -358,14 +1125,11 @@ a.post-title:hover, a.post-title:focus{
     padding-bottom: 0px;  
 }
 .singlepost .post-thumb{
-    flex: 0 0 90px;
-      width: 90px;
+    
+      
     margin-top: 0px;
 }
-.singlepost.another-style .post-thumb{
-    width: 200px;
-    flex: 0 0 200px;
-}
+
 .singlepost .post-title i{
     float:left;
 }
@@ -406,19 +1170,15 @@ a.post-title:hover, a.post-title:focus{
 }
 .contact h6{
     color: #ffc107;
-    font-size: 28px;
     font-weight: 600;
     font-family: 'Rouge Script', cursive;
 }
 .contact p{
     color: #fff;
-    padding: 20px 0px;
 }
 .contact input, .contact input:focus{
     width: 100%;
     border-radius: 0px;
-    padding: 20px 20px;
-    margin-bottom:20px;
     background-color: #6a747e;
     color: #fff;
     border: none;
@@ -426,29 +1186,24 @@ a.post-title:hover, a.post-title:focus{
 .contact ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #fff;
     font-style: italic;
-    font-size: 15px;   
     opacity: .5; /* Firefox */
   }
   
   .contact  :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: #fff;
     font-style: italic;
-    font-size: 15px;  
   }
   
   .contact ::-ms-input-placeholder { /* Microsoft Edge */
     color: #fff;
     font-style: italic;
-    font-size: 15px;  
   }
   .contact button{
       font-weight: 550;
-      margin-top: 5px;
       color: #fff;
       background-color: #ffc107;
   }
   .contact button:hover, .contact button:focus{
-    margin-top: 5px;
     color: #ffc107;
     background-color: #fff;
 
@@ -468,9 +1223,7 @@ a.post-title:hover, a.post-title:focus{
     overflow: hidden;
     position: relative;
 }
-.video img{
-    height: 200px;
-}
+
 .playvideo{
     position: absolute;
   top: 50%;
@@ -570,10 +1323,7 @@ h3.h3-carousel a:hover, h3.h3-carousel a:focus{
     color: #ffc107;
 }
 .category-carousel{
-    padding: 3px 7px;
     background-color: #ffc107;
-    font-size: 13px;
-    width: 130px;
     position: absolute;
     text-align: center;
     
@@ -588,18 +1338,13 @@ h3.h3-carousel a:hover, h3.h3-carousel a:focus{
 .slideimg .time{   
     position: absolute;
     display:flex;
-    margin-left: 530px;
     width: 100%;
-    margin-top: 3px;
 }
 .slideimg span{
-    margin-left: 8px;
     color: rgb(197, 204, 211);
     float:right;
-    font-size: 13px;
 }
 .slideimg i{
-    margin-left: 10px;
     color: rgb(197, 204, 211);
 }
 
