@@ -4,7 +4,9 @@ mongoose.connect('mongodb://localhost/db_test', { useNewUrlParser: true, useFind
 const UserRole = {
     NORMAL: 1,
     WRITER: 2,
-    ADMIN: 3
+    SUBSCRIBER: 3,
+    EDITOR: 4,
+    ADMIN: 5,
 };
 const NotifyPriority = {
     NORMAL: 1,      // user vs user
@@ -122,4 +124,13 @@ exports.update = function (id, data, cb) {
     }
 
     
+}
+
+exports.validatePassword = function(pwd, hashPwd) {
+    bcrypt.compare(pwd, hashPwd).then(function(res) {
+        return res;
+    }).catch(function(err) {
+        console.log("[UserModel]bcrypt.compare: " + err);
+        return false;
+    })
 }

@@ -10,55 +10,64 @@ var {PriorityQueue} = require("../helpers/PriorityQueue");
 var router = express.Router();
 var fs = require('fs');
 const path = require('path');
+/**
+ * router for common user
+ */
+router.get('/', function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
+    res.render("404", req.session.ejsParams);
+})
 
 router.get("/register", function(req, res){
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (req.session.user) {
         res.redirect("/");
         return;
     }
     // console.log(req.originalUrl);
-    var msg = req.session.msg;
-    req.session.msg = null;
-    res.render("UserRegister", {msg: msg, user: null})
+    res.render("UserRegister", req.session.ejsParams)
+    req.session.ejsParams.msg = null;
     
  });
 
 router.get("/login", function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (req.session.user) {
         res.redirect("/");
         return;
     }
-
-    var msg = req.session.msg;
-    req.session.msg = null;
-    res.render("UserLogin", {msg: msg, user: null});
+    res.render("UserLogin", req.session.ejsParams);
+    req.session.ejsParams.msg = null;
     
 });
 
 router.get("/logout", function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (!req.session.user) {
-        res.redirect("/user/login");
+        res.redirect("/");
         return;
     }
     console.log("User: " + req.session.user._id + " stop session");
-    req.session.msg = null;
+    req.session.ejsParams.msg = null;
+    req.session.ejsParams.user = null;
     req.session.user = null;
     res.redirect("/user/login");
     
 })
 
 router.get("/forgotpassword", function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (req.session.user) {
         res.redirect("/");
         return; 
     }
-    var msg = req.session.msg;
-    req.session.msg = null;
-    
-    res.render("ForgotPassword", {msg: msg, user: null, step: 1});
+    req.session.ejsParams.step = 1;
+    res.render("ForgotPassword", req.session.ejsParams);
+    req.session.ejsParams.msg = null;
 })
 
 router.get("/information", function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (!req.session.user) {
         console.log("Not login yet, redirect to login page");
         res.redirect("/user/login");
@@ -70,26 +79,57 @@ router.get("/information", function (req, res) {
             console.log("[User Route] Failed to build user information: " + err);
             res.redirect("/");
         } else {
-            res.render("UserInformation", {user: userInfo, msg: null});
+            req.session.ejsParams.user = userInfo;
+            req.session.ejsParams.msg = null;
+            if (!req.session.ejsParams.activeTab) req.session.ejsParams.activeTab = "profile";
+            res.render("UserInformation", req.session.ejsParams);
         }
     })
 })
 
 router.get("/inputpassword", function (req, res) {
+    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
     if (!req.session.resetInfo) {
         res.redirect('/');
     }
     if (req.session.resetInfo.key != req.query.id) {
         req.session.resetInfo = null;
-        req.session.msg = { type: "alert-warning", msg: "Mã không hợp lệ!" };
-        res.render("Message", { msg: req.session.msg });
+        req.session.ejsParams.msg = { type: "alert-warning", msg: "Mã không hợp lệ!" };
+        res.render("Message", req.session.ejsParams);
     } else if (helper.common.ComputeDeltaTime(req.session.resetInfo.start).getMinutes() > 5) {
         req.session.resetInfo = null;
-        req.session.msg = { type: "alert-warning", msg: "Đã hết thời gian đổi mật khẩu." };
-        res.render("Message", { msg: req.session.msg });
+        req.session.ejsParams.msg = { type: "alert-warning", msg: "Đã hết thời gian đổi mật khẩu." };
+        res.render("Message", req.session.ejsParams);
     } else {
-        res.render("ForgotPassword", {msg: null, user: null, step: 2});
+        req.session.ejsParams.step = 2;
+        res.render("ForgotPassword", req.session.ejsParams);
     }
+})
+
+router.post("/updatepwd", function (req, res) {
+    if(!req.session.user) {
+        res.redirect("/");
+        return;
+    }
+    if(UserDB.validatePassword(req.body.oldPassword, req.session.user.pwd)== false) {
+        req.session.ejsParams.msg = {alert: 'alert-danger', msg: 'Mật khẩu cũ không đúng'};
+        req.session.ejsParams.activeTab = "passwordTab";
+        res.redirect("/user/information");
+        return;
+    }
+    var data = {pwd: req.body.newPassword};
+    UserDB.update(req.session.user._id, data, function (err, record) {
+        if (err || !record) {
+            req.session.ejsParams.msg = {alert: 'alert-danger', msg: 'Có lỗi xảy ra trong quá trình cập nhật dữ liệu, vui lòng thao tác lại'};
+            req.session.ejsParams.activeTab = "passwordTab";
+            res.redirect("/user/information");
+            return;
+        }
+        req.session.user = record;
+        req.session.ejsParams.msg = {alert: 'alert-success', msg: 'Cập nhật mật khẩu thành công'};
+        req.session.ejsParams.activeTab = "passwordTab";
+        res.redirect("/user/information");
+    });
 })
 
 router.post("/updateinfo", function (req, res) {
@@ -99,28 +139,27 @@ router.post("/updateinfo", function (req, res) {
     }
 
     var data = {};
+    data.address = {};
     var body = req.body;
     var user = req.session.user;
     if (body.username != user.username) data.username = body.username;
     if (body.email != user.email) data.email = body.email;
-    if (body.birthday != user.birthday) data.birthday = body.birthday;
+    if (body.birthday != user.birthday) data.birthday = new Date(body.birthday);
     if (body.address_street != user.address.street) data.address.street = body.address_street;
-    if (body.address_ward != user.address.street) data.address.ward = body.address_ward;
-    if (body.address_district != user.address.street) data.address.district = body.address_district;
+    if (body.address_ward != user.address.ward) data.address.ward = body.address_ward;
+    if (body.address_district != user.address.district) data.address.district = body.address_district;
     if (body.address_city != user.address.city) data.address.city = body.address_city;
-
     UserUpdateValidation(data, function (msg) {
 
         if (msg == null) {
-            console.log("data: " + data);
             UserDB.update(user._id, data, function (err, record) {
                 if (err || !record) {
-                    req.session.msg = {type: 'alert-danger', msg: 'Có lỗi không xác định khi cập nhập dữ liệu, vui lòng thử  lại.'};
+                    req.session.ejsParams.msg = {type: 'alert-danger', msg: 'Có lỗi không xác định khi cập nhập dữ liệu, vui lòng thử  lại.'};
                     res.redirect('/user/information');
                 } else {
                     req.session.user = record;
-                    console.log(record);
-                    req.session.msg = { type: "alert-success", msg: "Cập nhật thành công!" };
+                    console.log(req.session.user.birthday);
+                    req.session.ejsParams.msg = { type: "alert-success", msg: "Cập nhật thành công!" };
                     res.redirect('/user/information');
                     
                 }
@@ -138,18 +177,18 @@ router.post("/forgotpasswordsubmit", function (req, res) {
     if (req.query.step == 1) {
         UserDB.getFromEmail(req.body.inputEmail, function (err, record) {
             if (err) {
-                req.session.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                req.session.ejsParams.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
                 res.redirect("/user/forgotpassword?step=1");
                 return;
             }
             if (!record) {
-                req.session.msg = { type: "alert-warning", msg: "Địa chỉ email không hợp lệ." };
+                req.session.ejsParams.msg = { type: "alert-warning", msg: "Địa chỉ email không hợp lệ." };
                 res.redirect("/user/forgotpassword?step=1");
                 return;
             }
             helper.user.SendPasswordResetMail(req.get("host"), req.body.inputEmail, function (error, key) {
                 if (error) {
-                    req.session.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                    req.session.ejsParams.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
                     res.redirect("/user/forgotpassword?step=1");
                     return;
                 } else {
@@ -157,7 +196,7 @@ router.post("/forgotpasswordsubmit", function (req, res) {
                     req.session.resetInfo.key = key;
                     req.session.resetInfo.start = new Date();
                     req.session.resetInfo.email = req.body.inputEmail;
-                    req.session.msg = { type: "alert-success", msg: "Email đã được gửi, vui lòng kiểm tra hộp thư để cập nhật thông tin." };
+                    req.session.ejsParams.msg = { type: "alert-success", msg: "Email đã được gửi, vui lòng kiểm tra hộp thư để cập nhật thông tin." };
                     res.redirect("/user/forgotpassword?step=1");
 
                 }
@@ -171,16 +210,16 @@ router.post("/forgotpasswordsubmit", function (req, res) {
         UserDB.getFromEmail(req.session.resetInfo.email, function (err, record) {
             if (err || !record) {
                 req.session.resetInfo = null;
-                req.session.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
-                res.render("Message", { msg: req.session.msg });
+                req.session.ejsParams.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                res.render("Message", { msg: req.session.ejsParams.msg });
                 return;
             }
             var data = {pwd: req.body.inputPassword};
             UserDB.update(record._id, data, function (err, record) {
                 if (err || !record) {
                     req.session.resetInfo = null;
-                    req.session.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
-                    res.render("Message", { msg: req.session.msg });
+                    req.session.ejsParams.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                    res.render("Message", req.session.ejsParams);
                     return;
                 }
                 var msg = {alert: 'alert-success', msg: 'Cập nhật mật khẩu thành công!'};
@@ -215,13 +254,13 @@ router.post("/registersubmit", function (req, res) {
 
                 } else {
                     console.log("ID: " + id);
-                    req.session.msg = { type: "alert-success", msg: "Vui lòng sử dụng email và mật khẩu vừa đăng ký để đăng nhập." };
+                    req.session.ejsParams.msg = { type: "alert-success", msg: "Vui lòng sử dụng email và mật khẩu vừa đăng ký để đăng nhập." };
                     res.redirect("/user/login")
                     
                 }
             });
         } else {
-            req.session.msg = { type: "alert-danger", msg: msg };
+            req.session.ejsParams.msg = { type: "alert-danger", msg: msg };
             res.redirect("/user/register");
         }
     })
@@ -273,16 +312,17 @@ router.post("/loginsubmit", function (req, res) {
     };
     UserDB.getFromLogin(data.email, data.pwd, function (err, data) {
         if (err) {
-            req.session.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra, vui lòng đăng nhập lại!" };
+            req.session.ejsParams.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra, vui lòng đăng nhập lại!" };
             res.redirect("/user/login")
         }else {
             if (data) { // Login success
-                req.session.msg = null;
+                req.session.ejsParams.msg = null;
                 req.session.user = data;
                 res.redirect("/user/information");
                 console.log("User: " + data.id + " start new session");
             } else {
-                req.session.msg = { type: "alert-danger", msg: "Sai email hoặc mật khẩu, vui lòng nhập lại!" };
+                req.session.ejsParams.msg = { type: "alert-danger", msg: "Sai email hoặc mật khẩu, vui lòng nhập lại!" };
+                
                 res.redirect("/user/login")
             }
         }
@@ -320,7 +360,8 @@ function BuildUserInfomation(userdata, cb) {
     userInfo.username = userdata.username;
     userInfo.role = helper.user.GetUserRole(userdata.role);
     userInfo.email = userdata.email;
-    userInfo.birthday = helper.common.DateToString(userdata.date);
+    userInfo.birthday = helper.common.DateToString(userdata.birthday);
+    console.log()
     userInfo.avatar = userdata.avatar;
     userdata.favoriteCategoty.forEach(function (catId) {
         CatDB.getFromId(catId).then(function (record){
