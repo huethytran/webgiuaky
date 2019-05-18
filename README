@@ -1,1 +1,8 @@
 sudo mkdir -p /data/db
+
+** How to run ** 
+1. Install dependencies:
+> npm install
+2. Start server:
+> node index.js
+3. Open browser access address: http://0.0.0.0:3000

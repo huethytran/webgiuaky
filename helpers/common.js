@@ -17,3 +17,10 @@ exports.RandomString = function (length) {
     }
     return result;
 }
+
+exports.ComputeDeltaTime = function (past) {
+    var past = new Date(past);
+    var now = new Date();
+    var delta = now.getTime() - past.getTime();
+    return new Date(delta);
+}

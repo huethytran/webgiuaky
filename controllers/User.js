@@ -47,6 +47,17 @@ router.get("/logout", function (req, res) {
     
 })
 
+router.get("/forgotpassword", function (req, res) {
+    if (req.session.user) {
+        res.redirect("/");
+        return; 
+    }
+    var msg = req.session.msg;
+    req.session.msg = null;
+    
+    res.render("ForgotPassword", {msg: msg, user: null, step: 1});
+})
+
 router.get("/information", function (req, res) {
     if (!req.session.user) {
         console.log("Not login yet, redirect to login page");
@@ -62,6 +73,23 @@ router.get("/information", function (req, res) {
             res.render("UserInformation", {user: userInfo, msg: null});
         }
     })
+})
+
+router.get("/inputpassword", function (req, res) {
+    if (!req.session.resetInfo) {
+        res.redirect('/');
+    }
+    if (req.session.resetInfo.key != req.query.id) {
+        req.session.resetInfo = null;
+        req.session.msg = { type: "alert-warning", msg: "Mã không hợp lệ!" };
+        res.render("Message", { msg: req.session.msg });
+    } else if (helper.common.ComputeDeltaTime(req.session.resetInfo.start).getMinutes() > 5) {
+        req.session.resetInfo = null;
+        req.session.msg = { type: "alert-warning", msg: "Đã hết thời gian đổi mật khẩu." };
+        res.render("Message", { msg: req.session.msg });
+    } else {
+        res.render("ForgotPassword", {msg: null, user: null, step: 2});
+    }
 })
 
 router.post("/updateinfo", function (req, res) {
@@ -103,6 +131,64 @@ router.post("/updateinfo", function (req, res) {
     })
 
 
+})
+
+router.post("/forgotpasswordsubmit", function (req, res) {
+
+    if (req.query.step == 1) {
+        UserDB.getFromEmail(req.body.inputEmail, function (err, record) {
+            if (err) {
+                req.session.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                res.redirect("/user/forgotpassword?step=1");
+                return;
+            }
+            if (!record) {
+                req.session.msg = { type: "alert-warning", msg: "Địa chỉ email không hợp lệ." };
+                res.redirect("/user/forgotpassword?step=1");
+                return;
+            }
+            helper.user.SendPasswordResetMail(req.get("host"), req.body.inputEmail, function (error, key) {
+                if (error) {
+                    req.session.msg = { type: "alert-danger", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                    res.redirect("/user/forgotpassword?step=1");
+                    return;
+                } else {
+                    req.session.resetInfo = {};
+                    req.session.resetInfo.key = key;
+                    req.session.resetInfo.start = new Date();
+                    req.session.resetInfo.email = req.body.inputEmail;
+                    req.session.msg = { type: "alert-success", msg: "Email đã được gửi, vui lòng kiểm tra hộp thư để cập nhật thông tin." };
+                    res.redirect("/user/forgotpassword?step=1");
+
+                }
+            })
+        })
+    } else if (req.query.step == 3) {
+        if (!req.session.resetInfo) {
+            res.redirect("/");
+            return;
+        }
+        UserDB.getFromEmail(req.session.resetInfo.email, function (err, record) {
+            if (err || !record) {
+                req.session.resetInfo = null;
+                req.session.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                res.render("Message", { msg: req.session.msg });
+                return;
+            }
+            var data = {pwd: req.body.inputPassword};
+            UserDB.update(record._id, data, function (err, record) {
+                if (err || !record) {
+                    req.session.resetInfo = null;
+                    req.session.msg = { type: "alert-warning", msg: "Có lỗi không xác định xảy ra. Vui lòng thao tác lại!" };
+                    res.render("Message", { msg: req.session.msg });
+                    return;
+                }
+                var msg = {alert: 'alert-success', msg: 'Cập nhật mật khẩu thành công!'};
+                res.render("ForgotPassword", {msg: msg, user: null, step: 2});
+                console.log("Success change password for user: " + record._id);
+            })
+        })
+    }
 })
 
 router.post("/registersubmit", function (req, res) {
@@ -147,7 +233,6 @@ router.post("/updateavatar", upload.single('image'), function (req, res) {
         res.redirect("/user/login");
         return;
     }
-    console.log("AAAAAAAAAAAAAA");
     if (req.file) {
         var filename = req.file.filename;
         console.log('Uploading file...' + filename);
@@ -157,16 +242,19 @@ router.post("/updateavatar", upload.single('image'), function (req, res) {
                 var data = { avatar: filePath };
                 UserDB.update(req.session.user._id, data, function (err, record) {
                     if (err) {
+
                         res.status(403)
                             .contentType("text/plain")
                             .end("Failed to save image to database!");
                     } else {
+
                         req.session.user = record;
                         res
                             .status(200)
                             .contentType("text/plain")
                             .end("Avatar updated!");
                     }
+
                 });
 
             } else {
@@ -271,6 +359,7 @@ function BuildUserInfomation(userdata, cb) {
     })
 
     userInfo.address = userdata.address;
+    if (!userInfo.address) userInfo.address = {street:'', ward: '', district: '', city: ''};
     cb(null, userInfo);
 }
 
