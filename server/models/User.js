@@ -99,19 +99,27 @@ const saltRounds = 10;
 exports.update = function (id, data, cb) {
     var hashPwd;
     if (data.pwd) {
-        bcrypt.hash(userData.pwd, saltRounds).then(function(result) {
+        bcrypt.hash(data.pwd, saltRounds).then(function(result) {
             hashPwd = result;
             data.pwd = hashPwd;
-            console.log("[UserModel]Hash pwd: " + data.pwd + "-->" + hashPwd);
+            UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
+                if (err) return cb(err);
+                if (!data) return cb("Not found");
+                console.log("[UserModel]Hash pwd: " + data.pwd + "-->" + hashPwd);
+                cb(null, record);
+        
+            })
         }).catch(function(err) {
             return cb(err);
         })
+    }else {
+        UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
+            if (err) return cb(err);
+            if (!data) return cb("Not found");
+            cb(null, record);
+    
+        })
     }
 
-    UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
-        if (err) return cb(err);
-        if (!data) return cb("Not found");
-        cb(null, record);
-
-    })
+    
 }
