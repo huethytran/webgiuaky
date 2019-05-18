@@ -38,9 +38,18 @@
                             <a href="" data-target="#edit" data-toggle="tab" class="nav-link"
                                 style="color: #343a40">Chỉnh sửa thông tin</a>
                         </li>
+                        <li class="nav-item tab">
+                            <a href="" data-target="#passwordTab" data-toggle="tab" class="nav-link"
+                                style="color: #343a40">Đổi mật khẩu</a>
+                        </li>
                     </ul>
                     <div class="tab-content py-4">
+                        <% if (activeTab == 'profile') { %>
                         <div class="tab-pane active" id="profile">
+                        <% } else { %>
+                        <div class="tab-pane" id="profile">
+                        <% } %>
+                        
                             <h5 class="mb-3"><%= user.username %></h5>
                             <div class="row">
                                 <div class="col-md-6">
@@ -80,7 +89,8 @@
                                             <% user.activities.forEach(function (activity) { %>
                                             <tr>
                                                 <td>
-                                                    <strong>Bạn</strong> <%= activity.action %> <a href="<%= activity.link %>"
+                                                    <strong>Bạn</strong> <%= activity.action %> <a
+                                                        href="<%= activity.link %>"
                                                         class="post-title"><%= activity.post %></a>
                                                 </td>
                                             </tr>
@@ -91,7 +101,11 @@
                             </div>
                             <!--/row-->
                         </div>
+                        <% if (activeTab == 'messages') { %>
+                        <div class="tab-pane active" id="messages">
+                        <% } else { %>
                         <div class="tab-pane" id="messages">
+                        <% } %>
                             <% user.notifications.forEach(function (notify) { if (notify.alert) {%>
                             <div class="alert <%= notify.alert%> alert-dismissable">
                                 <a class="panel-close close" data-dismiss="alert">×</a><%= notify.msg %>
@@ -102,25 +116,31 @@
                                     <% user.notifications.forEach(function (notify) { if (!notify.alert) {%>
                                     <tr>
                                         <td>
-                                            <span class="float-right font-weight-bold">3 giờ trước</span><%= notify.msg %> 
+                                            <span class="float-right font-weight-bold">3 giờ
+                                                trước</span><%= notify.msg %>
                                         </td>
                                     </tr>
                                     <% }}); %>
                                 </tbody>
                             </table>
                         </div>
+                        <% if (activeTab == 'edit') { %>
+                        <div class="tab-pane active" id="edit">
+                        <% } else { %>
                         <div class="tab-pane" id="edit">
+                        <% } %>
                             <form id="updateForm" role="form" action="updateinfo" method="POST">
-                                    <% if (msg) { %>
-                                    <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
-                                    </div>
-                                    <% } %>
+                                <% if (msg) { %>
+                                <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
+                                </div>
+                                <% } %>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Họ và Tên</label>
                                     <div class="col-lg-9">
-                                        <input name="username" class="form-control" type="text" value="<%= user.username %>">
+                                        <input name="username" class="form-control" type="text"
+                                            value="<%= user.username %>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -132,25 +152,30 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Ngày sinh</label>
                                     <div class="col-lg-9">
-                                        <input name="birthday" class="form-control" type="date" value="<%= user.birthday %>">
+                                        <input name="birthday" class="form-control" type="date"
+                                            value="<%= user.birthday %>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Địa chỉ</label>
                                     <div class="col-lg-9">
-                                        <input name="address_street" class="form-control" type="text" value="<%= user.address.street %>" placeholder="Đường">
+                                        <input name="address_street" class="form-control" type="text"
+                                            value="<%= user.address.street %>" placeholder="Đường">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-3">
-                                        <input name="address_ward" class="form-control" type="text" value="<%= user.address.ward %>" placeholder="Phường">
+                                        <input name="address_ward" class="form-control" type="text"
+                                            value="<%= user.address.ward %>" placeholder="Phường">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input name="address_district" class="form-control" type="text" value="<%= user.address.district %>" placeholder="Quận">
+                                        <input name="address_district" class="form-control" type="text"
+                                            value="<%= user.address.district %>" placeholder="Quận">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input name="address_city" class="form-control" type="text" value="<%= user.address.city %>" placeholder="Thành phố">
+                                        <input name="address_city" class="form-control" type="text"
+                                            value="<%= user.address.city %>" placeholder="Thành phố">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -162,14 +187,53 @@
                                 </div>
                             </form>
                         </div>
+                        <% if (activeTab == 'passwordTab') { %>
+                        <div class="tab-pane active" id="passwordTab">
+                        <% } else { %>
+                        <div class="tab-pane" id="passwordTab">
+                        <% } %>
+                            <form id="updatePwdForm" role="form" action="updatepwd" method="POST">
+                                <% if (msg) { %>
+                                <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
+                                </div>
+                                <% } %>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Mật khẩu cũ</label>
+                                    <div class="col-lg-9">
+                                        <input name="oldPassword" id="oldPassword" class="form-control" type="password" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Mật khẩu</label>
+                                    <div class="col-lg-9">
+                                        <input name="newPassword" id="newPassword" class="form-control" type="password" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Xác nhận mật khẩu</label>
+                                    <div class="col-lg-9">
+                                        <input name="confirmPassword" id="confirmPassword" class="form-control" type="password" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="submit" class="btn btn-primary" value="Xác nhận">
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 order-lg-1 text-center">
-                    <img id="avatarPreview" src="<%= user.avatar %>" class="mx-auto img-fluid img-circle d-block" alt="avatar"
-                        style="width:180px; margin-bottom:20px">
+                    <img id="avatarPreview" src="<%= user.avatar %>" class="mx-auto img-fluid img-circle d-block"
+                        alt="avatar" style="width:180px; margin-bottom:20px">
                     <h6 class="mt-2">Upload a different photo</h6>
                     <label class="custom-file">
-                        <input id="inputAvatar" type="file" id="file" aria-label="File browser" accept=".jpg, .jpeg, .png">
+                        <input id="inputAvatar" type="file" id="file" aria-label="File browser"
+                            accept=".jpg, .jpeg, .png">
                         <span class="file-custom"></span>
                     </label>
                 </div>
@@ -181,16 +245,16 @@
     <script src="/js/bootstrap.min.js"></script>
     <!-- <script src="js/script.js"></script> -->
     <script>
-            $(document).ready(function(){
-              $("#updateForm").on('input', function() {
-                password.setCustomValidity(password.value != confirmpassword.value ? "Mật khẩu không khớp." : "");
-              })
-              $("#inputPassword").tooltip({'trigger':'focus', 'title': 'Mật khẩu phải chứa chữ, số và tối thiểu 6 ký tự'});
+        $(document).ready(function () {
+            $("#updatePwdForm").on('input', function () {
+                newPassword.setCustomValidity(newPassword.value != confirmPassword.value ? "Mật khẩu không khớp." : "");
+            })
+            $("#newPassword").tooltip({ 'trigger': 'focus', 'title': 'Mật khẩu phải chứa chữ, số và tối thiểu 6 ký tự' });
 
-              $("#inputAvatar").change(function (){
+            $("#inputAvatar").change(function () {
                 var curFiles = this.files;
                 console.log(curFiles);
-                
+
                 var fd = new FormData();
                 fd.append("image", curFiles[0])
                 $.ajax({
@@ -207,9 +271,9 @@
                         }
                     },
                 });
-              });
             });
-          </script>
+        });
+    </script>
 </body>
 
 </html>

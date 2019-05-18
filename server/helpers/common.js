@@ -1,11 +1,12 @@
 exports.DateToString = function (date) {
     if (!date) {
+        console.log("Date: " + date);
         return "Chưa cập nhật!";
     }
     var objDate = new Date(date)
     var mm = objDate.getMonth() + 1;
     var dd = objDate.getDate();
-    return [(dd > 9 ? '' : '0') + dd, (mm > 9 ? '' : '0') + mm, objDate.getFullYear()].join('/');
+    return [objDate.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
 }
 
 exports.RandomString = function (length) {

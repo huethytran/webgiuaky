@@ -8,8 +8,11 @@ var smtpTransport = nodemailer.createTransport({
 });
 
 exports.GetUserRole = function (role) {
-    if (role == 1) return "Độc giả";
+    if (role == 1) return "Người dùng";
     if (role == 2) return "Phóng viên";
+    if (role == 3) return "Độc giả";
+    if (role == 4) return "Biên tập viên";
+    if (role == 5) return "Quản trị viên";
 }
 
 exports.ActionToString = function (action) {

@@ -1,8 +1,10 @@
 sudo mkdir -p /data/db
-
+** Require ** 
+MongoDB is installed
 ** How to run ** 
 1. Install dependencies:
 > npm install
-2. Start server:
+2. Open file helpers/User.js, edit value of pass in line 6. 
+3. Start server:
 > node index.js
-3. Open browser access address: http://0.0.0.0:3000
+4. Open browser access address: http://0.0.0.0:3000
