@@ -4,10 +4,13 @@
   "description": "News web server develop by Thai Nhat Minh and Tran Hue Thy",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "multer": "^1.4.1"
+    "express-session": "^1.16.1",
+    "multer": "^1.4.1",
+    "passport": "^0.4.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -1,15 +1,15 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/my_db');
+mongoose.connect('mongodb://localhost/db_test', { useNewUrlParser: true });
 
 var postSchema = mongoose.Schema({
-    uid: Number, 
     title: String,
     image_title: String,
     category: String,
     tag: [String],
     content: String,
     post_date: Date,
-    author: String
+    author: String,
+    url: String
 });
 
 var PostModel = mongoose.model("Post", postSchema);
@@ -23,8 +23,8 @@ exports.create = function(postData) {
     })
 }
 
-exports.get = function (_uid, cb) {
-    PostModel.findOne({uid: _uid}, function (err, data) {
+exports.getFromId = function (_uid, cb) {
+    PostModel.findById(_uid, function (err, data) {
         if (err) return cb(err);
         cb(null, data);
     });
