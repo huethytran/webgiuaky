@@ -6,15 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Đăng Kí</title>
-  <script src="js/jquery.min.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <script src="/js/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <style>
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
+  </style>
 </head>
 
 <body
-  style="background-image: url('images/background-login.jpg'); background-repeat: no-repeat; background-size: cover">
+  style="background-image: url('/images/background-login.jpg'); background-repeat: no-repeat; background-size: cover">
   <% include fragment/header %>
   <div class="container">
     <div class="row">
@@ -22,12 +28,18 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center" style="color: #343a40; font-weight: 550;">Đăng ký</h5>
-            <form class="form-signin" action="AAA" method="POST"
-              oninput='inputPassword.setCustomValidity(inputPassword.value != inputConfirmPassword.value ? "Mật khẩu không khớp." : "")'>
+            <form class="form-signin" action="registersubmit" method="POST" id="registerForm"
+              >
+              <% if (msg) { %>
+                <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
+                </div>
+                <% } %>
               <div class="form-label-group">
                 <input name="inputUsername" type="text" id="inputUsername" class="form-control"
                   placeholder="Email address" required autofocus>
-                <label for="inputUsername">Tên đăng nhập</label>
+                <label for="inputUsername">Họ tên</label>
               </div>
               <div class="form-label-group">
                 <input name="inputEmail" type="email" id="inputEmail" class="form-control" placeholder="Email address"
@@ -35,8 +47,10 @@
                 <label for="inputEmail">Email</label>
               </div>
               <div class="form-label-group">
-                <input name="inputPassword" type="password" id="inputPassword" class="form-control"
-                  placeholder="Password" required>
+                <input name="inputPassword" type="password" id="inputPassword" class="form-control" placeholder="Password"
+                  pattern="(?=.*\d)(?=.*[a-z]).{6,}"
+                  title="Mật khẩu phải chứa chữ, số và tối thiểu 6 ký tự"
+                  required>
                 <label for="inputPassword">Mật khẩu</label>
               </div>
               <div class="form-label-group">
@@ -46,7 +60,7 @@
               </div>
 
               <button class="btn btn-lg btn-block text-uppercase btn-warning" type="submit">Đăng ký</button>
-              <a class="d-block text-center mt-2 small" href="DangNhap.html">Đăng nhập</a>
+              <a class="d-block text-center mt-2 small" href="/user/login">Đăng nhập</a>
               <hr class="my-4">
               <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
                   class="fab fa-google mr-2"></i> Đăng nhập với Google</button>
@@ -59,9 +73,17 @@
     </div>
   </div>
   <% include fragment/footer %>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/popper.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   <!-- <script src="js/script.js"></script> -->
+  <script>
+    $(document).ready(function(){
+      $("#registerForm").on('input', function() {
+        inputPassword.setCustomValidity(inputPassword.value != inputConfirmPassword.value ? "Mật khẩu không khớp." : "");
+      })
+      $("#inputPassword").tooltip({'trigger':'focus', 'title': 'Mật khẩu phải chứa chữ, số và tối thiểu 6 ký tự'});
+    })
+  </script>
 </body>
 
 </html>
