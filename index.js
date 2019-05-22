@@ -18,6 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 // app.use(upload.array()); 
 app.use(require('./controllers'));
-
-app.listen(3000);
-console.log("Start server on port 3000");
+app.set('port', (process.env.PORT || 5000))
+app.listen(app.get('port'));
+console.log("Start server on port " + app.get('port'));
