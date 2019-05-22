@@ -1,4 +1,5 @@
 {"scripts": {
+    "prebuild": "cd server && node install --save",
     "start": "node server/index.js"
   }
 }
