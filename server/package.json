@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "News web server develop by Thai Nhat Minh and Tran Hue Thy",
   "main": "index.js",
+  "engines": {
+    "node": "8.10.0",
+    "npm" : "3.5.2"
+  },
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
@@ -17,7 +21,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "node index.js",
-    "start": "node testdb.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
