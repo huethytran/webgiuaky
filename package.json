@@ -1,6 +1,6 @@
 {
   "scripts": {
     "postinstall": "cd server && npm install --save",
-    "start": "node server/index.js"
+    "start": "cd server && node index.js"
   }
 }
