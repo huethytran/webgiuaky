@@ -6,9 +6,6 @@ var http = require ('http');         // For serving a basic web page.
     var uristring = 'mongodb+srv://minhnthai:nhatminh1997@cluster0-5u7gv.mongodb.net/test?retryWrites=true'
 
     // The http server will listen to an appropriate port, or default to
-    // port 5000.
-    var theport = process.env.PORT || 5000;
-
     // Makes connection asynchronously.  Mongoose will queue up database
     // operations and release them when the connection is complete.
     mongoose.connect(uristring, { useNewUrlParser: true }, function (err, res) {
