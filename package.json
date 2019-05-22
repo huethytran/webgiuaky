@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "prebuild": "cd server && npm install --save",
+    "postinstall": "cd server && npm install --save",
     "start": "node server/index.js"
   }
 }
