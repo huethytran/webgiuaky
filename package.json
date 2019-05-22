@@ -1,32 +1,4 @@
-{
-  "name": "web2019",
-  "version": "1.0.0",
-  "description": "News web server develop by Thai Nhat Minh and Tran Hue Thy",
-  "main": "index.js",
-  "dependencies": {
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "express-session": "^1.16.1",
-    "multer": "^1.4.1",
-    "nodemailer": "^6.1.1",
-    "passport": "^0.4.0",
-    "mongoose": "^5.5.10"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "node index.js",
-    "start": "node testdb.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/huethytran/webgiuaky.git"
-  },
-  "author": "Thai Nhat Minh, Tran Hue Thy",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/huethytran/webgiuaky/issues"
-  },
-  "homepage": "https://github.com/huethytran/webgiuaky#readme"
+{"scripts": {
+    "start": "node server.js"
+  }
 }
