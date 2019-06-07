@@ -1,17 +1,13 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">News</a>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navHeaderCollapse">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navHeaderCollapse">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" style="padding-top: 14px; padding-bottom: 14px;" href="/home">Trang chủ</a></li>
-            <li class="nav-item dropdown style1">
-                <a class="nav-link dropdown-toggle menu"  href="#">Tin xã hội</a>
-                <div class="dropdown-menu bg-dark layer2a">
+            <li class="nav-item bg-warning active"><a class="nav-link" href="#">Trang chủ</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">Tin xã hội</a>
+                <div class="dropdown-menu bg-dark">
                     <a class="dropdown-item text-white" href="#">Thể thao</a>
                     <a class="dropdown-item text-white" href="#">Du lịch</a>
                     <a class="dropdown-item text-white" href="#">Xã hội</a>
@@ -21,33 +17,33 @@
                     <a class="dropdown-item text-white" href="#">Pháp luật</a>
                 </div>
             </li>
-            <li class="nav-item dropdown style2">
-                <a class="nav-link dropdown-toggle menu" href="#">Giải trí</a>
-                <div class="dropdown-menu bg-dark layer2b">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">Giải trí</a>
+                <div class="dropdown-menu bg-dark">
                     <a class="dropdown-item text-white" href="#">Âm nhạc</a>
                     <a class="dropdown-item text-white" href="#">Điện ảnh</a>
                     <a class="dropdown-item text-white" href="#">Hậu trường</a>
                     <a class="dropdown-item text-white" href="#">Phỏng vấn sao</a>
                 </div>
             </li>
-            <li class="nav-item dropdown style3">
-                <a class="nav-link dropdown-toggle menu" href="#">Thời trang</a>
-                <div class="dropdown-menu bg-dark layer2c">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">Thời trang</a>
+                <div class="dropdown-menu bg-dark">
                     <a class="dropdown-item text-white" href="#">Mặc đẹp</a>
                     <a class="dropdown-item text-white" href="#">Làm đẹp</a>
                     <a class="dropdown-item text-white" href="#">Thời trang sao</a>
                 </div>
             </li>
-            <li class="nav-item dropdown style4">
-                <a class="nav-link dropdown-toggle menu" href="#">Ẩm thực</a>
-                <div class="dropdown-menu bg-dark layer2d">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">Ẩm thực</a>
+                <div class="dropdown-menu bg-dark">
                     <a class="dropdown-item text-white" href="#">Địa điểm ăn uống</a>
                     <a class="dropdown-item text-white" href="#">Món ngon</a>
                 </div>
             </li>
-            <li class="nav-item dropdown style5">
-                <a class="nav-link dropdown-toggle menu" href="#">Công nghệ</a>
-                <div class="dropdown-menu bg-dark layer2e">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">Công nghệ</a>
+                <div class="dropdown-menu bg-dark">
                     <a class="dropdown-item text-white" href="#">Mobile</a>
                     <a class="dropdown-item text-white" href="#">AI</a>
                     <a class="dropdown-item text-white" href="#">Smart Home</a>
@@ -55,17 +51,22 @@
             </li>
         </ul>
         <div class="col-sm-3 col-sm-offset-3">
-            <div class="input-group search">
+            <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search">
                 <div class="input-group-append">
-                    <button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </div>
         </div>
-        <ul class="nav nav-tabs ml-auto">
-            <li><a class="nav-link" href="/user/register">Đăng ký</a></li>
-            <li><a class="nav-link" href="/user/login">Đăng nhập</a></li>
-        </ul>
-    </div>
+            <div class="dropdown user">
+                <button class="btn ml-auto btn-dark active dropdown-toggle " type="text"><a href="" id="drowDownUser"><i
+                            class="fas fa-2x fa-user-circle" style="color:#ffc107"></i></a></button>
+                <div class="dropdown-menu bg-dark dropdown-menu-right">
+                    <a class="dropdown-item text-white" href="/user/information">Trang cá nhân</a>
+                    <a class="dropdown-item text-white" href="#">Trang quản lý</a>
+                    <hr style="margin: 2px; background-color:#f0e9d3">
+                    <a class="dropdown-item text-white" href="/user/logout">Đăng xuất</a>
+                </div>
+            </div>
     </div>
 </nav>

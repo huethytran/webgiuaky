@@ -20,18 +20,19 @@
 </head>
 
 <body style="background-color: #f0e9d3">
-    <% include fragment/header %>
+    <% include fragment/header_user %>
     <div class="divtotal" style="background-color: #fff">
         <div class="container">
             <div class="row my-2">
                 <div class="col-lg-8 order-lg-2">
+                    <div id="message"></div>
                     <ul class="nav nav-tabs">
                         <li class="nav-item tab">
                             <a href="" data-target="#profile" data-toggle="tab" class="nav-link active"
                                 style="color: #343a40; background-color:#fff">Hồ sơ cá nhân</a>
                         </li>
                         <li class="nav-item tab">
-                            <a href="" data-target="#messages" data-toggle="tab" class="nav-link"
+                            <a href="" data-target="#messagesTab" data-toggle="tab" class="nav-link"
                                 style="color: #343a40">Thông báo</a>
                         </li>
                         <li class="nav-item tab">
@@ -44,138 +45,86 @@
                         </li>
                     </ul>
                     <div class="tab-content py-4">
-                        <% if (activeTab == 'profile') { %>
                         <div class="tab-pane active" id="profile">
-                        <% } else { %>
-                        <div class="tab-pane" id="profile">
-                        <% } %>
-                        
-                            <h5 class="mb-3"><%= user.username %></h5>
+                            <h5 class="mb-3" id='_info_username'></h5>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h6>Vai trò</h6>
-                                    <p>
-                                        <%= user.role %>
-                                    </p>
+                                    <p id='_info_role'></p>
                                     <h6>Email</h6>
-                                    <p>
-                                        <%= user.email %>
-                                    </p>
+                                    <p id='_info_email'></p>
                                     <h6>Ngày sinh</h6>
-                                    <p>
-                                        <%= user.birthday %>
-                                    </p>
+                                    <p id='_info_birth'></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <h6>Chuyên mục quan tâm</h6>
-                                    <% user.favCat.forEach(function (category) { %>
-                                    <a href="<%= category.url %>"
-                                        class="badge badge-dark badge-pill"><%= category.name %></a>
-                                    <% }); %>
+                                    <h6 id='_info_favCat'>Chuyên mục quan tâm</h6>
                                     <hr>
-                                    <span class="badge badge-primary"><i class="fas fa-thumbs-up"></i> <%= user.likes %>
-                                        Likes</span>
-                                    <span class="badge badge-success"><i class="fas fa-comments"></i>
-                                        <%= user.comments %> Comments</span>
-                                    <span class="badge badge-danger"><i class="fas fa-share-alt-square"></i>
-                                        <%= user.shares %>
-                                        Shares</span>
+                                    <span class="badge badge-primary" id='_info_likes'></span>
+                                    <span class="badge badge-success" id='_info_comments'></span>
+                                    <span class="badge badge-danger" id='_info_share'></span>
                                 </div>
                                 <div class="col-md-12">
                                     <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span>Hoạt động
                                         gần đây</h5>
                                     <table class="table table-sm table-hover table-striped">
-                                        <tbody>
-                                            <% user.activities.forEach(function (activity) { %>
-                                            <tr>
-                                                <td>
-                                                    <strong>Bạn</strong> <%= activity.action %> <a
-                                                        href="<%= activity.link %>"
-                                                        class="post-title"><%= activity.post %></a>
-                                                </td>
-                                            </tr>
-                                            <% }) %>
+                                        <tbody id='_info_activity'>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <!--/row-->
                         </div>
-                        <% if (activeTab == 'messages') { %>
-                        <div class="tab-pane active" id="messages">
-                        <% } else { %>
-                        <div class="tab-pane" id="messages">
-                        <% } %>
-                            <% user.notifications.forEach(function (notify) { if (notify.alert) {%>
-                            <div class="alert <%= notify.alert%> alert-dismissable">
-                                <a class="panel-close close" data-dismiss="alert">×</a><%= notify.msg %>
-                            </div>
-                            <% }}); %>
+                        <div class="tab-pane" id="messagesTab">
+                            
                             <table class="table table-hover table-striped">
-                                <tbody>
-                                    <% user.notifications.forEach(function (notify) { if (!notify.alert) {%>
-                                    <tr>
-                                        <td>
-                                            <span class="float-right font-weight-bold">3 giờ
-                                                trước</span><%= notify.msg %>
-                                        </td>
-                                    </tr>
-                                    <% }}); %>
+                                <tbody id='_info_ntf'>
+                                    
                                 </tbody>
                             </table>
                         </div>
-                        <% if (activeTab == 'edit') { %>
-                        <div class="tab-pane active" id="edit">
-                        <% } else { %>
                         <div class="tab-pane" id="edit">
-                        <% } %>
-                            <form id="updateForm" role="form" action="updateinfo" method="POST">
-                                <% if (msg) { %>
-                                <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
-                                </div>
-                                <% } %>
+                            <form id="updateForm" role="form" action="information" method="POST">
+                               
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Họ và Tên</label>
                                     <div class="col-lg-9">
-                                        <input name="username" class="form-control" type="text"
-                                            value="<%= user.username %>">
+                                        <input id='_update_username' name="username" class="form-control" type="text" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Email</label>
                                     <div class="col-lg-9">
-                                        <input name="email" class="form-control" type="email" value="<%= user.email %>">
+                                        <input  id='_update_email' name="email" class="form-control" type="email" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Ngày sinh</label>
                                     <div class="col-lg-9">
-                                        <input name="birthday" class="form-control" type="date"
-                                            value="<%= user.birthday %>">
+                                        <input  id='_update_birth' name="birthday" class="form-control" type="date"
+                                            value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Địa chỉ</label>
                                     <div class="col-lg-9">
-                                        <input name="address_street" class="form-control" type="text"
-                                            value="<%= user.address.street %>" placeholder="Đường">
+                                        <input id='_update_address_street' name="address_street" class="form-control" type="text"
+                                            value="" placeholder="Đường">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-3">
-                                        <input name="address_ward" class="form-control" type="text"
-                                            value="<%= user.address.ward %>" placeholder="Phường">
+                                        <input id='_update_address_ward' name="address_ward" class="form-control" type="text"
+                                            value="" placeholder="Phường">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input name="address_district" class="form-control" type="text"
-                                            value="<%= user.address.district %>" placeholder="Quận">
+                                        <input id='_update_address_district'  name="address_district" class="form-control" type="text"
+                                            value="" placeholder="Quận">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input name="address_city" class="form-control" type="text"
-                                            value="<%= user.address.city %>" placeholder="Thành phố">
+                                        <input id='_update_address_city' name="address_city" class="form-control" type="text"
+                                            value="" placeholder="Thành phố">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -187,18 +136,9 @@
                                 </div>
                             </form>
                         </div>
-                        <% if (activeTab == 'passwordTab') { %>
-                        <div class="tab-pane active" id="passwordTab">
-                        <% } else { %>
                         <div class="tab-pane" id="passwordTab">
-                        <% } %>
-                            <form id="updatePwdForm" role="form" action="updatepwd" method="POST">
-                                <% if (msg) { %>
-                                <div class="alert <%= msg.type %> alert-dismissible" id="alert_success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong><i class="fas fa-check"></i><%= msg.msg %></strong>
-                                </div>
-                                <% } %>
+                            <form id="updatePwdForm" role="form">
+                               
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Mật khẩu cũ</label>
                                     <div class="col-lg-9">
@@ -228,7 +168,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 order-lg-1 text-center">
-                    <img id="avatarPreview" src="<%= user.avatar %>" class="mx-auto img-fluid img-circle d-block"
+                    <img id="avatarPreview" src="/images/user-ava.jpg" class="mx-auto img-fluid img-circle d-block"
                         alt="avatar" style="width:180px; margin-bottom:20px">
                     <h6 class="mt-2">Upload a different photo</h6>
                     <label class="custom-file">
@@ -243,9 +183,15 @@
     <% include fragment/footer %>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <!-- <script src="js/script.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
+        var baseHTMLmsg = `<div class="alert alert-_msgtype alert-dismissible" id="alert_success" style="margin-top: 10px;">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<strong><i class="fas fa-check"></i>_msgcontent</strong>
+</div>`;
+
         $(document).ready(function () {
+            updateDocument();
             $("#updatePwdForm").on('input', function () {
                 newPassword.setCustomValidity(newPassword.value != confirmPassword.value ? "Mật khẩu không khớp." : "");
             })
@@ -253,26 +199,163 @@
 
             $("#inputAvatar").change(function () {
                 var curFiles = this.files;
-                console.log(curFiles);
+                var token = Cookies.get('token');
+                if (!token) {
+                    var inforUrl = location.protocol + '//' + window.location.host + '/';
+                    document.location.replace(inforUrl);
+                }
 
-                var fd = new FormData();
+                var fd = new FormData() ;
                 fd.append("image", curFiles[0])
+                console.log(fd.toString());
                 $.ajax({
-                    url: '/user/updateavatar',
+                    url: '/api/user/avatar'+'?&token=' + token + "&audience=" + navigator.userAgent,
                     type: 'POST',
-                    data: fd,
+                    data: fd  ,
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        if (response != 0) {
-                            $("#avatarPreview").attr("src", window.URL.createObjectURL(curFiles[0]));
-                        } else {
-                            alert('file not uploaded');
-                        }
+                        $("#avatarPreview").attr("src", window.URL.createObjectURL(curFiles[0]));
+                        var msg = baseHTMLmsg.replace('_msgtype', 'success')
+                            .replace('_msgcontent', response);
+                        $("#message").html(msg);
                     },
+                    error: (err) => {
+                        var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                            .replace('_msgcontent', err);
+                        $("#message").html(msg);
+                    }
                 });
             });
         });
+
+        
+        function updateDocument() {
+            var token =  Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host  + '/';
+                document.location.replace(inforUrl);
+            }
+            var fd = new FormData();
+            fd.append('token', token);
+            fd.append('audience', navigator.userAgent);
+
+            $.ajax({
+                url: '/api/user/information' ,
+                type: 'GET',
+                data: {token: token, audience: navigator.userAgent},
+                // contentType: false,
+                // processData: false,
+                success: function (response) {
+                    $("#_info_username").text(response.username);
+                    $("#_update_username").val(response.username);
+                    $("#_info_role").text(response.role);
+                    $("#_info_email").text(response.email);
+                    $("#_update_email").val(response.email);
+                    $("#_info_birth").text(response.birthday);
+                    $("#_update_birth").val(response.birthday);
+                    $("#_update_address_street").val(response.address.street);
+                    $("#_update_address_ward").val(response.address.ward);
+                    $("#_update_address_district").val(response.address.district);
+                    $("#_update_address_city").val(response.address.city);
+                    $("#avatarPreview").attr('src', response.avatar);
+
+                    response.favCat.forEach(element => {
+                        var newEl = $("<a class='badge badge-dark badge-pill'></a>").text(element.name);
+                        newEl.attr('href', element.url);
+                        newEl.insertBefore('#_info_favCat hr')
+                    });
+
+                    $("#_info_likes").append(`<i class="fas fa-thumbs-up"> ${response.likes}  Likes`);
+                    $("#_info_comments").append(`<i class="fas fa-comments"> ${response.comments}  Comments`);
+                    $("#_info_share").append(`<i class="fas fa-share-alt-square"> ${response.shares}  Shares`);
+
+                    response.activities.forEach(function (activity) {
+                        var tr = document.createElement('tr');
+                        var td = document.createElement('td');
+                        td.textContent = `<strong>Bạn</strong> ${activity.action} <a class="post-title"> ${activity.post}</a>`
+                        tr.appendChild(td);
+                        $('#_info_activity').append(tr);
+                    })
+
+                    var messageTab = document.getElementById('messagesTab');
+                    response.notifications.forEach(function (notify) {
+                        if (notify.alert) {
+                            $(`<div class="alert ${notify.alert} alert-dismissable">
+                                <a class="panel-close close" data-dismiss="alert">×</a>${notify.msg}</div>`).insertBefore('#messagesTab table');
+                        }else {
+                            $('#messagesTab table tbody').append(`<tr>
+                                        <td>
+                                            <span class="float-right font-weight-bold">3 giờ
+                                                trước</span>${notify.msg}
+                                        </td>
+                                    </tr>`);
+                        }
+                    })
+                },
+                error: function (err) {
+                    console.log(err);
+                    var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                        .replace('_msgcontent', err.responseText);
+                    console.log(err);
+                    $("#message").html(msg);
+                }
+            });
+
+        }
+
+        $('#updateForm').on('submit',(event) => {
+            var token =  Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host  + '/';
+                document.location.replace(inforUrl);
+            }
+            event.preventDefault();
+            $.ajax({
+                url: '/api/user/information',
+                type: 'POST',
+                data: $('#updateForm').serialize() +'&token=' + token + "&audience=" + navigator.userAgent,
+                success: function (response) {
+                    console.log(response);
+                    var msg = baseHTMLmsg.replace('_msgtype', 'success')
+                        .replace('_msgcontent', response);
+                    $("#message").html(msg);
+                },
+                error: function (err) {
+                    var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                        .replace('_msgcontent', err.responseText);
+                    console.log(err);
+                    $("#message").html(msg);
+                }
+            });
+        })
+
+        $('#updatePwdForm').on('submit', (event) => {
+            event.preventDefault();
+            var token =  Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host  + '/';
+                document.location.replace(inforUrl);
+            }
+            event.preventDefault();
+            $.ajax({
+                url: '/api/user/resetpassword',
+                type: 'POST',
+                data: $('#updatePwdForm').serialize() +'&token=' + token + "&audience=" + navigator.userAgent,
+                success: function (response) {
+                    console.log(response);
+                    var msg = baseHTMLmsg.replace('_msgtype', 'success')
+                        .replace('_msgcontent', response);
+                    $("#message").html(msg);
+                },
+                error: function (err) {
+                    var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                        .replace('_msgcontent', err.responseText);
+                    console.log(err);
+                    $("#message").html(msg);
+                }
+            });
+        })
     </script>
 </body>
 

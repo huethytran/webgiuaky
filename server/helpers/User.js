@@ -1,9 +1,11 @@
 var nodemailer = require("nodemailer");
+var jwt = require('../helpers/jwt');
+
 var smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "t.n.minh1997@gmail.com",
-        pass: '<your mail password'
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD
     }
 });
 
@@ -21,9 +23,11 @@ exports.ActionToString = function (action) {
     if (action == 3) return "chia sẻ";
 }
 
-exports.SendPasswordResetMail = function (host, email, cb) {
-    var rand = Math.floor((Math.random() * 100) + 54);
-    link = "http://" + host + "/user/inputpassword?id=" + rand;
+exports.SendPasswordResetMail = function (host, email, uid, cb) {
+    var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: 'web2019' };
+    var playload = {uid: uid};
+    var token = jwt.sign(playload, option, '5m');
+    link = "http://" + host + "/user/resetpassword?token=" + token;
     mailOptions = {
         to: email,
         subject: "Reset password",
@@ -36,8 +40,8 @@ exports.SendPasswordResetMail = function (host, email, cb) {
             console.log(error);
             cb(error);
         } else {
-            console.log("Message sent: " + response.message);
-            cb(null, rand);
+            console.log("Message sent: " + response.toString());
+            cb(null, token);
         }
     });
 }

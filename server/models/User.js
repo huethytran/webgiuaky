@@ -1,18 +1,11 @@
 var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-mongoose.connect('mongodb://localhost/db_test', { useNewUrlParser: true, useFindAndModify: false });
-const UserRole = {
-    NORMAL: 1,
-    WRITER: 2,
-    SUBSCRIBER: 3,
-    EDITOR: 4,
-    ADMIN: 5,
-};
-const NotifyPriority = {
-    NORMAL: 1,      // user vs user
-    IMPORTANT: 2,   // from admin
-    CRITICAL: 3     // from system
-}
+
+const environment = process.env.NODE_ENV; // development
+const stage = require('../config')[environment];
+
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useFindAndModify: false });
+
 var userSchema = mongoose.Schema({
     username: String,
     birthday: Date,
@@ -48,8 +41,7 @@ var UserModel = mongoose.model("User", userSchema);
 
 exports.create = function (userData, cb) {
     var id;
-    const saltRounds = 10;
-    bcrypt.hash(userData.pwd, saltRounds, function (err, hash) {
+    bcrypt.hash(userData.pwd, stage.saltingRounds, function (err, hash) {
         if (err) {
             console.log("[UserModel] Failed to encrypt password of " + userData.username);
             return cb(err);
@@ -97,11 +89,10 @@ exports.getFromEmail = function (_email, cb) {
         cb(null, data);
     })
 }
-const saltRounds = 10;
 exports.update = function (id, data, cb) {
     var hashPwd;
     if (data.pwd) {
-        bcrypt.hash(data.pwd, saltRounds).then(function(result) {
+        bcrypt.hash(data.pwd, stage.saltingRounds).then(function(result) {
             hashPwd = result;
             data.pwd = hashPwd;
             UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
