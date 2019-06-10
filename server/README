@@ -1,4 +1,3 @@
-sudo mkdir -p /data/db
 ** Require ** 
 MongoDB is installed
 ** How to run ** 
@@ -6,5 +5,17 @@ MongoDB is installed
 > npm install
 2. Open file helpers/User.js, edit value of pass in line 6. 
 3. Start server:
-> node index.js
+> npm run dev
 4. Open browser access address: http://0.0.0.0:3000
+
+
+/api/editor/create
+/api/subscriber/dow
+- main page
+- list post
+- post detail
+- search
+- subscriber
+- writer
+- editor
+- admin

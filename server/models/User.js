@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const environment = process.env.NODE_ENV; // development
+var environment = process.env.NODE_ENV; // development
+if (!environment) environment = "development"
 const stage = require('../config')[environment];
-
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useFindAndModify: false });
+var uri = 'mongodb://localhost/db_test';
+if (process.env.DB_URI) uri = process.env.DB_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
 
 var userSchema = mongoose.Schema({
     username: String,

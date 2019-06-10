@@ -40,10 +40,10 @@ router.post("/category", function(req, res) {
 
 
 router.use("/manager", function(req, res) {
-    if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
-    if (!req.session.user || req.session.user.role != 5) {
-        res.redirect('/');
-    }
+    // if (!req.session.ejsParams) req.session.ejsParams = {user:null, msg: null};
+    // if (!req.session.user || req.session.user.role != 5) {
+        // res.redirect('/');
+    // }
     BuildCategory(req.session.ejsParams, (err) => {
         if (err) return res.render("404", req.session.ejsParams);
         return res.render("Admin", req.session.ejsParams);
