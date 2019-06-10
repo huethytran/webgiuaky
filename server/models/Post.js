@@ -9,7 +9,12 @@ var postSchema = mongoose.Schema({
     content: String,
     post_date: Date,
     author: String,
-    url: String
+    image_url: String,
+    post_url: String,
+    summary: String,
+    view: Number,
+    status: Number      // 0: chưa được duyệt,  -1: bị từ chối,  1: đã được duyệt & chờ xuất bản
+                         //      2: đã xuất bản
 });
 
 var PostModel = mongoose.model("Post", postSchema);
@@ -28,4 +33,24 @@ exports.getFromId = function (_uid, cb) {
         if (err) return cb(err);
         cb(null, data);
     });
+}
+
+exports.getFromTitle = function (_title, cb) {
+    PostModel.findOne({title: _title}, function (err, data) {
+        if (err) return cb(err);
+        cb(null, data);
+    });
+}
+
+
+exports.get10CategoryPosts = function (cb) {
+    var query = PostModel.find({});
+    query.sort({post_date: -1});
+    query.limit(10);
+    query.exec(function (err, posts) {
+        
+        if (err) return cb(err);
+        cb(null, posts);
+      })
+    
 }
