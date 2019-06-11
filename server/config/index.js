@@ -17,5 +17,12 @@ module.exports = {
         NORMAL: 1,      // user vs user
         IMPORTANT: 2,   // from admin
         CRITICAL: 3     // from system
+    },
+    PostState: {
+        DRAFT:      1, // temp save
+        WAITING:    2, // waiting for approve
+        APPROVE:    3, // approved, waiting for publish
+        PUBLISH:    4, // 
+        REJECT:     5, // reject by editor
     }
 }

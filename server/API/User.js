@@ -274,9 +274,13 @@ function BuildUserInfomation(userUid, cb) {
     if (!userUid) return cb("InvaildUserUid");
     UserDB.getFromUid(userUid, (err, userdata) => {
         if (err) {
-            console.log('[BuildUserInfomation] Failed to get user ${userUid} information from database');
+            console.log(`[BuildUserInfomation] Failed to get user ${userUid} information from database`);
             return cb(err);
+        } else if (!userdata) {
+            console.log(`[BuildUserInfomation] ${userUid} null database`);
+            return cb("Null database");
         }
+        
         var userInfo = {};
         userInfo.favCat = [];
         userInfo.activities = [];

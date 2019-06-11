@@ -122,3 +122,20 @@ exports.update = function (id, data, cb) {
     
     })
 }
+exports.count = (options, cb) => {
+    PostModel.count(options, (err, num) => {
+        if (err) {
+            console.log("[PostModel] Failed to count database")
+            return cb(err);
+        }
+        return cb(null, num);
+    })
+}
+
+
+exports.get = function (options, cb) {
+    PostModel.find(options, function (err, data) {
+        if (err) return cb(err);
+        cb(null, data);
+    });
+}

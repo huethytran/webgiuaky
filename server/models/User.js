@@ -2,12 +2,14 @@ var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 var environment = process.env.NODE_ENV; // development
-if (!environment) environment = "development"
+if (!environment) environment = 'development';
 const stage = require('../config')[environment];
-var uri = 'mongodb://localhost/db_test';
-if (process.env.DB_URI) uri = process.env.DB_URI;
+
+var uri = process.env.DB_URI;
+if (!uri) uri = 'mongodb://localhost/db_test';
+
 mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
-console.log("URI: " + uri);
+console.log("DB URI: " + uri);
 var userSchema = mongoose.Schema({
     username: String,
     birthday: Date,
@@ -42,7 +44,6 @@ var userSchema = mongoose.Schema({
 var UserModel = mongoose.model("User", userSchema);
 
 exports.create = function (userData, cb) {
-    var id;
     bcrypt.hash(userData.pwd, stage.saltingRounds, function (err, hash) {
         if (err) {
             console.log("[UserModel] Failed to encrypt password of " + userData.username);

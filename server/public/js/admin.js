@@ -1,8 +1,11 @@
 var oldCategoryValue;
+var pagination_category = 1;
 var baseHTMLmsg =`<div class="alert alert-_msgtype alert-dismissible" id="alert_success" style="margin-top: 10px;">
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <strong><i class="fas fa-check"></i>_msgcontent</strong>
 </div>`;
+var token = Cookies.get('token');
+token = '&token=' + token + "&audience=" + navigator.userAgent
 
 $(document).ready(function () {
     $("#newCategoryForm").hide();
@@ -26,7 +29,10 @@ $(document).ready(function () {
     $("#tbCategory tbody tr").children(":nth-child(2)").focusout(function (event) {
         $(this).attr('contenteditable', 'false');
         $(this).removeClass('bg-warning');
-        updateCategory($(this));
+        var elementGroup = $("#tbCategory tbody tr").children(":nth-child(3)")
+        for(var e in elementGroup) 
+            console.log(e);
+        updateCategory($(this).text(), elementGroup.text());
     })
 
     $("#tbCategory tbody tr").click(function(event) {
@@ -37,7 +43,7 @@ $(document).ready(function () {
             if (elementName.attr('contenteditable') == 'true') {
                 elementName.attr('contenteditable', 'false');
                 elementName.removeClass('bg-warning');
-                updateCategory(elementName);
+                updateCategory(elementName.textContent(), elementGroup.textContent());
                 return;
             }
             elementName.attr('contenteditable', 'true');
@@ -66,9 +72,9 @@ $(document).ready(function () {
     })
     $("#newCategorySubmit").click(function(event) {
         $.ajax({
-            url: '/admin/category?action=create',
+            url: '/api/admin/category?action=create',
             type: 'POST',
-            data: $('#newCategoryForm').serialize(),
+            data: $('#newCategoryForm').serialize() + token,
             success: function(res) {
                 var msg = baseHTMLmsg.replace('_msgtype', 'success')
                         .replace('_msgcontent','Thêm chuyên mục thành công,vui lòng tải lại trang!');
@@ -87,11 +93,17 @@ $(document).ready(function () {
     });
  });
 
-function updateCategory(elementName) {
-    // console.log(elementName.text());
-    var data = {oldname: oldCategoryValue, newname: elementName.text()};
+function updateCategory(newname, groupName) {
+    if (oldCategoryValue == newname)
+    {
+        console.log(oldCategoryValue)
+        console.log(newname)
+        return;
+    }
+
+    var data = {oldname: oldCategoryValue, newname: newname,catGroup: groupName,  token: Cookies.get('token'), audience: navigator.userAgent};
     $.ajax({
-        url: '/admin/category?action=update',
+        url: '/api/admin/category?action=update',
         type: 'POST',
         data: data,
         success: function(res) {
@@ -111,9 +123,9 @@ function updateCategory(elementName) {
 }
 
 function deleteCategory(elementName, elementGroup, elementParent) {
-    var data = {catName: elementName.text(), catGroup: elementGroup.text()};
+    var data = {catName: elementName.text(), catGroup: elementGroup.text(), token: Cookies.get('token'), audience: navigator.userAgent};
     $.ajax({
-        url: '/admin/category?action=delete',
+        url: '/api/admin/category?action=delete',
         type: 'POST',
         data: data,
         success: function(res) {
@@ -134,5 +146,48 @@ function deleteCategory(elementName, elementGroup, elementParent) {
 }
 
 function updateCategoryTable() {
+    $.ajax({
+        url: '/api/admin/category?page=' + pagination_category,
+        type: 'GET',
+        success: function(res) {
+            var msg = baseHTMLmsg.replace('_msgtype', 'success')
+                    .replace('_msgcontent','Thêm chuyên mục thành công,vui lòng tải lại trang!');
+            $("#message").html(msg);
+            console.log(res);
+            
+            $("#tbCategory tbody").empty();
+            res.data.forEach(element => {
+                $("#tbCategory tbody").append(createCatEl(element));
+                
+            });
 
+        },
+        error: function(res) {
+            var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                    .replace('_msgcontent','Thêm chuyên mục thất bại! ' + res.responseText);
+            $("#message").html(msg);
+            console.log(res);
+
+        }
+    });
+}
+
+
+function createCatEl(data) {
+    var tr = document.createElement('tr');
+    var index = document.createElement('td'); index.textContent = data.index;
+    var name = document.createElement('td'); name.textContent = data.name;
+    var group = document.createElement('td'); group.textContent = data.group;
+    var publish = document.createElement('td'); publish.textContent = data.publish;
+    var approve = document.createElement('td'); approve.textContent = data.approve;
+    var notapprove = document.createElement('td'); notapprove.textContent = data.notapprove;
+    var reject = document.createElement('td'); reject.textContent = data.reject;
+    tr.append(index);
+    tr.append(name);
+    tr.append(group);
+    tr.append(publish);
+    tr.append(approve);
+    tr.append(notapprove);
+    tr.append(reject);
+    return tr;
 }

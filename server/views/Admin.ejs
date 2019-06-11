@@ -188,8 +188,8 @@
                         <% categories.forEach(function(category) { %>
                         <tr>
                             <td><%= category.index%></td>
-                            <td><%= category.name%></p></td>
-                            <td><%= category.group%></p></td>
+                            <td><%= category.name%></td>
+                            <td><%= category.group%></td>
                             <td><%= category.publish%></td>
                             <td><%= category.approve%></td>
                             <td><%= category.notapprove%></td>
@@ -204,7 +204,7 @@
                         <% }); %>
                     </tbody>
                 </table>
-                <div class="clearfix">
+                <div class="clearfix" id="pagination_category">
                     <div class="hint-text">Hiển thị <b><%= categories.length %></b> trên tổng số <b><%= categoriesTotal %></b> chuyên mục</div>
                     <% if (paginationCat != null) { %>
                     <ul class="pagination">
@@ -786,6 +786,7 @@
         <script src="/js/popper.min.js"></script>
         <script src="/js/jquery.min.js" type="text/javascript"></script>
         <script src="/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         <script src="/js/admin.js"></script>
     </body>          
 </html>

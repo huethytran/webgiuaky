@@ -3,7 +3,7 @@ var UserDB = require("../models/User");
 var data = {
     username: 'admin',
     birthday: new Date(),
-    email: 'admin@gmail.com',
+    email: 'admin@admin.com',
     pwd: 'admin',
     avatar: '/images/user-ava.jpg',
     favoriteCategoty: [],
