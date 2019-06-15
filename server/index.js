@@ -4,24 +4,7 @@ var multer = require('multer');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 const logger = require('morgan');
-//==============================================================================
-var mongoose = require ("mongoose"); // The reason for this demo.
 
-    // Here we find an appropriate database to connect to, defaulting to
-    // localhost if we don't find one.
-    var uristring = process.env.DB_URI;
-
-    // The http server will listen to an appropriate port, or default to
-    // Makes connection asynchronously.  Mongoose will queue up database
-    // operations and release them when the connection is complete.
-    mongoose.connect(uristring, { useNewUrlParser: true }, function (err, res) {
-      if (err) {
-      console.log ('ERROR connecting to: ' + uristring + '. ' + err);
-      } else {
-      console.log ('Succeeded connected to: ' + uristring);
-      }
-    });
-//============================================================================================================
 var app = express();
 var upload = multer();
 
