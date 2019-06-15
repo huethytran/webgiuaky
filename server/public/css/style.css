@@ -4,7 +4,7 @@ body {
     height: 100%;
     width: 100%;
 }
-@media all and (min-width: 0px) {
+/* @media all and (min-width: 0px) {
     body {
        font-size: 3px;
     }
@@ -13,7 +13,7 @@ body {
     body {
        font-size: 6px;
     }
-    }
+    } */
 /* Dành cho máy tính bảng chiều dọc */
 @media all and (min-width: 600px) {
     body {
@@ -1248,16 +1248,16 @@ a.post-title:hover, a.post-title:focus{
     transform: scale(1.1);
   }
 
-  .modal-dialog {
+  /* .modal-dialog {
     max-width: 800px;
     margin: 100px auto;
-}
-
+} */
+/* 
 .modal-body {
     position:relative;
     padding:0px;
-}
-.close {
+} */
+/* .close {
     position:absolute;
     right:-30px;
     top:0;
@@ -1265,7 +1265,7 @@ a.post-title:hover, a.post-title:focus{
     font-weight: normal;
     color:#fff;
     opacity:1;
-}
+} */
 h3{
     font-weight: 600;
     color: #343a40;

@@ -1,0 +1,35 @@
+.search-box {
+    position: relative;        
+    float: right;
+}
+.search-box input {
+    height: 34px;
+    border-radius: 20px;
+    padding-left: 35px;
+    border-color: #ddd;
+    box-shadow: none;
+}
+.search-box input:focus {
+    border-color: #3FBAE4;
+}
+.search-box button._search{
+    color: #a0a5b1;
+    position: absolute;
+    font-size: 19px;
+    top: 4px;
+    left: 6px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-box button._clear{
+    color: #a0a5b1;
+    position: absolute;
+    font-size: 19px;
+    top: 2px;
+    left: 88%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
