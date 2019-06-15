@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tạo bài báo mới</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+
+</head>
+<% include fragment/header_user %>
+<body class="bg-secondary">
+
+    <div id="header" style="margin-top:80px;"></div>
+    <div class="wrapper">
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <a class="navbar-brand" href="#">Dành cho phóng viên</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="PhanHePhongVien1.html">Tất cả bài viết</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Tạo bài viết mới</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bài viết tạm lưu</a>
+                </li>
+            </ul>
+
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content" class="container border bg-white" style="margin-top: 10px">
+            <h1>Thêm bài viết</h1>
+            <label for="post_title" style="font-weight: bold;">Tiêu đề:</label>
+            <input type="text" class="form-control rounded border border-primary" id="post_title" name="post_title"
+                placeholder="Nhập tiêu đề  bài viết ở đây">
+
+            <label for="post_summary" style="font-weight: bold;">Tóm tắt:</label>
+            <textarea class="form-control rounded border border-primary" id="post_summary" rows="3"
+                placeholder="Nhập tóm tắt nội dung bài viết ở đây"></textarea>
+                
+            <label for="post_image" style="font-weight: bold;">Ảnh bìa:</label>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="post_image">
+                <label class="custom-file-label" for="post_image">Choose file</label>
+            </div>
+
+            <label for="post_content" style="font-weight: bold;">Nội dung:</label>
+            <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea>
+
+            <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
+                
+                <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Chọn chuyên mục cho bài viết:</label>
+                <div class="input-group">
+                        <select class="custom-select" id="post_category_list" aria-label="Example select with button addon">
+                        <% for (var i=0; i< categories.length; i++) {
+                            if (i == 0) { %>
+                          <option selected value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                          <% } else {%>
+                          <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                          <% } }%>
+                        </select>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary  btn-primary" type="button"><i class="fas fa-plus"></i></button>
+                        </div>
+                      </div>
+            </div>
+            <div class="container" style="margin-top: 10px; margin-bottom: 10px">
+                <button class="btn btn-primary" type="button" id="sendPost">Gửi bài</button>
+                <button class="btn btn-secondary" type="button">Lưu bài</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- </div> -->
+    <% include fragment/footer %>
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        CKEDITOR.config.entities = false;
+        CKEDITOR.replace('post_content');
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        });
+
+        $("#sendPost").click(function () {
+            var token = Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host + '/';
+                document.location.replace(inforUrl);
+            }
+            var post = {
+                title: document.getElementById("post_title").value,
+                category: document.getElementById("post_category_list").value,
+                image_url: document.getElementById("post_image").value,
+                content: CKEDITOR.instances.post_content.getData(),
+                summary: document.getElementById("post_summary").value
+            }
+            $.ajax({
+                url: '/api/post/uploadnewpost',
+                type: 'POST',
+                data: { token: token, audience: navigator.userAgent, post },
+                success: function (response) {
+                    console.log(response);
+                    alert("Đăng bài viết thành công!");
+                    var newpostUrl = location.protocol + '//' + window.location.host + '/new/newpost';
+                    document.location.replace(newpostUrl);
+                },
+                error: function (err) {
+                    var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+                        .replace('_msgcontent', err.responseJSON.error);
+                    console.log(err);
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

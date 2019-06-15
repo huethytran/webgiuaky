@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Xem chi tiết bài viết</title>    
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body style="background-color: #f0e9d3">
+        <% include fragment/header %>
+<div class="divtotal">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12" style="background-color: #fff;">
+                <img src="images/saothegioi_1.jpg" style="width: 100%; height: 450px;">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 35px;">
+            <div class="col-12 col-md-8" style="background-color: #fff;padding: 40px;">
+                
+                <h4 style="font-weight: 550; color: #343a40" ><%= postdetail.title %></h4>
+                <div class="post-category">
+                    <a href="AmNhac.html" style="float:left"><%= postdetail.category %></a>
+                    <i class="far fa-clock" style="float: left; margin-left: 30px;"></i>
+                    <span style="float:left"><%= postdetail.post_date %></span>
+                </div>
+            </br><hr></br>
+                <b><%= postdetail.summary %></b>
+                <br>
+                <%- postdetail.content %>
+                <div id="content">  </div>
+                <h5 class="continue-read"><a href="XemChiTiet1.html">Xem tiếp: Chiêm ngưỡng màn kết hợp đầu tiên giữa BTS và Halsey tại Billboard Music Awards 2019: Hoành tráng và không thể mãn nhãn hơn!</a></h5>
+                <div style="display:block;"><div style="width:100%; display: inline-block">
+                    <div class="like-share"  >
+                    <a href="#">
+                        <i class="fas fa-thumbs-up"></i>
+                        &nbspThích 456
+                    </a>
+                </div>
+                <div class="like-share" style="margin-right: 15px;">
+                    <a href="#">
+                        <i class="fab fa-facebook"></i>
+                        &nbspChia sẻ 30
+                    </a>
+                </div>
+                </div><hr>
+                <div style="display:flex;">
+                    <div class="tag"><a href="#">#Billboard Music Awards 2019</a></div>
+                    <div class="tag"><a href="#">#taylor swift</a></div>
+                    <div class="tag"><a href="#">#BTS</a></div>
+                    <div class="tag"><a href="#">#Ariana Grande</a></div>
+                </div>
+            </div>
+            </div>
+            <div class="col-12 col-md-4">
+                    <div class="div1" style="background-color: #fff;">
+                        <div class="section-heading dark-style">
+                            <h6>Có thể bạn muốn xem</h6>
+                        </div>
+                        <div class="singlepost">
+                            <div class="post-thumb img-90">
+                                <div class="img-container">
+                              <a href="XemChiTiet1.html">
+                                  <img class="img" src="images/amnhac_5.jpg" alt="...">
+                              </a>
+                            </div>  
+                            </div>
+                            <div class="post-data">
+                                <div class="post-category">
+                                    <a href="AmNhac.html">Âm nhạc</a>
+                                  </div>
+                                  <div class="post-title">
+                                    <a href="XemChiTiet1.html"><p>Hát live 'Anh ơi ở lại', Chi Pu bị chê giọng yếu, thiếu cảm xúc</p></a>
+                                    <i class="far fa-clock"></i>
+                                    <span>06/05/2019 02:09:23</span>                    
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="singlepost">
+                                <div class="post-thumb img-90">
+                                    <div class="img-container">
+                                  <a href="XemChiTiet1.html">
+                                      <img class="img" src="images/thoitrangsao_2.jpg" alt="...">
+                                  </a>
+                                </div>  
+                                </div>
+                                <div class="post-data">
+                                    <div class="post-category">
+                                        <a href="AmNhac.html">Âm nhạc</a>
+                                      </div>
+                                      <div class="post-title">
+                                        <a href="XemChiTiet1.html"><p>Tuấn Hưng dùng siêu xe Ferrari chiêu dụ cô gái 23 tuổi</p></a>
+                                        <i class="far fa-clock"></i>
+                                        <span>20/04/2019 01:42:55</span>                    
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="singlepost">
+                                    <div class="post-thumb img-90">
+                                        <div class="img-container">
+                                      <a href="XemChiTiet1.html">
+                                          <img class="img" src="images/amnhac_2.jpg" alt="...">
+                                      </a>
+                                    </div>  
+                                    </div>
+                                    <div class="post-data">
+                                        <div class="post-category">
+                                            <a href="AmNhac.html">Âm nhạc</a>
+                                          </div>
+                                          <div class="post-title">
+                                            <a href="XemChiTiet1.html"><p>Amee lần đầu kết hợp cùng Kay Trần trong MV chào hè</p></a>
+                                            <i class="far fa-clock"></i>
+                                            <span>20/04/2019 01:42:55</span>                    
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="singlepost">
+                                        <div class="post-thumb img-90">
+                                            <div class="img-container">
+                                          <a href="XemChiTiet1.html">
+                                              <img class="img" src="images/amnhac_4.jpg" alt="...">
+                                          </a>
+                                        </div>  
+                                        </div>
+                                        <div class="post-data">
+                                            <div class="post-category">
+                                                <a href="AmNhac.html">Âm nhạc</a>
+                                              </div>
+                                              <div class="post-title">
+                                                <a href="XemChiTiet1.html"><p>5 nhóm nhạc được bình chọn là đại diện cho thế hệ mới Kpop</p></a>
+                                                <i class="far fa-clock"></i>
+                                                <span>20/04/2019 01:42:55</span>                    
+                                              </div>
+                                        </div>
+                                    </div>
+                                    <div class="singlepost">
+                                            <div class="post-thumb img-90">
+                                                <div class="img-container">
+                                              <a href="XemChiTiet1.html">
+                                                  <img class="img" src="images/saothegioi_1.jpg" alt="...">
+                                              </a>
+                                            </div>  
+                                            </div>
+                                            <div class="post-data">
+                                                <div class="post-category">
+                                                    <a href="AmNhac.html">Âm nhạc</a>
+                                                  </div>
+                                                  <div class="post-title">
+                                                    <a href="XemChiTiet1.html"><p>Taylor Swift vừa hát hit 'Me' vừa bay lên cao trong dù khổng lồ</p></a>
+                                                    <i class="far fa-clock"></i>
+                                                    <span>20/04/2019 01:42:55</span>                    
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    
+                    </div>
+                    <div class="contact div1" style="top: 15%;position: -webkit-sticky; position:sticky;">
+                            <h6>Newsletter</h6>
+                            <p>Hãy đăng kí kênh của chúng tôi để nhận được nhiều tin tức mới nhất nhé.</p>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Họ tên">
+                                <input type="email" class="form-control" placeholder="Email">
+                                <button type="submit" class="btn" onclick="html2text()">Đăng kí</button>
+                            </div>
+                          </div>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8" style="background-color: #fff;padding: 40px;">
+                <div class="section-heading dark-style"><h6>Bình luận</h6></div>
+                <div class="container pb-cmnt-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-info">
+                                    <div class="card-block">
+                                        <textarea placeholder="Viết bình luận . . ." class="pb-cmnt-textarea"></textarea>
+                                        <form>
+                                            <div class="btn-group">
+                                                <button class="btn button1" type="button"><i class="far fa-image"></i></button>
+                                                <button class="btn button1" type="button"><i class="fas fa-video"></i></button>
+                                                <button class="btn button1" type="button"><i class="fas fa-microphone"></i></button>
+                                                <button class="btn button1" type="button"><i class="fas fa-music"></i></button>
+                                            </div>
+                                            <button class="btn btn-dark float-right"style="margin-right:10px;" type="button">Bình luận</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="new_comment">
+
+                            <!-- build comment -->
+                             <div class="user_comment">
+                                 <!-- current #{user} avatar -->
+                                 <div class="user_avatar">
+                                     <img src="images/user-ava.jpg">
+                                 </div><!-- the comment body --><div class="comment_body">
+                                     Gastropub cardigan jean shorts, kogi Godard PBR&B lo-fi locavore. Organic chillwave vinyl Neutra. Bushwick Helvetica cred freegan, crucifix Godard craft beer deep v mixtape cornhole Truffaut master cleanse pour-over Odd Future beard. Portland polaroid iPhone.
+                                 </div>
+                
+                                 <!-- comments toolbar -->
+                                 <div class="comment_toolbar">
+                
+                                     <!-- inc. date and time -->
+                                     <div class="comment_details">
+                                         <ul>
+                                             <li><i class="fa fa-clock"></i> 14:20</li>
+                                             <li><i class="fa fa-calendar"></i> 05/02/2019</li>
+                                             <li><i class="fa fa-pencil"></i> <span class="user">John Smith</span></li>
+                                         </ul>
+                                     </div><!-- inc. share/reply and love --><div class="comment_tools">
+                                         <ul>
+                                             <li><i class="fa fa-reply"></i>&nbsp0</li>
+                                             <li><div class="love"><i class="fa fa-heart"></i>&nbsp4</div></li>
+                                         </ul>
+                                     </div>
+                
+                                 </div>
+                                </div>
+                                <div class="user_comment">
+                                        <!-- current #{user} avatar -->
+                                        <div class="user_avatar">
+                                            <img src="images/user-ava.jpg">
+                                        </div><!-- the comment body --><div class="comment_body">
+                                                I'm tired, does anybody know a good place to buy extra strength coffee?
+                                        </div>
+                       
+                                        <!-- comments toolbar -->
+                                        <div class="comment_toolbar">
+                       
+                                            <!-- inc. date and time -->
+                                            <div class="comment_details">
+                                                <ul>
+                                                    <li><i class="fa fa-clock"></i> 14:55</li>
+                                                    <li><i class="fa fa-calendar"></i> 05/02/2019</li>
+                                                    <li><i class="fa fa-pencil"></i> <span class="user">Sarah Walkman</span></li>
+                                                </ul>
+                                            </div><!-- inc. share/reply and love --><div class="comment_tools">
+                                                <ul>
+                                                    <li><i class="fa fa-reply"></i>&nbsp0</li>
+                                                    <li><div class="love"><i class="fa fa-heart"></i>&nbsp12</div></li>
+                                                </ul>
+                                            </div>
+                       
+                                        </div>
+                                       </div>
+                                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include fragment/footer %>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+<script type="text/javascript">
+     $(document).ready(function () {
+        increaseView();
+     });
+
+    function increaseView(){
+        var token = Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host + '/';
+                document.location.replace(inforUrl);
+            }
+            var post = {};
+            post._id = "<%= postdetail._id%>";
+            post.view = <%= postdetail.view%> +1;
+            $.ajax({
+                url: '/api/post/updateviews',
+                type: 'POST',
+                data: { token: token, audience: navigator.userAgent, post },
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+    }
+</script>
+
+
+</body>
+</html>

@@ -7,7 +7,7 @@ const stage = require('../config')[environment];
 var uri = 'mongodb://localhost/db_test';
 if (process.env.DB_URI) uri = process.env.DB_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
-
+console.log("URI: " + uri);
 var userSchema = mongoose.Schema({
     username: String,
     birthday: Date,

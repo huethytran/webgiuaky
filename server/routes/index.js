@@ -6,7 +6,7 @@ const apipost = require("./APIPost.js");
 var admin = require('../controllers/Admin')
 module.exports = (router) => {
     router.use('/user', user());
-    router.use('/home', post());
+    router.use('/news', post());
     router.use('/api/post', apipost());
     router.use('/api/user', apiuser());
     router.use('/admin',admin);
