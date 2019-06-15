@@ -55,6 +55,8 @@ module.exports = {
       try {
          return jwt.verify(token, publicKEY, verifyOptions);
       } catch (err) {
+         // console.log(err);
+         if(err.name == 'TokenExpiredError') return 'TokenExpiredError';
          return false;
       }
    },
