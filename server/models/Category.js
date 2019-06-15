@@ -6,16 +6,28 @@ if (!uri) uri = 'mongodb://localhost/db_test';
 mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
 console.log("Category DB: " + uri);
 var catSchema = mongoose.Schema({
-    index: Number,
     name: String,
     url: String,
-    group: String
+    group: String,
+    post: {
+        publish: { type: Number, default: 0 },
+        approve: { type: Number, default: 0 },
+        reject: { type: Number, default: 0 },
+        other: { type: Number, default: 0 },
+    }
 });
 
 var CategoryModel = mongoose.model("Category", catSchema);
 
 exports.create = function (name, group, url, cb) {
-    CategoryModel.create({ name: name, url: url, group: group }, function (err, record) {
+    CategoryModel.create({
+        name: name, url: url, group: group, post: {
+            publish: 0,
+            approve: 0,
+            reject: 0,
+            other: 0,
+        }
+    }, function (err, record) {
         if (err) {
             console.log("[CategoryModel] Failed to add categoty " + name + " to database!");
             if (cb) cb(err);

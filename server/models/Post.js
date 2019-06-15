@@ -1,5 +1,13 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/db_test', { useNewUrlParser: true });
+
+var environment = process.env.NODE_ENV; // development
+if (!environment) environment = 'development';
+const stage = require('../config')[environment];
+
+var uri = process.env.DB_URI;
+if (!uri) uri = 'mongodb+srv://minhnthai:nhatminh1997@cluster0-5u7gv.mongodb.net/test?retryWrites=true';
+
+mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
 
 var postSchema = mongoose.Schema({
     title: String,
@@ -138,4 +146,18 @@ exports.get = function (options, cb) {
         if (err) return cb(err);
         cb(null, data);
     });
+}
+
+exports.delete = function(id, cb) {
+    PostModel.findOneAndDelete({_id: id}, (err, record) => {
+        if (err) return cb(err);
+        cb(null, record);
+    })
+}
+
+exports.update = function(id, options, cb) {
+    PostModel.findOneAndUpdate({_id: id}, options, (err, record) => {
+        if (err) return cb(err);
+        cb(null, record);
+    })
 }

@@ -6,7 +6,7 @@ if (!environment) environment = 'development';
 const stage = require('../config')[environment];
 
 var uri = process.env.DB_URI;
-if (!uri) uri = 'mongodb://localhost/db_test';
+if (!uri) uri = 'mongodb+srv://minhnthai:nhatminh1997@cluster0-5u7gv.mongodb.net/test?retryWrites=true';
 
 mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
 console.log("DB URI: " + uri);
@@ -18,6 +18,7 @@ var userSchema = mongoose.Schema({
     avatar: String,
     favoriteCategoty: [String],
     likes: Number,
+    joinDate: Date,
     comments: Number,
     shares: Number,
     address: {
@@ -39,9 +40,12 @@ var userSchema = mongoose.Schema({
             message: String
         }
     ]
-})
+}, { discriminatorKey: 'kind' })
 
 var UserModel = mongoose.model("User", userSchema);
+
+var EditorModel = UserModel.discriminator("Editor", new mongoose.Schema({category: [String]}));
+var SubcriberModel = UserModel.discriminator("Subcriber", new mongoose.Schema({remainDay: Number}));
 
 exports.create = function (userData, cb) {
     bcrypt.hash(userData.pwd, stage.saltingRounds, function (err, hash) {
@@ -49,7 +53,6 @@ exports.create = function (userData, cb) {
             console.log("[UserModel] Failed to encrypt password of " + userData.username);
             return cb(err);
         }
-        // console.log("[UserModel] " + userData.pwd + "-->" + hash);
         userData.pwd = hash;
         UserModel.create(userData, function (err, data) {
             if (err) {
@@ -98,11 +101,22 @@ exports.update = function (id, data, cb) {
         bcrypt.hash(data.pwd, stage.saltingRounds).then(function(result) {
             hashPwd = result;
             data.pwd = hashPwd;
-            UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
+            UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record_1) {
                 if (err) return cb(err);
-                if (!data) return cb("Not found");
-                console.log("[UserModel]Hash pwd: " + data.pwd + "-->" + hashPwd);
-                cb(null, record);
+                if (!record_1) return cb("NotFound");
+                if (data.kind) {
+                    var model = null;
+                    if (data.kind == 'Editor') model = EditorModel;
+                    else if (data.kind = 'Subcriber') mode = SubcriberModel;
+                    console.log("Kind: " + data.kind);
+                    model.findByIdAndUpdate(id, data, {new: true}, (err, record_2) => {
+                        if (err) return cb(err);
+                        if (!record_2) return cb("NotFound");
+                        console.log(record_2);
+                        cb(null, record_2);
+
+                    })
+                } else cb(null, record);
         
             })
         }).catch(function(err) {
@@ -112,7 +126,17 @@ exports.update = function (id, data, cb) {
         UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
             if (err) return cb(err);
             if (!data) return cb("Not found");
-            cb(null, record);
+            if (data.kind) {
+                var model = null;
+                if (data.kind == 'Editor') model = EditorModel;
+                else if (data.kind = 'Subcriber') mode = SubcriberModel;
+                model.findByIdAndUpdate(id, data, {new: true}, (err, record_2) => {
+                    if (err) return cb(err);
+                    if (!record_2) return cb("NotFound");
+                    cb(null, record_2);
+
+                })
+            } else cb(null, record);
     
         })
     }
@@ -120,6 +144,19 @@ exports.update = function (id, data, cb) {
     
 }
 
+exports.get = function(options, cb) {
+    UserModel.find(options, (err, records) => {
+        if (err) return cb(err);
+        return cb(null, records);
+    })
+}
+
+exports.delete = function(uid, cb) {
+    UserModel.findOneAndDelete({_id: uid}, (err, record) => {
+        if (err) return cb(err);
+        cb(null, record);
+    })
+}
 exports.validatePassword = function(pwd, hashPwd) {
     bcrypt.compare(pwd, hashPwd).then(function(res) {
         return res;
