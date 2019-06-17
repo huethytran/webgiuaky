@@ -14,7 +14,7 @@ module.exports = {
     avatar: _post_avatar,
     getinfo: _get_information,
     forgotpassword: _post_forgotpassword,
-    validate: _validateuser
+    validateToken: _validateToken
 }
 
 
@@ -70,7 +70,7 @@ function _post_login(req, res) {
         pwd: req.body.inputPassword,
     };
                 
-    console.log(data);
+
     var result = {};
     var status = 200;
     UserDB.getFromLogin(data.email, data.pwd, function (err, data) {
@@ -82,12 +82,11 @@ function _post_login(req, res) {
             res.status(status).send(result)
         }else {
             if (data) { // Login success
-                req.session.ejsParams.msg = null;
                 var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: req.body.audience };
                 var playload = {user: data._id, role: data.role};
                 var token = jwt.sign(playload, option);
 
-                req.session.ejsParams.user = playload.user;
+                req.session.user = {id: data._id, role: data.role};
                 status = 200;
                 result.status = status;
                 result.token = token;
@@ -143,10 +142,9 @@ function _post_forgotpassword(req, res) {
     })
 }
 function _get_information(req, res) {
-    console.log(req.url);
+    // console.log(req.url);
     console.log("Begin update document...")
-
-    BuildUserInfomation(req.user, function (err, userInfo) {
+    BuildUserInfomation(req.user.id, function (err, userInfo) {
         if (err) {
             console.log("[User API] Failed to build user information: " + err);
             status = 500;
@@ -251,24 +249,6 @@ function PassWordValidate(pwd, pwd2) {
     if (pwd === pwd2) return 0;
     return 2;
 }
-function _validateuser(req, res, next) {
-    var token = req.body.token || req.query.token;
-    var audience = req.body.audience || req.query.audience;
-    if (!token) {
-        console.log('[UserAPI] Missing token');
-        return res.redirect('/');
-    }
-
-    var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: audience };
-    var userinfo = jwt.verify(token, option);
-    if (!userinfo) {
-        console.log('[UserAPI] Invalid token');
-        return res.status(401).send("Invalid token");
-    }
-    req.user = userinfo.user;
-    next();
-}
-
 
 function BuildUserInfomation(userUid, cb) {
     if (!userUid) return cb("InvaildUserUid");
@@ -403,4 +383,28 @@ function SaveFiles(file, cb) {
         }
     });
     
+}
+
+
+function _validateToken(req, res, next) {
+    var token = req.body.token || req.query.token;
+    var audience = req.body.audience || req.query.audience;
+
+    if (!token) {
+        console.log('[UserAPI] Missing token');
+        console.log(req.originalUrl);
+        return res.redirect('/');
+    }
+
+    var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: audience };
+    var userinfo = jwt.verify(token, option);
+    if (userinfo == 'TokenExpiredError') {
+        console.log('[UserAPI] Token Expired');
+        return res.status(401).send("TokenExpiredError");
+    } else if (userinfo == false) {
+        console.log('[UserAPI] Invalid token');
+        return res.status(401).send("Invaild token");
+    }
+    req.user = {id: userinfo.user, role: userinfo.role};
+    next();
 }

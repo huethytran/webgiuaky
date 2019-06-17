@@ -6,6 +6,7 @@ var PostState = require("../config").PostState;
 var UserRole = require("../config").UserRole;
 var TagDB = require("../models/Tag");
 var UserDB = require("../models/User");
+var ROLE = require("../config").UserRole;
 module.exports = {
     post_category : _post_category,
     get_category : _get_category,
@@ -20,7 +21,8 @@ module.exports = {
 
     get_user: _get_user,
     post_user: _post_user,
-    delete_user: _delete_user
+    delete_user: _delete_user,
+    validateAdmin: _validateAdmin
 }
 
 function _post_category(req, res) {
@@ -488,4 +490,14 @@ function ToShortDate(date) {
 function validateRemainDay(remainDay) {
     if (remainDay != '3' || remainDay != '7' || remainDay != '10' || remainDay != '14') return false;
     return true;
+}
+
+
+function _validateAdmin(req, res, next) {
+
+    if (req.user.role != ROLE.ADMIN) {
+        console.log(`[UserAPI] User ${userinfo.user} Permission Denied`);
+        return res.status(401).send("Permission Denied");
+    }
+    next();
 }
