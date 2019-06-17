@@ -1,41 +1,41 @@
 var PostDB = require("../models/Post");
 var jwt = require("../helpers/jwt")
 var helper = require("../helpers");
+var UserDB = require("../models/User");
+var CommentDB = require("../models/Comment");
 module.exports = {
-    home: _load_home,
     postdetail: _load_post_detail
 };
 
-function _load_home(req, res) {
-   // var newPosts ={};
-    //var mostViewPosts = {};
-   // var hotNewsInWeek = {};
-    //var top10Cate = {};
-    PostDB.getNewPosts(function(err, newPosts){
-        if (err) console.log("Có lỗi xảy ra");
-        else {
-            PostDB.getMostViewPosts(function(err, mostViewPosts){
-                if (err) console.log("Có lỗi xảy ra");
-                else {
-                    PostDB.getTop10Categories(function(err, top10Cate){
-                        if (err) console.log("Có lỗi xảy ra");
-                        else {
-                            PostDB.getHotNewsInWeek(function(err, hotNewsInWeek){
-                                if (err) console.log("Có lỗi xảy ra");
-                                else res.render("Home", {newPosts: newPosts, mostViewPosts: mostViewPosts, top10Cate: top10Cate, hotNewsInWeek: hotNewsInWeek});
-                            })
-                        }
-                    })
-                }
-            })
-        }
-    })
-}
 
 function _load_post_detail(req, res) {
     PostDB.getFromId(req.params.id, function(err, postdetail){
         if (err) console.log("Có lỗi xảy ra");
-        else res.render("PostContent", {postdetail: postdetail});
+        else {
+            console.log(postdetail._id);
+            CommentDB.getComments(postdetail._id, function(err, comments){
+                if (err) console.log("Có lỗi xảy ra");
+                else {
+                    var usersId = [];
+                    for (var i = 0; i < comments.length; i++)
+                        usersId.push(comments[i].userId);
+                    PostDB.get5SameCategory(postdetail.category, postdetail._id, function(err, posts){
+                        
+                        if (err) console.log("Có lỗi xảy ra");
+                        else{
+                            var userId = "";
+                        if (req.session.ejsParams.user) 
+                        userId = req.session.ejsParams.user;
+                            UserDB.getCommentUsersFromUid(usersId, function(err, commentUsers){
+                                if (err) console.log("Có lỗi xảy ra");
+                                res.render("PostContent", {postdetail: postdetail, comments: comments, posts: posts, userId: userId, commentUsers: commentUsers});
+                    
+                    })
+                } 
+            })
+        } 
     })
+}
+})
 }
 

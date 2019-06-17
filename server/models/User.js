@@ -75,6 +75,13 @@ exports.getFromUid = function (_uid, cb) {
     });
 }
 
+exports.getCommentUsersFromUid = function (usersId, cb) {
+    UserModel.find({_id: { $in: usersId}}, function(err, docs){
+        if (err) console.log("Có lỗi xảy ra");
+         cb(null, docs);
+    });
+}
+
 exports.getFromLogin = function (_email, _pwd, cb) {
     UserModel.findOne({ email: _email}, function (err, data) {
         if (err) return cb(err);

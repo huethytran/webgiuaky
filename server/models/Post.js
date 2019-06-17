@@ -57,8 +57,15 @@ exports.getNewPosts = function (cb) {
     query.exec(function (err, posts) {
         if (err) return cb(err);
         cb(null, posts);
-      })
-    
+      })  
+}
+exports.getNewCategoryPosts = function (category, cb) {
+    var query = PostModel.find({category: category});
+    query.sort({post_date: -1});
+    query.exec(function (err, posts) {
+        if (err) return cb(err);
+        cb(null, posts);
+      })  
 }
 exports.getHotNewsInWeek = function(cb){
     var thisWeek = new Date(Date.now() - (7 * 24 * 60 * 60 * 1000));
@@ -66,6 +73,18 @@ exports.getHotNewsInWeek = function(cb){
     query.where('post_date').gt(thisWeek);
     query.sort({view: -1});
     query.limit(4);
+    query.exec(function (err, posts) {
+        
+        if (err) return cb(err);
+        cb(null, posts);
+      })
+}
+exports.getHotNewsCategoryInWeek = function(category, cb){
+    var thisWeek = new Date(Date.now() - (7 * 24 * 60 * 60 * 1000));
+    var query = PostModel.find({category: category});
+    query.where('post_date').gt(thisWeek);
+    query.sort({view: -1});
+    query.limit(3);
     query.exec(function (err, posts) {
         
         if (err) return cb(err);
@@ -94,11 +113,9 @@ exports.getTop10Categories = function(cb){
                 }
                 
             }
-            
             cb(null, top10CatePosts);
         }
     });
-    
 }
 function isInTop10Cate(cate, cateArr)
 {
@@ -121,7 +138,17 @@ exports.getMostViewPosts = function (cb) {
       })
     
 }
-
+exports.get5SameCategory = function (cate, postid, cb) {
+    
+    var query = PostModel.find({category: cate});
+    query.where('_id').ne(postid);
+    query.sort({post_date: -1});
+    query.limit(5);
+    query.exec(function (err, posts) {
+        if (err) return cb(err);
+        cb(null, posts);
+      })
+}
 exports.update = function (id, data, cb) {
     PostModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
         if (err) return cb(err);

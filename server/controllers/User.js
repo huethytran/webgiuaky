@@ -32,7 +32,7 @@ function _get_logout(req, res) {
     console.log("User: " + req.session.ejsParams.user + " stop session");
     req.session.ejsParams.msg = null;
     req.session.ejsParams.user = null;
-    res.redirect("/");
+    res.redirect("/user/login");
 }
 
 
@@ -63,6 +63,7 @@ function _post_resetpassword(req, res) {
 
 }
 function _get_information(req, res) {
+    
     res.render("UserInformation", req.session.ejsParams);
 }
 function _post_forgotpassword(req, res) {
@@ -74,7 +75,7 @@ function _post_forgotpassword(req, res) {
 */
 function _validateLogin(req, res, next) {
     if (!req.user) {
-        return res.redirect('/');
+        return res.redirect('/user/login');
     }
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {

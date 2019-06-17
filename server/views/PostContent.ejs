@@ -11,12 +11,39 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body style="background-color: #f0e9d3">
-        <% include fragment/header %>
+    <% function getHeader()
+    {
+      if (userId == "") return "fragment/header";
+      else return "fragment/header_user";
+    } %>
+
+    <%-include(getHeader())%>
+        
 <div class="divtotal">
+    <% function checkTime(i) 
+        {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        function getDateTime(datetime)
+        {
+            return checkTime(datetime.getHours()) + ":" + checkTime(datetime.getMinutes()) + ":" + checkTime(datetime.getSeconds()) + "   " + checkTime(datetime.getDate()) + "/" + checkTime(datetime.getMonth()) + "/" + datetime.getFullYear();
+        } 
+        function getDate(datetime)
+        {
+            return checkTime(datetime.getDate()) + "/" + checkTime(datetime.getMonth()) + "/" + datetime.getFullYear();
+        }
+        function getTime(datetime)
+        {
+            return checkTime(datetime.getHours()) + ":" + checkTime(datetime.getMinutes()) + ":" + checkTime(datetime.getSeconds());
+        }
+         %>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" style="background-color: #fff;">
-                <img src="images/saothegioi_1.jpg" style="width: 100%; height: 450px;">
+                <img src="<%= postdetail.image_url%>" style="width: 100%; height: 450px;">
             </div>
         </div>
         <div class="row" style="margin-top: 35px;">
@@ -26,14 +53,14 @@
                 <div class="post-category">
                     <a href="AmNhac.html" style="float:left"><%= postdetail.category %></a>
                     <i class="far fa-clock" style="float: left; margin-left: 30px;"></i>
-                    <span style="float:left"><%= postdetail.post_date %></span>
+                    <span style="float:left"><%= getDateTime(postdetail.post_date)%></span>
                 </div>
             </br><hr></br>
                 <b><%= postdetail.summary %></b>
                 <br>
                 <%- postdetail.content %>
                 <div id="content">  </div>
-                <h5 class="continue-read"><a href="XemChiTiet1.html">Xem tiếp: Chiêm ngưỡng màn kết hợp đầu tiên giữa BTS và Halsey tại Billboard Music Awards 2019: Hoành tráng và không thể mãn nhãn hơn!</a></h5>
+                <h5 class="continue-read"><a href="/postdetail/<%= posts[0].category%>/<%= posts[0]._id%>">Xem tiếp: <%= posts[0].title%></a></h5>
                 <div style="display:block;"><div style="width:100%; display: inline-block">
                     <div class="like-share"  >
                     <a href="#">
@@ -49,10 +76,9 @@
                 </div>
                 </div><hr>
                 <div style="display:flex;">
-                    <div class="tag"><a href="#">#Billboard Music Awards 2019</a></div>
-                    <div class="tag"><a href="#">#taylor swift</a></div>
-                    <div class="tag"><a href="#">#BTS</a></div>
-                    <div class="tag"><a href="#">#Ariana Grande</a></div>
+                    <% for (var i = 0; i< postdetail.tag.length; i++) {%>
+                    <div class="tag"><a href="#"><%= postdetail.tag[i]%></a></div>
+                   <%}%>
                 </div>
             </div>
             </div>
@@ -61,101 +87,27 @@
                         <div class="section-heading dark-style">
                             <h6>Có thể bạn muốn xem</h6>
                         </div>
+                        <% for (var i = 0; i < posts.length; i++) {%>
                         <div class="singlepost">
                             <div class="post-thumb img-90">
                                 <div class="img-container">
-                              <a href="XemChiTiet1.html">
-                                  <img class="img" src="images/amnhac_5.jpg" alt="...">
+                              <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>">
+                                  <img class="img" src="<%= posts[i].image_url%>" alt="<%= posts[i].image_title%>">
                               </a>
                             </div>  
                             </div>
                             <div class="post-data">
                                 <div class="post-category">
-                                    <a href="AmNhac.html">Âm nhạc</a>
+                                    <a href="AmNhac.html"><%= posts[i].category%></a>
                                   </div>
                                   <div class="post-title">
-                                    <a href="XemChiTiet1.html"><p>Hát live 'Anh ơi ở lại', Chi Pu bị chê giọng yếu, thiếu cảm xúc</p></a>
+                                    <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>"><p><%= posts[i].title%></p></a>
                                     <i class="far fa-clock"></i>
-                                    <span>06/05/2019 02:09:23</span>                    
+                                    <span><%= getDateTime(posts[i].post_date)%></span>                    
                                   </div>
                             </div>
                         </div>
-                        <div class="singlepost">
-                                <div class="post-thumb img-90">
-                                    <div class="img-container">
-                                  <a href="XemChiTiet1.html">
-                                      <img class="img" src="images/thoitrangsao_2.jpg" alt="...">
-                                  </a>
-                                </div>  
-                                </div>
-                                <div class="post-data">
-                                    <div class="post-category">
-                                        <a href="AmNhac.html">Âm nhạc</a>
-                                      </div>
-                                      <div class="post-title">
-                                        <a href="XemChiTiet1.html"><p>Tuấn Hưng dùng siêu xe Ferrari chiêu dụ cô gái 23 tuổi</p></a>
-                                        <i class="far fa-clock"></i>
-                                        <span>20/04/2019 01:42:55</span>                    
-                                      </div>
-                                </div>
-                            </div>
-                            <div class="singlepost">
-                                    <div class="post-thumb img-90">
-                                        <div class="img-container">
-                                      <a href="XemChiTiet1.html">
-                                          <img class="img" src="images/amnhac_2.jpg" alt="...">
-                                      </a>
-                                    </div>  
-                                    </div>
-                                    <div class="post-data">
-                                        <div class="post-category">
-                                            <a href="AmNhac.html">Âm nhạc</a>
-                                          </div>
-                                          <div class="post-title">
-                                            <a href="XemChiTiet1.html"><p>Amee lần đầu kết hợp cùng Kay Trần trong MV chào hè</p></a>
-                                            <i class="far fa-clock"></i>
-                                            <span>20/04/2019 01:42:55</span>                    
-                                          </div>
-                                    </div>
-                                </div>
-                                <div class="singlepost">
-                                        <div class="post-thumb img-90">
-                                            <div class="img-container">
-                                          <a href="XemChiTiet1.html">
-                                              <img class="img" src="images/amnhac_4.jpg" alt="...">
-                                          </a>
-                                        </div>  
-                                        </div>
-                                        <div class="post-data">
-                                            <div class="post-category">
-                                                <a href="AmNhac.html">Âm nhạc</a>
-                                              </div>
-                                              <div class="post-title">
-                                                <a href="XemChiTiet1.html"><p>5 nhóm nhạc được bình chọn là đại diện cho thế hệ mới Kpop</p></a>
-                                                <i class="far fa-clock"></i>
-                                                <span>20/04/2019 01:42:55</span>                    
-                                              </div>
-                                        </div>
-                                    </div>
-                                    <div class="singlepost">
-                                            <div class="post-thumb img-90">
-                                                <div class="img-container">
-                                              <a href="XemChiTiet1.html">
-                                                  <img class="img" src="images/saothegioi_1.jpg" alt="...">
-                                              </a>
-                                            </div>  
-                                            </div>
-                                            <div class="post-data">
-                                                <div class="post-category">
-                                                    <a href="AmNhac.html">Âm nhạc</a>
-                                                  </div>
-                                                  <div class="post-title">
-                                                    <a href="XemChiTiet1.html"><p>Taylor Swift vừa hát hit 'Me' vừa bay lên cao trong dù khổng lồ</p></a>
-                                                    <i class="far fa-clock"></i>
-                                                    <span>20/04/2019 01:42:55</span>                    
-                                                  </div>
-                                            </div>
-                                        </div>
+                        <%}%>
                                     
                     </div>
                     <div class="contact div1" style="top: 15%;position: -webkit-sticky; position:sticky;">
@@ -177,7 +129,7 @@
                             <div class="col-12">
                                 <div class="card card-info">
                                     <div class="card-block">
-                                        <textarea placeholder="Viết bình luận . . ." class="pb-cmnt-textarea"></textarea>
+                                        <textarea id="mycomment" placeholder="Viết bình luận . . ." class="pb-cmnt-textarea"></textarea>
                                         <form>
                                             <div class="btn-group">
                                                 <button class="btn button1" type="button"><i class="far fa-image"></i></button>
@@ -185,7 +137,7 @@
                                                 <button class="btn button1" type="button"><i class="fas fa-microphone"></i></button>
                                                 <button class="btn button1" type="button"><i class="fas fa-music"></i></button>
                                             </div>
-                                            <button class="btn btn-dark float-right"style="margin-right:10px;" type="button">Bình luận</button>
+                                            <button class="btn btn-dark float-right"style="margin-right:10px;" type="button" id="submitComment">Bình luận</button>
                                         </form>
                                     </div>
                                 </div>
@@ -195,12 +147,13 @@
                     <div class="new_comment">
 
                             <!-- build comment -->
+                            <% for (var i = 0; i < comments.length; i++) { %>
                              <div class="user_comment">
                                  <!-- current #{user} avatar -->
                                  <div class="user_avatar">
-                                     <img src="images/user-ava.jpg">
+                                     <img src="<%= commentUsers[i].avatar%>">
                                  </div><!-- the comment body --><div class="comment_body">
-                                     Gastropub cardigan jean shorts, kogi Godard PBR&B lo-fi locavore. Organic chillwave vinyl Neutra. Bushwick Helvetica cred freegan, crucifix Godard craft beer deep v mixtape cornhole Truffaut master cleanse pour-over Odd Future beard. Portland polaroid iPhone.
+                                    <%= comments[i].content%>
                                  </div>
                 
                                  <!-- comments toolbar -->
@@ -209,46 +162,20 @@
                                      <!-- inc. date and time -->
                                      <div class="comment_details">
                                          <ul>
-                                             <li><i class="fa fa-clock"></i> 14:20</li>
-                                             <li><i class="fa fa-calendar"></i> 05/02/2019</li>
-                                             <li><i class="fa fa-pencil"></i> <span class="user">John Smith</span></li>
+                                             <li><i class="fa fa-clock"></i> <%= getTime(comments[i].commentTime)%></li>
+                                             <li><i class="fa fa-calendar"></i> <%= getDate(comments[i].commentTime)%></li>
+                                             <li><i class="fa fa-pencil"></i> <span class="user"><%= commentUsers[i].username%></span></li>
                                          </ul>
                                      </div><!-- inc. share/reply and love --><div class="comment_tools">
                                          <ul>
                                              <li><i class="fa fa-reply"></i>&nbsp0</li>
-                                             <li><div class="love"><i class="fa fa-heart"></i>&nbsp4</div></li>
+                                             <li><div class="love"><i class="fa fa-heart"></i>&nbsp0</div></li>
                                          </ul>
                                      </div>
                 
                                  </div>
                                 </div>
-                                <div class="user_comment">
-                                        <!-- current #{user} avatar -->
-                                        <div class="user_avatar">
-                                            <img src="images/user-ava.jpg">
-                                        </div><!-- the comment body --><div class="comment_body">
-                                                I'm tired, does anybody know a good place to buy extra strength coffee?
-                                        </div>
-                       
-                                        <!-- comments toolbar -->
-                                        <div class="comment_toolbar">
-                       
-                                            <!-- inc. date and time -->
-                                            <div class="comment_details">
-                                                <ul>
-                                                    <li><i class="fa fa-clock"></i> 14:55</li>
-                                                    <li><i class="fa fa-calendar"></i> 05/02/2019</li>
-                                                    <li><i class="fa fa-pencil"></i> <span class="user">Sarah Walkman</span></li>
-                                                </ul>
-                                            </div><!-- inc. share/reply and love --><div class="comment_tools">
-                                                <ul>
-                                                    <li><i class="fa fa-reply"></i>&nbsp0</li>
-                                                    <li><div class="love"><i class="fa fa-heart"></i>&nbsp12</div></li>
-                                                </ul>
-                                            </div>
-                       
-                                        </div>
-                                       </div>
+                                <%}%>
                                 </div>
             </div>
         </div>
@@ -263,12 +190,45 @@
      $(document).ready(function () {
         increaseView();
      });
+     $("#submitComment").click(function(){
+         if ("<%= userId%>" == "")
+         {
+            var inforUrl = location.protocol + '//' + window.location.host + '/user/login';
+                document.location.replace(inforUrl);
+         }
+         else {
 
-    function increaseView(){
         var token = Cookies.get('token');
             if (!token) {
                 var inforUrl = location.protocol + '//' + window.location.host + '/';
                 document.location.replace(inforUrl);
+            }
+            var postComment = {
+                postId: "<%= postdetail._id%>",
+                commentTime: new Date(),
+                content: document.getElementById("mycomment").value,
+            }
+            $.ajax({
+                url: '/api/post/uploadcomment',
+                type: 'POST',
+                data: { token: token, audience: navigator.userAgent, postComment },
+                success: function (response) {
+                    console.log(response);
+                    var newpostUrl = location.protocol + '//' + window.location.host + '/news/home';
+                    document.location.replace(newpostUrl);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+     })
+     
+    function increaseView(){
+        var token = Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host + '/';
+               //document.location.replace(inforUrl);
             }
             var post = {};
             post._id = "<%= postdetail._id%>";

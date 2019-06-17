@@ -82,7 +82,7 @@
         success: function (response) {
           console.log(response.token);
           Cookies.set('token', response.token);
-          var inforUrl = location.protocol + '//' + window.location.host  + '/user/information';
+          var inforUrl = location.protocol + '//' + window.location.host  + '/news/home';
           document.location.replace(inforUrl);
         },
         error: function(err) {

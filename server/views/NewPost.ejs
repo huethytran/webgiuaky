@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">    
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
 
 </head>
 <% include fragment/header_user %>
@@ -53,8 +53,10 @@
             </div>
 
             <label for="post_content" style="font-weight: bold;">Nội dung:</label>
-            <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea>
-
+            <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea></br>
+            <label for="post_tag" style="font-weight: bold;">Thêm nhãn tag:</label>
+            <input type="text" class="form-control rounded border border-primary" id="post_tag" name="post_tag"
+                placeholder="Nhập nhãn tag">
             <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
                 
                 <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Chọn chuyên mục cho bài viết:</label>
@@ -88,13 +90,39 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
         CKEDITOR.config.entities = false;
+        
         CKEDITOR.replace('post_content');
+        var _image_url = "#";
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
         });
+        $("#post_image").change(function () {
+                var curFiles = this.files;
+                var token = Cookies.get('token');
+                if (!token) {
+                    var inforUrl = location.protocol + '//' + window.location.host + '/';
+                    //document.location.replace(inforUrl);
+                }
 
+                var fd = new FormData() ;
+                fd.append("image", curFiles[0])
+                console.log(fd.toString());
+                $.ajax({
+                    url: '/api/post/uploadpostimage'+'?&token=' + token + "&audience=" + navigator.userAgent,
+                    type: 'POST',
+                    data: fd  ,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                       _image_url = response;
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                });
+            });
         $("#sendPost").click(function () {
             var token = Cookies.get('token');
             if (!token) {
@@ -104,17 +132,18 @@
             var post = {
                 title: document.getElementById("post_title").value,
                 category: document.getElementById("post_category_list").value,
-                image_url: document.getElementById("post_image").value,
+                image_url: _image_url,
+                tag: document.getElementById("post_tag").value.split(" "),
                 content: CKEDITOR.instances.post_content.getData(),
                 summary: document.getElementById("post_summary").value
             }
+            
             $.ajax({
                 url: '/api/post/uploadnewpost',
                 type: 'POST',
                 data: { token: token, audience: navigator.userAgent, post },
                 success: function (response) {
                     console.log(response);
-                    alert("Đăng bài viết thành công!");
                     var newpostUrl = location.protocol + '//' + window.location.host + '/new/newpost';
                     document.location.replace(newpostUrl);
                 },

@@ -14,8 +14,25 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
-    <% include fragment/header %>
+    <% function getHeader()
+    {
+      if (userId == "") return "fragment/header";
+      else return "fragment/header_user";
+    } %>
+
+    <%-include(getHeader())%>
     <div class="divtotal">
+        <% function checkTime(i) 
+        {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        function getDateTime(datetime)
+        {
+            return checkTime(datetime.getHours()) + ":" + checkTime(datetime.getMinutes()) + ":" + checkTime(datetime.getSeconds()) + "   " + checkTime(datetime.getDate()) + "/" + checkTime(datetime.getMonth()) + "/" + datetime.getFullYear();
+        }  %>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-lg-12">
@@ -28,7 +45,7 @@
         <div class="vticker">
             <ul>
               <% for (var i =0; i < hotNewsInWeek.length; i++) {%>
-              <li><a href="/news/postdetail/<%= hotNewsInWeek[i].category%>/<%= hotNewsInWeek[i]._id%>"><%= hotNewsInWeek[i].title%></a></li>
+              <li><a href="/postdetail/<%= hotNewsInWeek[i].category%>/<%= hotNewsInWeek[i]._id%>"><%= hotNewsInWeek[i].title%></a></li>
               <%}%>
             </ul>
           </div>
@@ -40,7 +57,7 @@
             <div class="vticker">
                 <ul>
                     <% for (var i =0; i < 1; i++) {%> <!-- 5-->
-                      <li><a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><%= newPosts[i].title%></a></li>
+                      <li><a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><%= newPosts[i].title%></a></li>
                       <%}%>
                 </ul>
               </div>
@@ -76,12 +93,12 @@
                         </div>
                         <div class="time">
                         <i class="far fa-clock"></i>
-                        <span><%= hotNewsInWeek[0].post_date%></span>  
+                        <span><%= getDateTime(hotNewsInWeek[0].post_date)%></span>  
                       </div>
-                        <img src="/news/postdetail/<%= hotNewsInWeek[0].category%>/<%= hotNewsInWeek[0]._id%>" class="d-block w-100" alt="<%= hotNewsInWeek[0].image_title%>">
+                        <img src="<%= hotNewsInWeek[0].image_url%>" class="d-block w-100" alt="<%= hotNewsInWeek[0].image_title%>">
                     </div>
                     <div class="carousel-caption d-none d-md-block">
-                      <h3 class="h3-carousel"><a href="<%= hotNewsInWeek[0].post_url%>"><%= hotNewsInWeek[0].title%></a>
+                      <h3 class="h3-carousel"><a href="/postdetail/<%= hotNewsInWeek[0].category%>/<%= hotNewsInWeek[0]._id%>"><%= hotNewsInWeek[0].title%></a>
                         </h3>
                     </div>
                   </div>
@@ -93,12 +110,12 @@
                             </div>
                             <div class="time">
                             <i class="far fa-clock"></i>
-                            <span><%= hotNewsInWeek[i].post_date%></span>  
+                            <span><%= getDateTime(hotNewsInWeek[i].post_date)%></span>  
                           </div>
                             <img src="<%= hotNewsInWeek[i].image_url%>" class="d-block w-100" alt="<%= hotNewsInWeek[i].image_title%>">
                         </div>
                         <div class="carousel-caption d-none d-md-block">
-                          <h3 class="h3-carousel"><a href="/news/postdetail/<%= hotNewsInWeek[i].category%>/<%= hotNewsInWeek[i]._id%>"><%= hotNewsInWeek[i].title%></a>
+                          <h3 class="h3-carousel"><a href="/postdetail/<%= hotNewsInWeek[i].category%>/<%= hotNewsInWeek[i]._id%>"><%= hotNewsInWeek[i].title%></a>
                             </h3>
                         </div>
                       </div>
@@ -116,11 +133,11 @@
               </div>
             <div class="col-12 col-md-4">
               <div class="div1">
-                <% for (var i=0; i < 1; i++) {%>} <!-- 4 -->
+                <% for (var i=0; i < 1; i++) {%> <!-- 4 -->
                 <div class="singlepost">
                     <div class="post-thumb img-90">
                         <div class="img-container">
-                      <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
+                      <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                           <img class="img" src="<%= newPosts[i].image_url%>" alt="<%= newPosts[i].image_title%>">
                       </a>
                     </div>  
@@ -130,9 +147,9 @@
                             <a href="AmNhac.html"><%= newPosts[i].category%></a>
                           </div>
                           <div class="post-title">
-                            <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><p><%= newPosts[i].title%></p></a>
+                            <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><p><%= newPosts[i].title%></p></a>
                             <i class="far fa-clock"></i>
-                            <span><%= newPosts[i].post_date%></span>                    
+                            <span><%= getDateTime(newPosts[i].post_date)%></span>                    
                           </div>
                     </div>
                 </div>
@@ -163,7 +180,7 @@
                   <div class="owl-item active  col-md-6">
                           <div class="post-thumb img-200">
                               <div class="img-container">
-                            <a href="/news/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>">
+                            <a href="/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>">
                                 <img src="<%= mostViewPosts[i].image_url %>" alt="<%= mostViewPosts[i].image_title %>">
                             </a>
                           </div>
@@ -173,7 +190,7 @@
                                 <a href="AmNhac.html"><%= mostViewPosts[i].category %></a>
                               </div>
                               <div class="post-title">
-                                <a href="/news/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>"><h6><%= mostViewPosts[i].title %></h6></a>
+                                <a href="/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>"><h6><%= mostViewPosts[i].title %></h6></a>
                               </div>
                           </div>
                   </div>
@@ -204,7 +221,6 @@
         </div>
       </div>
     </div>
-  
 </div>
   <div class="div3">
     <div class="container-fluid">
@@ -219,7 +235,7 @@
             <div class="col-12 col-md-5-5 marr">
               <div class="post-thumb img-300">
                   <div class="img-container">
-                <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
+                <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                     <img class="img" src="<%= newPosts[i].image_url %>" alt="<%= newPosts[i].image_title %>">
                 </a>
                 </div>
@@ -227,12 +243,12 @@
               <div class="post-data">
                   <div class="post-category">
                     <a href="DiaDiemAnUong.html"><%= newPosts[i].category %></a>
-                    <span><%= newPosts[i].post_date %></span>
+                    <span><%= getDateTime(newPosts[i].post_date) %></span>
                       <i class="far fa-clock"></i>
                      
                   </div>
                   <div class="post-title">
-                    <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><h4><%= newPosts[i].title %></h4></a>
+                    <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><h4><%= newPosts[i].title %></h4></a>
                     <p><%= newPosts[i].summary %></p>
                   </div>
               </div>
@@ -241,7 +257,7 @@
             <div class="col-12  col-md-5-5 marl">
               <div class="post-thumb img-300">
                   <div class="img-container">
-                <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
+                <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                     <img src="<%= newPosts[i].image_url %>" alt="<%= newPosts[i].image_title %>">
                 </a>
                 </div>
@@ -249,12 +265,12 @@
               <div class="post-data">
                   <div class="post-category">
                     <a href="ThoiTrangSao.html"><%= newPosts[i].category %></a>
-                    <span><%= newPosts[i].post_date %></span>
+                    <span><%= getDateTime(newPosts[i].post_date) %></span>
                       <i class="far fa-clock"></i>
                      
                   </div>
                   <div class="post-title">
-                    <a href="/news/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><h4><%= newPosts[i].title %>
+                    <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><h4><%= newPosts[i].title %>
                       </h4></a>
                     <p><%= newPosts[i].summary %></p>
                   </div>
@@ -332,7 +348,7 @@
                   </div>
                   <div class="post-thumb img-250">
                       <div class="img-container">
-                    <a href="/news/postdetail/<%= top10Cate[i].category%>/<%= top10Cate[i]._id%>">
+                    <a href="/postdetail/<%= top10Cate[i].category%>/<%= top10Cate[i]._id%>">
                         <img src="<%= top10Cate[i].image_url%>" alt="<%= top10Cate.image_title%>">
                     </a>
                     </div>
@@ -340,12 +356,12 @@
                   <div class="post-data">
                       <div class="post-category">
                         <a href="TheThao.html"><%= top10Cate[i].category%></a>
-                        <span><%= top10Cate[i].post_date%></span>
+                        <span><%= getDateTime(top10Cate[i].post_date)%></span>
                           <i class="far fa-clock"></i>
                          
                       </div>
                       <div class="post-title">
-                        <a href="/news/postdetail/<%= top10Cate[i].category%>/<%= top10Cate[i]._id%>"><h4><%= top10Cate[i].title%></h4></a>
+                        <a href="/postdetail/<%= top10Cate[i].category%>/<%= top10Cate[i]._id%>"><h4><%= top10Cate[i].title%></h4></a>
                         <p><%= top10Cate[i].summary%> </p>
                       </div>
                 </div>
