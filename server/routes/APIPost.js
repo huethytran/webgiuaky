@@ -9,6 +9,6 @@ module.exports = () => {
     postAPI.post('/uploadnewpost', controller.uploadnewpost);
     postAPI.post('/updateviews', controller.updateviews);
     postAPI.post('/uploadpostimage', upload.single('image'), controller.uploadpostimage);
-    postAPI.post('/uploadcomment', controller1.validate, controller.uploadcomment);
+    postAPI.post('/uploadcomment', controller1.validateToken, controller.uploadcomment);
     return postAPI;
 }

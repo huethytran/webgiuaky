@@ -6,6 +6,7 @@ var PostState = require("../config").PostState;
 var UserRole = require("../config").UserRole;
 var TagDB = require("../models/Tag");
 var UserDB = require("../models/User");
+var ROLE = require("../config").UserRole;
 module.exports = {
     post_category : _post_category,
     get_category : _get_category,
@@ -20,7 +21,8 @@ module.exports = {
 
     get_user: _get_user,
     post_user: _post_user,
-    delete_user: _delete_user
+    delete_user: _delete_user,
+    validateAdmin: _validateAdmin
 }
 
 function _post_category(req, res) {
@@ -55,10 +57,11 @@ function _post_category(req, res) {
  * @param {*} res 
  */
 function _get_category(req, res) {
-    //console.log(req.query);
+    
     var perPage = req.query.perpage || 5;
     var page = req.query.page;
     var search = req.query.search;
+    console.log(`GET[Category] [perpage: ${perPage}][page: ${page}][search: ${search}]`)
     CatDB.get({}, (err, records) => {
         if (err) {
             return res.status(500).send(err);
@@ -66,7 +69,7 @@ function _get_category(req, res) {
         var data = ParseData(search, perPage, page, records);
 
         var resData = {total: records.length, data: data};
-        console.log(records);
+        //console.log(records);
         res.status(200).send(resData);
     })
 }
@@ -383,6 +386,8 @@ function ToURL(name, group) {
 
 
 function ParseData(search, pagesize, pagenum, records) {
+    pagesize = Number.parseInt(pagesize, 10);
+    pagenum = Number.parseInt(pagenum, 10);
     var data = [];
     var srcData = []
     if (!records) return [];
@@ -396,10 +401,13 @@ function ParseData(search, pagesize, pagenum, records) {
 
     if (pagenum) {
         var maxPage = Math.floor(records.length / pagesize) + ((records.length / pagesize) == 0? 0: 1);
-        // console.log(`length ${records.length}, max page ${maxPage}`);
+        
         if (pagenum<= maxPage && pagenum > 0) {
-            var begin = (pagenum - 1) *pagesize;
+            var begin = (pagenum - 1) * pagesize;
             data = srcData.slice(begin, begin + pagesize);
+            var test = begin + pagesize;
+            //console.log(`${typeof(test)} ${typeof(begin)} ${typeof(pagesize)}`)
+            //console.log(`[ParseData] ${data.length} [begin: ${begin}][end: ${begin + pagesize}][pagesize: ${pagesize}]`);
         }
     } else data = srcData;
     
@@ -482,4 +490,14 @@ function ToShortDate(date) {
 function validateRemainDay(remainDay) {
     if (remainDay != '3' || remainDay != '7' || remainDay != '10' || remainDay != '14') return false;
     return true;
+}
+
+
+function _validateAdmin(req, res, next) {
+
+    if (req.user.role != ROLE.ADMIN) {
+        console.log(`[UserAPI] User ${userinfo.user} Permission Denied`);
+        return res.status(401).send("Permission Denied");
+    }
+    next();
 }
