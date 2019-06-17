@@ -19,12 +19,13 @@ var loadingDialog = bootbox.dialog({
     show: false,
     
 })
-
 var numUpdate = 0;
-var maxUpdate = 3;
+var maxUpdate = 4;
 var allCategory = [];
 var data = { token: Cookies.get('token'), audience: navigator.userAgent };
 getAllCategory();
+
+
 
 $(document).ready(function () {
 
@@ -32,6 +33,12 @@ $(document).ready(function () {
     updateTagTable();
     updatePostTable();
     updateUserTable();
+
+    $(document).on("shown.bs.modal", (e) => {
+        if (numUpdate == 0) {
+            loadingDialog.modal('hide');
+        }
+    })
     // Control search box
     $('div[id^="search"]').each(function () {
         var par = $(this);
@@ -318,6 +325,7 @@ $(document).ready(function () {
             data: data,
             success: function (res) {
                 $("#userEditor").modal('hide');
+                numUpdate = maxUpdate - 1;
                 updateUserTable();
                 Message('Phân chuyên mục cho nhân viên thành công', true);
             },
@@ -627,8 +635,8 @@ function updateTable(sources, pagination, table, createElFunc) {
             numUpdate += 1;
             if (numUpdate == maxUpdate) {
                 numUpdate = 0;
+                
                 loadingDialog.modal('hide');
-                bootbox.hideAll();
             }
         },
     }
