@@ -246,7 +246,7 @@ function _post_user(req, res) {
             if (record.role != UserRole.SUBSCRIBER) return res.status(406).send(`${userid} InvaildRole`);
             var oldValue = record.remainDay || 0;
             UserDB.update(userid, {remainDay: oldValue + parseInt(remainDay), kind: 'Subcriber'}, (err, record) => {
-                if (err) res.status(500).send(err);
+                if (err) return res.status(500).send(err);
                 console.log(`Add remain day: ${remainDay}, record: ${record}`);
                 return res.status(200).send(record);
             })
@@ -258,7 +258,7 @@ function _post_user(req, res) {
             if (err) return res.status(500).send(err);
             if (!record) return res.status(404).send(`${userid} NotFound`);
             UserDB.update(userid, {role: role}, (err, record) => {
-                if (err) res.status(500).send(err);
+                if (err) return res.status(500).send(err);
                 console.log(`Set new role: ${role}, record: ${record}`);
                 return res.status(200).send(record);
             })
@@ -307,6 +307,7 @@ function createCategory(name, group, cb) {
                     cb("Thêm dữ liệu vào Cơ sở Dữ liệu thất bại!");
                     console.log("[Admin] Failed to add new category: " + name);
                     console.log(err);
+                    return;
                 } else {
                     console.log("[Admin] Success to add new category: " + name);
                     console.log(url);
