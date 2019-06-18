@@ -56,9 +56,10 @@
           </div>
             <div class="vticker">
                 <ul>
-                    <% for (var i =0; i < 5; i++) {%> <!-- 5-->
-                      <li><a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><%= newPosts[i].title%></a></li>
-                      <%}%>
+                    <% newPosts.forEach((post, index) => {%> <!-- 5-->
+                      <li><a href="/postdetail/<%= post.category%>/<%= post._id%>"><%= post.title%></a></li>
+                    <% if (index >= 4) return;
+                      })%>
                 </ul>
               </div>
               </div>
@@ -133,27 +134,28 @@
               </div>
             <div class="col-12 col-md-4">
               <div class="div1">
-                <% for (var i=0; i < 4; i++) {%> <!-- 4 -->
+                <% newPosts.forEach((post, index) => {%> <!-- 4 -->
                 <div class="singlepost">
                     <div class="post-thumb img-90">
                         <div class="img-container">
-                      <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
-                          <img class="img" src="<%= newPosts[i].image_url%>" alt="<%= newPosts[i].image_title%>">
+                      <a href="/postdetail/<%= post.category%>/<%= post._id%>">
+                          <img class="img" src="<%= post.image_url%>" alt="<%= post.image_title%>">
                       </a>
                     </div>  
                     </div>
                     <div class="post-data">
                         <div class="post-category">
-                            <a href="/posts/<%= newPosts[i].category%>"><%= newPosts[i].category%></a>
+                            <a href="/posts/<%= post.category%>"><%= post.category%></a>
                           </div>
                           <div class="post-title">
-                            <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><p><%= newPosts[i].title%></p></a>
+                            <a href="/postdetail/<%= post.category%>/<%= post._id%>"><p><%= post.title%></p></a>
                             <i class="far fa-clock"></i>
-                            <span><%= getDateTime(newPosts[i].post_date)%></span>                    
+                            <span><%= getDateTime(post.post_date)%></span>                    
                           </div>
                     </div>
                 </div>
-                <%}%>
+                <% if (index >=3) return;
+                  })%>
               </div>
             </div>
           </div>
