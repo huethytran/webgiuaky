@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/db_test', { useNewUrlParser: true });
+require('mongoose');
+
+var uri = process.env.DB_URI;
+if (!uri) uri = 'mongodb://localhost/db_test';
+
+mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false })
 
 var commentSchema = mongoose.Schema({
     userId : String,
