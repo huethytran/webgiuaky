@@ -1,14 +1,10 @@
 var ROLE = require("../config").UserRole;
 var jwt = require('../helpers/jwt');
-
+var UserDB = require("../models/User")
+var CatDB = require("../models/Category")
 module.exports = {
-    managerI : _get_managerI,
     manager : _get_manager,
     validateEditor : _validateEditor
-}
-
-function _get_managerI(req, res) {
-    res.render("EditerInterface");
 }
 
 function _get_manager(req, res) {
@@ -16,30 +12,28 @@ function _get_manager(req, res) {
 }
 
 function _validateEditor(req, res, next) {
-    var token = req.body.token || req.query.token;
-    var audience = req.body.audience || req.query.audience;
 
-    if (!token) {
-        console.log('[UserAPI] Missing token');
-        console.log(req.originalUrl);
-        return res.redirect('/');
-    }
-
-    var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: audience };
-    var userinfo = jwt.verify(token, option);
-    if (userinfo == 'TokenExpiredError') {
-        console.log('[UserAPI] Token Expired');
-        return res.status(401).send("TokenExpiredError");
-    } else if (userinfo == false) {
-        console.log('[UserAPI] Invalid token');
-        return res.status(401).send("Invaild token");
-    }
-
-    if (userinfo.role != ROLE.EDITOR) {
-        console.log(`[UserAPI] User ${userinfo.user} Permission Denied`);
+    if (req.session.user.role != ROLE.EDITOR) {
+        console.log(`[EditController] User ${userinfo.user} Permission Denied`);
         return res.status(401).send("Permission Denied");
     }
-
-    req.user = userinfo.user;
     next();
+}
+
+function BuildEditor(userid, cb) {
+    UserDB.getFromUid(userid, (err, record) => {
+        if (err) return cb(err);
+        if (!record.category) return cb("NoCategory");
+
+        var result = {};
+        var categories = [];
+        record.category.forEach(idcat => {
+            CatDB.getFromId(idcat, (err, catData) => {
+                if (err) return cb(err);
+                if (!catData) return cb("CategoryNotFound");
+                categories.push({name: catData.name, id: idcat});
+            })
+        });
+        
+    })
 }

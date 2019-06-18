@@ -132,11 +132,12 @@ exports.update = function (id, data, cb) {
     }else {
         UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
             if (err) return cb(err);
-            if (!data) return cb("Not found");
+            if (!record) return cb("NotFound");
             if (data.kind) {
                 var model = null;
                 if (data.kind == 'Editor') model = EditorModel;
                 else if (data.kind = 'Subcriber') mode = SubcriberModel;
+                console.log("Kind: " + data.kind);
                 model.findByIdAndUpdate(id, data, {new: true}, (err, record_2) => {
                     if (err) return cb(err);
                     if (!record_2) return cb("NotFound");

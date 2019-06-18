@@ -1,5 +1,6 @@
 const user = require("./User.js");
 const admin = require("./Admin.js");
+const editor = require("./Editor.js");
 const apiuser = require("./APIUser.js");
 const apiadmin = require("./APIAdmin.js");
 const apipost = require("./APIPost.js");
@@ -17,5 +18,6 @@ module.exports = (router) => {
     router.use('/writter',newpost());
     router.use('/news',mainpage());
     router.use('/api/admin', apiadmin());
+    router.use('/Editor', editor());
     return router;
 }
