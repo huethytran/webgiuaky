@@ -109,7 +109,25 @@ exports.delete = function(option, cb) {
         cb(null, record);
     })
 }
-
+exports.updateNumberOfPosts = function(Catename, cb){
+    CategoryModel.findOne({name: Catename}, (err, record)=>{
+        if (err) {
+            console.log("[CategoryModel] Failed to find category: " + name);
+            return cb(err);
+        }
+        else {
+            console.log(record.name);
+            CategoryModel.findOneAndUpdate({name: Catename}, {post: {other: record.post.other + 1}}, (err, _record) =>{
+                
+                if (err) {
+                    console.log("[CategoryModel] Failed to update number of posts of category: " + Catename);
+                    return cb(err);
+                }
+                cb(null, _record);
+            })
+        }
+    })
+}
 exports.update = function(id, option, cb) {
     CategoryModel.findOneAndUpdate({id: id}, option, (err, record) => {
         if (err) {

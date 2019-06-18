@@ -3,6 +3,8 @@ var config = require("../config")
 var helper = require("../helpers");
 var PostDB = require("../models/Post");
 var UserDB = require("../models/User");
+var TagDB = require("../models/Tag");
+var CategoryDB = require("../models/Category");
 var CommentDB = require("../models/Comment");
 var {PriorityQueue} = require("../helpers/PriorityQueue");
 var fs = require('fs');
@@ -22,13 +24,21 @@ function _post_newpost(req, res){
         category: req.body.post.category,
         content: req.body.post.content,
         post_date: new Date(),
-        author: req.session.ejsParams.user,
+        author: req.session.user.id,
         tag: req.body.post.tag,
         image_url: req.body.post.image_url,
         summary: req.body.post.summary,
         view: 0,
         status: 2
-    }
+    };
+    for( var i = 0; i< post.tag.length; i++)
+        createTag(post.tag[i]);
+    CategoryDB.updateNumberOfPosts(post.category, function(err, record){
+        if (err) {
+            console.log("Cập nhật số lượng bài viết thất bại");
+            return;
+        }
+    });
    PostDB.create(post, function (err, id){
         if (err) {
             console.log("[PostController] Failed to add post to database: " + err);
@@ -42,6 +52,20 @@ function _post_newpost(req, res){
             result.status = status;
             result.id = id;
             res.status(status).send(result);
+        }
+    });
+}
+function createTag(temp){
+   TagDB.findTag(temp, function(err, record){
+        if (!record) {
+            TagDB.create(temp, function(err, record){
+                if (err) console.log("Tạo tag thất bại");
+            })
+       }
+       else{
+            TagDB.updateTag(temp, function(err, record){
+                if (err) console.log("Update tag thất bại");
+            })
         }
     })
 }

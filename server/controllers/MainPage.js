@@ -7,8 +7,8 @@ module.exports = {
 
 function _load_home(req, res) {
     var userId = "";
-    if (req.session.ejsParams.user) 
-        userId = req.session.ejsParams.user;
+    if (req.session.user) 
+        userId = req.session.user.id;
     PostDB.getNewPosts(function(err, newPosts){
         if (err) console.log("Có lỗi xảy ra");
         else {

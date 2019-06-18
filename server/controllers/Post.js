@@ -23,13 +23,14 @@ function _load_post_detail(req, res) {
                         
                         if (err) console.log("Có lỗi xảy ra");
                         else{
-                            var userId = "";
+                            UserDB.getFromUid(postdetail.author, function(err, author){
+                                var userId = "";
                         if (req.session.ejsParams.user) 
                         userId = req.session.ejsParams.user;
                             UserDB.getCommentUsersFromUid(usersId, function(err, commentUsers){
                                 if (err) console.log("Có lỗi xảy ra");
-                                res.render("PostContent", {postdetail: postdetail, comments: comments, posts: posts, userId: userId, commentUsers: commentUsers});
-                    
+                                res.render("PostContent", {postdetail: postdetail, comments: comments, posts: posts, userId: userId, commentUsers: commentUsers, author: author.username});
+                            })
                     })
                 } 
             })

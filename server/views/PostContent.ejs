@@ -51,13 +51,14 @@
                 
                 <h4 style="font-weight: 550; color: #343a40" ><%= postdetail.title %></h4>
                 <div class="post-category">
-                    <a href="AmNhac.html" style="float:left"><%= postdetail.category %></a>
-                    <i class="far fa-clock" style="float: left; margin-left: 30px;"></i>
+                    <a href="/posts/<%= postdetail.category%>" style="float:left"><%= postdetail.category %></a>
+                    <b style="color:orangered"><%= author%></b>
+                    <span style="color:gray">&nbsp đăng vào lúc</span>
                     <span style="float:left"><%= getDateTime(postdetail.post_date)%></span>
                 </div>
             </br><hr></br>
                 <b><%= postdetail.summary %></b>
-                <br>
+        </br>
                 <%- postdetail.content %>
                 <div id="content">  </div>
                 <h5 class="continue-read"><a href="/postdetail/<%= posts[0].category%>/<%= posts[0]._id%>">Xem tiếp: <%= posts[0].title%></a></h5>
@@ -98,7 +99,7 @@
                             </div>
                             <div class="post-data">
                                 <div class="post-category">
-                                    <a href="AmNhac.html"><%= posts[i].category%></a>
+                                    <a href="/posts/<%= posts[i].category%>"><%= posts[i].category%></a>
                                   </div>
                                   <div class="post-title">
                                     <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>"><p><%= posts[i].title%></p></a>
