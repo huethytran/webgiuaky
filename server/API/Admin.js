@@ -136,8 +136,8 @@ function _delete_tag(req, res) {
  * @query perpage
  * @query page
  * @query search
- * Example: /api/admin/tag => Get all
- * Example: /api/admin/tag?perpage=5&page=1
+ * Example: /api/admin/post => Get all
+ * Example: /api/admin/post?perpage=5&page=1
  * @param {*} req 
  * @param {*} res 
  */
@@ -148,32 +148,47 @@ function _get_post(req, res) {
     var page = req.query.page;
     var search = req.query.search;
     var type = req.query.type;
+    var filter = req.query.filter || {};
+    var id = req.query.id;
+    console.log(`[AdminAPI] Get post`)
+    console.log( req.query)
 
-    PostDB.get({}, (err, records) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-
-        if (records) {
-            var data = ParseData(search, perPage, page, records);
-            var simpleData = [];
-            if (type == 'simple') {
-                data.forEach((element, index) => {
-                    SimplePost(element, (result) => {
-                        simpleData.push(result);
-                        if (index == data.length -1) {
-                            res.status(200).send({total: records.length, data: simpleData});
-                        }
-                    })
-                })
-            } else {
-                var resData = { total: records.length, data: data };
-                return res.status(200).send(resData);
+    if (id) {
+        console.log(`[AdminAPI] Get post id ${id}`)
+        PostDB.getFromId(id, (err, record) => {
+            if (err) return res.status(500).send(err);
+            if (!record) return res.status(404).send("NotFound");
+            res.status(200).send(record);
+        })
+    }else 
+    {
+        console.log(filter);
+        PostDB.get(filter, (err, records) => {
+            if (err) {
+                return res.status(500).send(err);
             }
-        } else {
-            return res.status(200).send({total: 0, data: []});
-        }
-    })
+
+            if (records) {
+                var data = ParseData(search, perPage, page, records);
+                var simpleData = [];
+                if (type == 'simple') {
+                    data.forEach((element, index) => {
+                        SimplePost(element, (result) => {
+                            simpleData.push(result);
+                            if (index == data.length - 1) {
+                                res.status(200).send({ total: records.length, data: simpleData });
+                            }
+                        })
+                    })
+                } else {
+                    var resData = { total: records.length, data: data };
+                    return res.status(200).send(resData);
+                }
+            } else {
+                return res.status(200).send({ total: 0, data: [] });
+            }
+        })
+    }
 }
 
 function _post_post(req, res) {
@@ -496,8 +511,8 @@ function validateRemainDay(remainDay) {
 
 function _validateAdmin(req, res, next) {
 
-    if (req.user.role != ROLE.ADMIN) {
-        console.log(`[UserAPI] User ${userinfo.user} Permission Denied`);
+    if (req.user.role != ROLE.ADMIN && req.user.role != ROLE.EDITOR) {
+        console.log(`[UserAPI] User ${req.user.id} Permission Denied`);
         return res.status(401).send("Permission Denied");
     }
     next();

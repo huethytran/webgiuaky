@@ -4,6 +4,7 @@ const editor = require("./Editor.js");
 const apiuser = require("./APIUser.js");
 const apiadmin = require("./APIAdmin.js");
 const apipost = require("./APIPost.js");
+const apieditor = require("./APIEditor.js");
 const post = require("./Post.js");
 const newpost = require("./NewPost.js");
 const mainpage = require("./MainPage.js");
@@ -21,6 +22,7 @@ module.exports = (router) => {
     router.use('/writter',newpost());
     router.use('/news',mainpage());
     router.use('/api/admin', apiadmin());
-    router.use('/Editor', editor());
+    router.use('/editor', editor());
+    router.use('/api/editor', apieditor());
     return router;
 }

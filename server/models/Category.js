@@ -53,6 +53,12 @@ exports.getFromId = function (id, cb) {
 
 }
 
+exports.getFromIdSync = function (id) {
+    var query = CategoryModel.findById(id);
+    return query;
+
+}
+
 exports.get = function (options, cb) {
     CategoryModel.find(options, (err, records) => {
         if (err) {
