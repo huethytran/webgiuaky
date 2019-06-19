@@ -8,7 +8,10 @@ const post = require("./Post.js");
 const newpost = require("./NewPost.js");
 const mainpage = require("./MainPage.js");
 const postslist = require("./PostsList.js");
+const search = require("./SearchPosts.js");
+
 module.exports = (router) => {
+    router.use('/search', search());
     router.use('/user', user());
     router.use('/posts', postslist());
     router.use('/postdetail', post());

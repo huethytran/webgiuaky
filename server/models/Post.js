@@ -22,7 +22,17 @@ var postSchema = mongoose.Schema({
     view: Number,
     status: Number     
 });
-
+postSchema.index({
+    title: 'text',
+    summary: 'text',
+    content: 'text'
+  }, {
+    weights: {
+      title: 5,
+      summary: 3,
+      content: 1
+    },
+  });
 var PostModel = mongoose.model("Post", postSchema);
 
 // Create
@@ -42,7 +52,12 @@ exports.getFromId = function (_uid, cb) {
         cb(null, data);
     });
 }
-
+exports.fullTextSearch = function(temp, cb){
+    PostModel.find({ $text: { $search: temp }}, function(err, data){
+        if (err) return cb(err);
+        cb(null, data);
+    })
+}
 exports.getFromTitle = function (_title, cb) {
     PostModel.findOne({title: _title}, function (err, data) {
         if (err) return cb(err);
