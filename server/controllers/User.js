@@ -1,6 +1,5 @@
-var UserDB = require("../models/User");
 var jwt = require("../helpers/jwt");
-var helper = require("../helpers");
+var ROLE = require("../config").UserRole;
 module.exports = {
     register: _get_register,
     login: _get_login,
@@ -8,6 +7,7 @@ module.exports = {
     forgotpassword: _get_forgotpw,
     information: _get_information,
     resetpassword: _get_resetpassword,
+    manager: _get_manager,
     needLogin: _validateLogin,
     noNeedLogin: _validateNotLogin
 };
@@ -17,6 +17,11 @@ function _get_register(req, res) {
     res.render("UserRegister", req.session.ejsParams)
 }
 
+function _get_manager(req, res) {
+    if (req.session.user.role == ROLE.EDITOR) res.redirect('/editor/manager');
+    else if (req.session.user.role == ROLE.ADMIN) res.redirect('/admin/manager');
+    else res.status(200).send('#');
+}
 
 function _get_login(req, res) {
     var msg = null;

@@ -44,7 +44,7 @@ var userSchema = mongoose.Schema({
 
 var UserModel = mongoose.model("User", userSchema);
 
-var EditorModel = UserModel.discriminator("Editor", new mongoose.Schema({category: [String]}));
+var EditorModel = UserModel.discriminator("Editor", new mongoose.Schema({ category: [String] }));
 var SubcriberModel = UserModel.discriminator("Subcriber", new mongoose.Schema({remainDay: Number}));
 
 exports.create = function (userData, cb) {

@@ -8,6 +8,7 @@ var upload = multer({ dest: 'uploads/' })
 module.exports  = () => {
     funcRouter.get('/logout',           controller.needLogin,   controller.logout);
     funcRouter.get('/information',      controller.needLogin,   controller.information);
+    funcRouter.get('/manager',          controller.needLogin,   controller.manager);
     funcRouter.get('/register',         controller.noNeedLogin, controller.register);
     funcRouter.get('/login',            controller.noNeedLogin, controller.login);
     funcRouter.get('/forgotpassword',   controller.noNeedLogin, controller.forgotpassword);
