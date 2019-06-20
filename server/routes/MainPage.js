@@ -6,5 +6,6 @@ var funcRouter = express.Router();
 var upload = multer({ dest: 'uploads/' })
 module.exports  = () => {
     funcRouter.get('/home', controller.home);
+    funcRouter.get('/', controller.home);
     return funcRouter;
 }

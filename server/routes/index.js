@@ -24,5 +24,6 @@ module.exports = (router) => {
     router.use('/api/admin', apiadmin());
     router.use('/editor', editor());
     router.use('/api/editor', apieditor());
+    router.use('/', mainpage());
     return router;
 }
