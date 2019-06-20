@@ -783,6 +783,7 @@ const menuItems = [
 
 function userRoleModal() {
     var elementRole = elementClickRole;
+    var elementName = elementClickName;
     var role = elementRole.text()
     var selectOption = [{ text: 'Thông thường', value: UserRole.WRITER },
     { text: 'Phóng viên', value: UserRole.WRITER },
