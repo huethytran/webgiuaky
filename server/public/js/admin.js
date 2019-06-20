@@ -26,7 +26,8 @@ var data = { token: Cookies.get('token'), audience: navigator.userAgent };
 getAllCategory();
 
 
-
+var elementClickName;
+var elementClickRole;
 $(document).ready(function () {
 
     updateCategoryTable();
@@ -207,56 +208,31 @@ $(document).ready(function () {
         }
     })
 
+    // When click button on User
+    $("#tbUser tbody").on("contextmenu", "tr", function (event) {
+        elementClickRole = $(this).children(":nth-child(3)");
+        elementClickName = $(this).children(":nth-child(2)");
+        if (event.target.className == 'fas fa-edit') {
+            event.preventDefault();
+            new Contextual({
+                items: menuItems
+            });
+        }
+    })
+
     $("#tbUser tbody").on("click", "tr", function (event) {
         var elementRole = $(this).children(":nth-child(3)");
         var elementName = $(this).children(":nth-child(2)");
 
         if (event.target.className == 'fas fa-edit') {
-            if (elementRole.text() == 'Độc giả') {
-                var remainDay = elementName.attr('remainDay');
-                var selectOption = [{text: '3 Ngày', value: 3},
-                                    {text: '7 Ngày', value: 7},
-                                    {text: '10 Ngày', value: 10},
-                                    {text: '14 Ngày', value: 14}];
-                
-                bootbox.prompt({
-                    title: `Thời gian còn lại ${remainDay}, gia hạn thêm: `,
-                    inputOptions: selectOption,
-                    value: '3 Ngày',
-                    inputType: 'select',
-                    callback: function (result) {
-                        if (result) {
-                            updateUserStatus(elementName.attr('iduser'), {remainDay: result});
-                        }
-                    },
-                    centerVertical: true
-                });
-            } else if (elementRole.text() == 'Biên tập viên') {
-                var category = JSON.parse(elementName.attr('category'));
-                updateEditorModal(category, allCategory);
-                $("#userEditor").attr('iduser', elementName.attr('iduser'));
-                $("#userEditor").modal('show');
-
-            } else if (elementRole.text() == 'Thông thường') {
-                var selectOption = [{text: 'Phóng viên', value: UserRole.WRITER},
-                                    {text: 'Độc giả', value: UserRole.SUBSCRIBER},
-                                    {text: 'Biên tập viên', value: UserRole.EDITOR},
-                                    {text: 'Quản trị viên', value: UserRole.ADMIN}];
-                
-                bootbox.prompt({
-                    title: `Phân quyền:`,
-                    inputOptions: selectOption,
-                    // value: 'Biên tập viên',
-                    inputType: 'select',
-                    callback: function (result) {
-                        if (result) {
-                            updateUserStatus(elementName.attr('iduser'), {role: result});
-                        }
-                    },
-                    centerVertical: true
-                });
-            }
-        }else if (event.target.className == 'fas fa-trash-alt') {
+            elementClickRole = $(this).children(":nth-child(3)");
+            elementClickName = $(this).children(":nth-child(2)");
+            event.preventDefault();
+            new Contextual({
+                items: menuItems
+            });
+        } else
+        if (event.target.className == 'fas fa-trash-alt') {
             bootbox.confirm({buttons: {
                 confirm: {
                     label: 'Yes',
@@ -273,6 +249,7 @@ $(document).ready(function () {
             },centerVertical: true})
         }else if (event.target.className == 'fas fa-eye') {
             updateUserInfoModal(elementName.attr('iduser'));
+            $("#applyEditorCat").css('visibility', 'hidden');
             $("#userEditor").modal('show');
         }
 
@@ -335,7 +312,15 @@ $(document).ready(function () {
             }
         })
     })
-    
+    // const myInstance = document.getElementById('element');
+
+    // // triggeredd on right click
+    // myInstance.addEventListener('contextmenu', function (ev) {
+    //     ev.preventDefault();
+    //     new contextualMenu({
+    //         items: menuItems
+    //     });
+    // });
     
 });
 
@@ -481,8 +466,8 @@ function createCatEl(data, indexNum) {
     var action = document.createElement('td');
     action.innerHTML = `<td>
                         <a href="${data.url}" class="view" title="View" data-toggle="tooltip"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
+                        <a  class="edit" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                        <a  class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fas fa-trash-alt"></i></a>
                         </td>`;
     tr.append(index);
@@ -505,7 +490,7 @@ function createTagEl(data, indexNum) {
     var url = '/tag/' + data.name;
     action.innerHTML = `<td>
                         <a href="${url}" class="view" title="View" data-toggle="tooltip"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
+                        <a  class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fas fa-trash-alt"></i></a>
                         </td>`;
     tr.append(index);
@@ -537,8 +522,8 @@ function createPostEl(data, indexNum) {
     var action = document.createElement('td');
     action.innerHTML = `<td>
                         <a href="${data.url}" class="view" title="View" data-toggle="tooltip"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
+                        <a  class="edit" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
+                        <a  class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fas fa-trash-alt"></i></a>
                         </td>`;
     tr.append(index);
@@ -789,4 +774,69 @@ function roleToStr(role) {
     if (role == UserRole.SUBSCRIBER) return 'Độc giả';
     if (role == UserRole.EDITOR) return 'Biên tập viên';
     if (role == UserRole.ADMIN) return 'Quản trị viên';
+}
+
+const menuItems = [
+    new ContextualItem({label:'Chức năng người dùng', onClick: userFunction}),
+    new ContextualItem({label:'Phân quyền', onClick: userRoleModal}),
+]
+
+function userRoleModal() {
+    var elementRole = elementClickRole;
+    var role = elementRole.text()
+    var selectOption = [{ text: 'Thông thường', value: UserRole.WRITER },
+    { text: 'Phóng viên', value: UserRole.WRITER },
+    { text: 'Độc giả', value: UserRole.SUBSCRIBER },
+    { text: 'Biên tập viên', value: UserRole.EDITOR },
+    { text: 'Quản trị viên', value: UserRole.ADMIN }];
+
+    selectOption.forEach( (e, index) => {
+        if (e.text == role) selectOption.splice(index, 1);
+    })
+    console.log(selectOption);
+    bootbox.prompt({
+        title: `Phân quyền:`,
+        inputOptions: selectOption,
+        // value: 'Biên tập viên',
+        inputType: 'select',
+        callback: function (result) {
+            if (result) {
+                updateUserStatus(elementName.attr('iduser'), { role: result });
+            }
+        },
+        centerVertical: true
+    });
+}
+
+function userFunction() {
+    var elementRole = elementClickRole;
+    var elementName = elementClickName;
+    console.log(elementRole.text());
+    if (elementRole.text() == 'Độc giả') {
+        var remainDay = elementName.attr('remainDay');
+        var selectOption = [{text: '3 Ngày', value: 3},
+                            {text: '7 Ngày', value: 7},
+                            {text: '10 Ngày', value: 10},
+                            {text: '14 Ngày', value: 14}];
+        
+        bootbox.prompt({
+            title: `Thời gian còn lại ${remainDay}, gia hạn thêm: `,
+            inputOptions: selectOption,
+            value: '3 Ngày',
+            inputType: 'select',
+            callback: function (result) {
+                if (result) {
+                    updateUserStatus(elementName.attr('iduser'), {remainDay: result});
+                }
+            },
+            centerVertical: true
+        });
+    } else if (elementRole.text() == 'Biên tập viên') {
+        var category = JSON.parse(elementName.attr('category'));
+        updateEditorModal(category, allCategory);
+        $("#userEditor").attr('iduser', elementName.attr('iduser'));
+        $("#applyEditorCat").css('visibility', 'visible');
+        $("#userEditor").modal('show');
+
+    } else Message("Không có chứ năng cho người dùng này!", false);
 }
