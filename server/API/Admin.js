@@ -73,7 +73,6 @@ function _get_category(req, res) {
         var data = ParseData(search, perPage, page, records);
 
         var resData = {total: records.length, data: data};
-        //console.log(records);
         res.status(200).send(resData);
     })
 }
@@ -98,7 +97,6 @@ function _get_tag(req, res) {
         }
 
         if (records) {
-            //console.log(records);
             var data = ParseData(search, perPage, page, records);
             var resData = {total: records.length, data: data};
             return res.status(200).send(resData);
@@ -154,11 +152,11 @@ function _get_post(req, res) {
     var type = req.query.type;
     var filter = req.query.filter || {};
     var id = req.query.id;
-    console.log(`[AdminAPI] Get post`)
-    console.log( req.query)
+    var author = req.query.author;
+    if (author && author=='this') author = req.user.id;
+    console.log(`[AdminAPI] Get post [perpage:${perPage}][page:${page}][search:${search}][type:${type}][filter:${filter}][id:${id}][author:${author}]`);
 
     if (id) {
-        console.log(`[AdminAPI] Get post id ${id}`)
         PostDB.getFromId(id, (err, record) => {
             if (err) return res.status(500).send(err);
             if (!record) return res.status(404).send("NotFound");
@@ -166,16 +164,20 @@ function _get_post(req, res) {
         })
     }else 
     {
-        console.log(filter);
+        if (author) filter.author = author;
         PostDB.get(filter, (err, records) => {
             if (err) {
                 return res.status(500).send(err);
             }
 
             if (records) {
-                var data = ParseData(search, perPage, page, records);
+                var data;
+                if (page) data = ParseData(search, perPage, page, records);
+                else data = records;
                 var simpleData = [];
                 if (type == 'simple') {
+                    if (data.length == 0) return res.status(200).send({ total: 0, data: [] });
+
                     data.forEach((element, index) => {
                         SimplePost(element, (result) => {
                             simpleData.push(result);
@@ -323,7 +325,6 @@ function createCategory(name, group, cb) {
         }
 
         if (records.length != 0) {
-            console.log(records);
             cb("Chuyên mục đã được đăng ký!");
         }else {
             CatDB.create(name, group, url, (err, record) => {
@@ -443,16 +444,16 @@ function SimplePost(data, cb) {
     var res = {};
     res.title = data.title;
     res.category = data.category;
-    //res.author
     res.state = stateToStr(data.status);
     res.publishDate = ToShortDate(data.post_date);
     res.view = data.view;
     res.url = data.post_url;
     res.id = data._id;
-    UserDB.getFromUid(res.author, (err, record) => {
+    UserDB.getFromUid(data.author, (err, record) => {
         var authorName;
+
         if (err || !record) authorName = "Không xác định";
-        else authorName = record.name;
+        else authorName = record.username;
 
         res.author = authorName;
         cb(res);
@@ -464,6 +465,7 @@ function SimpleUser(data) {
     var res = {};
     res.name = data.username;
     res.role = roleToStr(data.role);
+    console.log(data);
     res.joinDate = ToShortDate(data.joinDate);
     res.id = data._id;
     if (data.role == UserRole.SUBSCRIBER) {
@@ -508,7 +510,10 @@ function roleToNum(role) {
 }
 function ToShortDate(date) {
     var jsDate = new Date(date);
-    return jsDate.getDay() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
+    // console.log(`[ToShortDate] ${date}`);
+    var res = jsDate.getDay() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
+    // console.log(`[ToShortDate] ${res}`);
+    return res;
 }
 
 function validateRemainDay(remainDay) {
@@ -519,7 +524,7 @@ function validateRemainDay(remainDay) {
 
 function _validateAdmin(req, res, next) {
 
-    if (req.user.role != ROLE.ADMIN && req.user.role != ROLE.EDITOR) {
+    if (req.user.role != ROLE.ADMIN && req.user.role != ROLE.EDITOR && req.user.role != ROLE.WRITER) {
         console.log(`[UserAPI] User ${req.user.id} Permission Denied`);
         return res.status(401).send("Permission Denied");
     }

@@ -5,167 +5,186 @@
     <title>Tạo bài báo mới</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">    
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">    
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/pagination.css">
+    
 
 </head>
-<% include fragment/header_user %>
-<body class="bg-secondary">
 
-    <div id="header" style="margin-top:80px;"></div>
-    <div class="wrapper">
+<body class="bg-secondary" iduser='<%= %>'>
+    <% include fragment/header_user %>
 
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-
-            <!-- Links -->
-            <ul class="navbar-nav">
-                <a class="navbar-brand" href="#">Dành cho phóng viên</a>
-                <li class="nav-item">
-                    <a class="nav-link" href="PhanHePhongVien1.html">Tất cả bài viết</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Tạo bài viết mới</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Bài viết tạm lưu</a>
-                </li>
-            </ul>
-
-        </nav>
-
-        <!-- Page Content -->
-        <div id="content" class="container border bg-white" style="margin-top: 10px">
-            <h1>Thêm bài viết</h1>
-            <label for="post_title" style="font-weight: bold;">Tiêu đề:</label>
-            <input type="text" class="form-control rounded border border-primary" id="post_title" name="post_title"
-                placeholder="Nhập tiêu đề  bài viết ở đây">
-
-            <label for="post_summary" style="font-weight: bold;">Tóm tắt:</label>
-            <textarea class="form-control rounded border border-primary" id="post_summary" rows="3"
-                placeholder="Nhập tóm tắt nội dung bài viết ở đây"></textarea>
-                
-            <label for="post_image" style="font-weight: bold;">Ảnh bìa:</label>
-            <div class="custom-file mb-3">
-                <input type="file" class="custom-file-input" id="post_image">
-                <label class="custom-file-label" for="post_image">Choose file</label>
+    <div  class="container" style="margin-top:8%; background-color: white; padding-bottom: 30px; padding-top: 30px" >
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a class="nav-link" data-toggle="tab" href="#allpost" style="color: rgb(0, 0, 255)">Tất cả bài viết</a>
+            </li>
+            <li>
+                <a class="nav-link" data-toggle="tab" href="#newpost">Tạo bài viết mới</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id='allpost' class="container tab-pane active">
+                <h1>Danh sách bài viết</h1>
+                <div class="input-group" style="border-bottom: 5px solid; padding-bottom: 10px">
+                    <button id='approveBtn' type="button" class="btn btn-primary" style="margin-right: 10px">Đã được duyệt & chờ xuất
+                        bản (1)</button>
+                    <button id='publishBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Đã xuất bản
+                        (1)</button>
+                    <button id='rejectBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Bị từ chối
+                        (1)</button>
+                    <button id='waitingBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Chưa được duyệt
+                        (1)</button>
+                    <button id='draftBtn' type="button" class="btn btn-outline-dark" style="margin-right: 10px">Lưu tạm</button>
+                    <div class="input-group-append">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm bài viết">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table id='tbPost' class="table table-hover" style="margin-top: 10px">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Chuyên mục</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Bài số 1</td>
+                            <td>Chuyên mục 3</td>
+                            <td><span class="badge badge-success">Đã xuất bản</span></td>
+                            <td>
+                                <div class="input-group">
+                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger" type="button"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Bài số 2</td>
+                            <td>Chuyên mục 1</td>
+                            <td><span class="badge badge-primary">Đã được duyệt</span></td>
+                            <td>
+                                <div class="input-group">
+                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger" type="button"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Bài số 3</td>
+                            <td>Chuyên mục 5</td>
+                            <td><span class="badge badge-warning">Chưa được duyệt</span></td>
+                            <td>
+                                <div class="input-group">
+                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger" type="button"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Bài số 4</td>
+                            <td>Chuyên mục 2</td>
+                            <td><span class="badge badge-danger">Đã bị từ chối</span></td>
+                            <td>
+                                <div class="input-group">
+                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-danger" type="button"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="pagination_post" class="d-flex justify-content-center">
+                </div>
             </div>
+            <div id='newpost' class='container tab-pane'>
+                <h1>Thêm bài viết</h1>
+                <label for="post_title" style="font-weight: bold;">Tiêu đề:</label>
+                <input type="text" class="form-control rounded border border-primary" id="post_title" name="post_title"
+                    placeholder="Nhập tiêu đề  bài viết ở đây">
 
-            <label for="post_content" style="font-weight: bold;">Nội dung:</label>
-            <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea></br>
-            <label for="post_tag" style="font-weight: bold;">Thêm nhãn tag:</label>
-            <input type="text" class="form-control rounded border border-primary" id="post_tag" name="post_tag"
-                placeholder="Nhập nhãn tag">
-            <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
-                
-                <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Chọn chuyên mục cho bài viết:</label>
-                <div class="input-group">
-                        <select class="custom-select" id="post_category_list" aria-label="Example select with button addon">
-                        <% for (var i=0; i< categories.length; i++) {
-                            if (i == 0) { %>
-                          <option selected value="<%= categories[i].name %>"><%= categories[i].name %></option>
-                          <% } else {%>
-                          <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
-                          <% } }%>
+                <label for="post_summary" style="font-weight: bold;">Tóm tắt:</label>
+                <textarea class="form-control rounded border border-primary" id="post_summary" rows="3"
+                    placeholder="Nhập tóm tắt nội dung bài viết ở đây"></textarea>
+
+                <label for="post_image" style="font-weight: bold;">Ảnh bìa:</label>
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="post_image">
+                    <label class="custom-file-label" for="post_image">Choose file</label>
+                </div>
+
+                <label for="post_content" style="font-weight: bold;">Nội dung:</label>
+                <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea></br>
+                <label for="post_tag" style="font-weight: bold;">Thêm nhãn tag:</label>
+                <input type="text" class="form-control rounded border border-primary" id="post_tag" name="post_tag"
+                    placeholder="Nhập nhãn tag">
+                <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
+
+                    <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Chọn chuyên mục cho bài
+                        viết:</label>
+                    <div class="input-group">
+                        <select class="custom-select" id="post_category_list"
+                            aria-label="Example select with button addon">
+                            <% for (var i=0; i< categories.length; i++) {
+                                    if (i == 0) { %>
+                            <option selected value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                            <% } else {%>
+                            <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                            <% } }%>
                         </select>
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary  btn-primary" type="button"><i class="fas fa-plus"></i></button>
+                            <button class="btn btn-outline-secondary  btn-primary" type="button"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
-                      </div>
-            </div>
-            <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
-                
-                    <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Loại bài viết:</label>
-                    <div class="input-group">
-                            <select class="custom-select" id="post_premium" aria-label="Example select with button addon">
-                              <option selected value="0">Bài viết thông thường</option>
-                              <option value="1">Bài viết premium</option>
-                            </select>
-                          </div>
+                    </div>
                 </div>
-            <div class="container" style="margin-top: 10px; margin-bottom: 10px">
-                <button class="btn btn-primary" type="button" id="sendPost">Gửi bài</button>
-                <button class="btn btn-secondary" type="button">Lưu bài</button>
+                <div class="container" style="margin-top: 10px; margin-bottom: 10px">
+                    <button class="btn btn-primary" type="button" id="sendPost">Gửi bài</button>
+                    <button class="btn btn-secondary" type="button" id='savePost'>Lưu bài</button>
+                </div>
             </div>
         </div>
 
     </div>
-    <!-- </div> -->
     <% include fragment/footer %>
     <script src="/js/jquery.min.js" type="text/javascript"></script>
     <script src="/js/bootstrap.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <script>
-        CKEDITOR.config.entities = false;
-        
-        CKEDITOR.replace('post_content');
-        var _image_url = "#";
-        $(".custom-file-input").on("change", function () {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-
-        });
-        $("#post_image").change(function () {
-                var curFiles = this.files;
-                var token = Cookies.get('token');
-                if (!token) {
-                    var inforUrl = location.protocol + '//' + window.location.host + '/';
-                    //document.location.replace(inforUrl);
-                }
-
-                var fd = new FormData() ;
-                fd.append("image", curFiles[0])
-                console.log(fd.toString());
-                $.ajax({
-                    url: '/api/post/uploadpostimage'+'?&token=' + token + "&audience=" + navigator.userAgent,
-                    type: 'POST',
-                    data: fd  ,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                       _image_url = response;
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
-                });
-            });
-        $("#sendPost").click(function () {
-            var token = Cookies.get('token');
-            if (!token) {
-                var inforUrl = location.protocol + '//' + window.location.host + '/';
-                document.location.replace(inforUrl);
-            }
-            var post = {
-                title: document.getElementById("post_title").value,
-                category: document.getElementById("post_category_list").value,
-                image_url: _image_url,
-                tag: document.getElementById("post_tag").value.split(" "),
-                content: CKEDITOR.instances.post_content.getData(),
-                summary: document.getElementById("post_summary").value,
-                premium : document.getElementById("post_premium").value
-            }
-            
-            $.ajax({
-                url: '/api/post/uploadnewpost',
-                type: 'POST',
-                data: { token: token, audience: navigator.userAgent, post },
-                success: function (response) {
-                    console.log(response);
-                    var newpostUrl = location.protocol + '//' + window.location.host + '/new/newpost';
-                    document.location.replace(newpostUrl);
-                },
-                error: function (err) {
-                    var msg = baseHTMLmsg.replace('_msgtype', 'danger')
-                        .replace('_msgcontent', err.responseJSON.error);
-                    console.log(err);
-                }
-            });
-        })
-    </script>
+    <script src="/js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="/js/pagination.js"></script>
+    <script src="/js/bootbox.all.js"></script>
+    <script src='/js/writter.js'></script>
 </body>
 
 </html>

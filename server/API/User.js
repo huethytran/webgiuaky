@@ -124,14 +124,14 @@ function checkAccount(user){
 }
 function _post_updateinfo(req, res) {
     var status = 200;
-    UpdateUserInformation(req.user, req.body, (err, record) => {
+    UpdateUserInformation(req.user.id, req.body, (err, record) => {
         if (typeof err === 'string' && err != 'Null data return') {
             status = 406;
             res.status(status).send(err);
             return;
         } else if (err) {
             status = 500;
-            res.status(status).send('Internal Server Error');
+            res.status(status).send('InternalServerError');
             return;
         }
         res.status(200).send("Cập nhật thông tin thành công");
@@ -194,9 +194,9 @@ function _post_resetpw(req, res) {
         } else res.status(406).send('Mật khẩu không phù hợp');
         return;
     }
-    UserDB.getFromUid(req.user, (err, record) => {
+    UserDB.getFromUid(req.user.id, (err, record) => {
         if (err) {
-            console.log(`[UserAPI] Failed to get user ${req.user} information`);
+            console.log(`[UserAPI] Failed to get user ${req.user.id} information`);
             console.log(err);
         } else {
             if(UserDB.validatePassword(req.body.oldPassword, record.pwd) == false) {
@@ -204,7 +204,7 @@ function _post_resetpw(req, res) {
                 return;
             }
             var data = {pwd: req.body.newPassword};
-            UserDB.update(req.user, data, function (err, record) {
+            UserDB.update(req.user.id, data, function (err, record) {
                 if (err || !record) {
                     res.status(500).send('Có lỗi xảy ra trong quá trình cập nhật dữ liệu, vui lòng thao tác lại')
                     return;

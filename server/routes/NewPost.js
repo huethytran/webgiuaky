@@ -1,12 +1,12 @@
 
 const controller = require("../controllers/NewPost");
-const APIPost = require("../API/Post");
+const needLogin = require("../controllers/User").needLogin;
 var multer = require('multer');
 var express = require('express');
 var funcRouter = express.Router();
-var upload = multer({ dest: 'uploads/' })
-module.exports  = () => {
-    funcRouter.get('/newpost',controller.newpost);
+module.exports = () => {
+    
+    funcRouter.get('/newpost', needLogin, controller.validateWriter, controller.newpost);
     
     return funcRouter;
 }

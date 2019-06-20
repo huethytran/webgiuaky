@@ -25,5 +25,7 @@ module.exports = (router) => {
     router.use('/editor', editor());
     router.use('/api/editor', apieditor());
     router.use('/', mainpage());
+    //router.use('/*', postslist());
+    
     return router;
 }

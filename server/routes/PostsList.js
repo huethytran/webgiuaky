@@ -5,6 +5,8 @@ var express = require('express');
 var funcRouter = express.Router();
 var upload = multer({ dest: 'uploads/' })
 module.exports  = () => {
-    funcRouter.get('/:CatName/:page', controller.categoryposts);
+    funcRouter.get('/', controller.categoryposts);
+
+    funcRouter.get('/:CatName', controller.categoryposts);
     return funcRouter;
 }

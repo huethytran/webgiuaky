@@ -20,7 +20,7 @@ module.exports = {
 function _post_newpost(req, res){
     var post = {
         title: req.body.post.title,
-        image_title: "...",
+        image_title: "/images/defaultpost.jpg",
         category: req.body.post.category,
         content: req.body.post.content,
         post_date: new Date(),
@@ -32,6 +32,7 @@ function _post_newpost(req, res){
         premium: req.body.post.premium,
         status: 2
     };
+    if (req.body.post.status) post.status = req.body.post.status;
     for( var i = 0; i< post.tag.length; i++)
         createTag(post.tag[i]);
     CategoryDB.updateNumberOfPosts(post.category, function(err, record){

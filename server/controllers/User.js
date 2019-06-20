@@ -21,7 +21,8 @@ function _get_register(req, res) {
 function _get_manager(req, res) {
     if (req.session.user.role == ROLE.EDITOR) res.redirect('/editor/manager');
     else if (req.session.user.role == ROLE.ADMIN) res.redirect('/admin/manager');
-    else res.status(200).send('/');
+    else if (req.session.user.role == ROLE.WRITER) res.redirect('/writter/newpost');
+    else res.redirect('/');
 }
 function _get_accountrenewal(req, res){
     UserDB.getFromUid(req.session.user.id, function(err, user){

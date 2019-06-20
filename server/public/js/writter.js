@@ -73,7 +73,7 @@ $(document).ready(() => {
         $("#publishBtn").attr('class', 'btn btn-outline-primary')
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
-        $("#draftBtn").attr('class', 'btn btn-outline-primary')
+        $("#draftBtn").attr('class', 'btn btn-outline-dark')
         updatePostTable(null, 3)
     })
 
@@ -83,7 +83,7 @@ $(document).ready(() => {
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
-        $("#draftBtn").attr('class', 'btn btn-outline-primary')
+        $("#draftBtn").attr('class', 'btn btn-outline-dark')
         updatePostTable(null, 4)
     })
 
@@ -93,7 +93,7 @@ $(document).ready(() => {
         $("#publishBtn").attr('class', 'btn btn-outline-primary')
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
-        $("#draftBtn").attr('class', 'btn btn-outline-primary')
+        $("#draftBtn").attr('class', 'btn btn-outline-dark')
         updatePostTable(null, 5)
     })
 
@@ -103,13 +103,13 @@ $(document).ready(() => {
         $("#publishBtn").attr('class', 'btn btn-outline-primary')
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
-        $("#draftBtn").attr('class', 'btn btn-outline-primary')
+        $("#draftBtn").attr('class', 'btn btn-outline-dark')
         updatePostTable(null, 2)
     })
 
     $("#draftBtn").click((e) => {
         numUpdate = 1;
-        $("#draftBtn").attr('class', 'btn btn-primary')
+        $("#draftBtn").attr('class', 'btn btn-dark')
         $("#publishBtn").attr('class', 'btn btn-outline-primary')
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
@@ -171,7 +171,7 @@ function sendPost(state) {
         content: CKEDITOR.instances.post_content.getData(),
         summary: document.getElementById("post_summary").value
     }
-    if (state) post.state = state;
+    if (state) post.status = state;
     $.ajax({
         url: '/api/post/uploadnewpost',
         type: 'POST',
@@ -234,17 +234,20 @@ function updatePostTable(sources, state) {
             var publish = 0;
             var reject = 0;
             var waiting = 0;
+            var draft = 0;
             response.data.forEach(element => {
                 if (element.state == 'Đã duyệt') approve = approve + 1;
                 else if (element.state == 'Đã xuất bản') publish = publish + 1;
                 else if (element.state == 'Từ chối') reject = reject + 1;
                 else if (element.state == 'Chờ duyệt') waiting = waiting + 1;
+                else if (element.state == 'Tạm lưu') draft = draft + 1;
                 console.log(element.state);
             });
             $("#approveBtn").text(`Đã được duyệt (${approve})`);
             $("#publishBtn").text(`Đã xuất bản (${publish})`);
             $("#rejectBtn").text(`Bị từ chối (${reject})`);
             $("#waitingBtn").text(`Chưa được duyệt (${waiting})`);
+            $("#draftBtn").text(`Tạm lưu (${draft})`);
             numUpdate += 1;
             console.log("NulUp: " + numUpdate);
             if (numUpdate == maxUpdate) {
