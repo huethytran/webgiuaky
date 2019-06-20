@@ -224,7 +224,7 @@ function _post_avatar(req, res) {
             if (filePath) {
                 filePath = filePath.replace("public", '');
                 var data = { avatar: filePath };
-                UserDB.update(req.user, data, function (err, record) {
+                UserDB.update(req.user.id, data, function (err, record) {
                     if (err) {
 
                         res.status(403)

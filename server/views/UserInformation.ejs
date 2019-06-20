@@ -204,7 +204,7 @@
                 fd.append("image", curFiles[0])
                 console.log(fd.toString());
                 $.ajax({
-                    url: '/api/user/avatar'+'?&token=' + token + "&audience=" + navigator.userAgent,
+                    url: '/api/user/avatar?token=' + token + "&audience=" + navigator.userAgent,
                     type: 'POST',
                     data: fd  ,
                     contentType: false,
@@ -216,8 +216,9 @@
                         $("#message").html(msg);
                     },
                     error: (err) => {
+                        console.log(err);
                         var msg = baseHTMLmsg.replace('_msgtype', 'danger')
-                            .replace('_msgcontent', err);
+                            .replace('_msgcontent', err.responseText);
                         $("#message").html(msg);
                     }
                 });
