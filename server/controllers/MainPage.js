@@ -7,8 +7,11 @@ module.exports = {
 
 function _load_home(req, res) {
     var userId = "";
+    var fbtoken="";
     if (req.session.user) 
         userId = req.session.user.id;
+    if (req.user)
+     fbtoken =  req.session.user.token;
     PostDB.getNewPosts(function(err, newPosts){
         if (err) console.log("Có lỗi xảy ra");
         else {
@@ -20,7 +23,7 @@ function _load_home(req, res) {
                         else {
                             PostDB.getHotNewsInWeek(function(err, hotNewsInWeek){
                                 if (err) console.log("Có lỗi xảy ra");
-                                else res.render("Home", {newPosts: newPosts, mostViewPosts: mostViewPosts, top10Cate: top10Cate, hotNewsInWeek: hotNewsInWeek, userId: userId});
+                                else res.render("Home", {newPosts: newPosts, mostViewPosts: mostViewPosts, top10Cate: top10Cate, hotNewsInWeek: hotNewsInWeek, userId: userId, fbtoken: fbtoken});
                             })
                         }
                     })

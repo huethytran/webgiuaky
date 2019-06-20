@@ -20,6 +20,7 @@ var postSchema = mongoose.Schema({
     image_url: String,
     summary: String,
     view: Number,
+    premium: Number,
     status: Number     
 });
 postSchema.index({
@@ -181,7 +182,20 @@ exports.count = (options, cb) => {
         return cb(null, num);
     })
 }
-
+exports.getPagePosts = function (perPage, page, category, cb){
+    
+    PostModel
+    .find({category: category})
+    .sort({post_date: -1})
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+    .exec(function (err, posts) {
+        PostModel.count().exec(function(err, count) {
+        if (err) return cb(err);
+        cb(null, posts, page,Math.ceil(count / perPage) );
+      })
+    })
+}
 
 exports.get = function (options, cb) {
     PostModel.find(options, function (err, data) {

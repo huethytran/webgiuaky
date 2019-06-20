@@ -8,7 +8,7 @@ module.exports = () => {
     userAPI.post('/forgotpassword', controller.forgotpassword);
     userAPI.post('/register',       controller.register);
     userAPI.post('/login',          controller.login);
-
+    userAPI.post('/sendrequest',    controller.validateToken, controller.sendrequest);
     userAPI.get('/information',     controller.validateToken, controller.getinfo);
     userAPI.post('/resetpassword',  controller.validateToken, controller.resetpassword);
     userAPI.post('/information',    controller.validateToken, controller.updateinfo);

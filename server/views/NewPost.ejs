@@ -74,6 +74,16 @@
                         </div>
                       </div>
             </div>
+            <div class="border rounded border-primary" style="margin-top: 10px; padding: 10px">
+                
+                    <label for="sel1" style="margin-top: 10px" style="font-weight: bold;">Loại bài viết:</label>
+                    <div class="input-group">
+                            <select class="custom-select" id="post_premium" aria-label="Example select with button addon">
+                              <option selected value="0">Bài viết thông thường</option>
+                              <option value="1">Bài viết premium</option>
+                            </select>
+                          </div>
+                </div>
             <div class="container" style="margin-top: 10px; margin-bottom: 10px">
                 <button class="btn btn-primary" type="button" id="sendPost">Gửi bài</button>
                 <button class="btn btn-secondary" type="button">Lưu bài</button>
@@ -135,7 +145,8 @@
                 image_url: _image_url,
                 tag: document.getElementById("post_tag").value.split(" "),
                 content: CKEDITOR.instances.post_content.getData(),
-                summary: document.getElementById("post_summary").value
+                summary: document.getElementById("post_summary").value,
+                premium : document.getElementById("post_premium").value
             }
             
             $.ajax({

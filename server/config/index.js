@@ -13,6 +13,14 @@ module.exports = {
         EDITOR: 4,
         ADMIN: 5,
     },
+    UserRequest:{
+        ISNOTREQUEST: 0,
+        ISREQUEST: 1 
+    },
+    TypeOfPost:{
+        NORMAL: 0,
+        PREMIUM: 1
+    },
     NotifyPriority: {
         NORMAL: 1,      // user vs user
         IMPORTANT: 2,   // from admin

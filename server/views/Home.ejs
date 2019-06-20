@@ -91,7 +91,7 @@
                   <div class="carousel-item active">
                     <div class="slideimg">
                         <div class="category-carousel">
-                            <a href="/posts/<%= hotNewsInWeek[0].category%>"><%= hotNewsInWeek[0].category%></a>
+                            <a href="/posts/<%= hotNewsInWeek[0].category%>/1"><%= hotNewsInWeek[0].category%></a>
                         </div>
                         <div class="time">
                         <i class="far fa-clock"></i>
@@ -108,7 +108,7 @@
                     <div class="carousel-item">
                         <div class="slideimg">
                             <div class="category-carousel">
-                                <a href="/posts/<%= hotNewsInWeek[i].category%>"><%= hotNewsInWeek[i].category%></a>
+                                <a href="/posts/<%= hotNewsInWeek[i].category%>/1"><%= hotNewsInWeek[i].category%></a>
                             </div>
                             <div class="time">
                             <i class="far fa-clock"></i>
@@ -146,7 +146,7 @@
                     </div>
                     <div class="post-data">
                         <div class="post-category">
-                            <a href="/posts/<%= post.category%>"><%= post.category%></a>
+                            <a href="/posts/<%= post.category%>/1"><%= post.category%></a>
                           </div>
                           <div class="post-title">
                             <a href="/postdetail/<%= post.category%>/<%= post._id%>"><p><%= post.title%></p></a>
@@ -190,7 +190,7 @@
                           </div>
                           <div class="post-data">
                               <div class="post-category">
-                                <a href="/posts/<%= mostViewPosts[i].category%>"><%= mostViewPosts[i].category %></a>
+                                <a href="/posts/<%= mostViewPosts[i].category%>/1"><%= mostViewPosts[i].category %></a>
                               </div>
                               <div class="post-title">
                                 <a href="/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>"><h6><%= mostViewPosts[i].title %></h6></a>
@@ -267,7 +267,7 @@
               </div>
               <div class="post-data">
                   <div class="post-category">
-                    <a href="/posts/<%= newPosts[i].category%>"><%= newPosts[i].category %></a>
+                    <a href="/posts/<%= newPosts[i].category%>/1"><%= newPosts[i].category %></a>
                     <span><%= getDateTime(newPosts[i].post_date) %></span>
                       <i class="far fa-clock"></i>
                      
@@ -358,7 +358,7 @@
                   </div>
                   <div class="post-data">
                       <div class="post-category">
-                        <a href="/posts/<%= top10Cate[i].category%>"><%= top10Cate[i].category%></a>
+                        <a href="/posts/<%= top10Cate[i].category%>/1"><%= top10Cate[i].category%></a>
                         <span><%= getDateTime(top10Cate[i].post_date)%></span>
                           <i class="far fa-clock"></i>
                          
@@ -380,7 +380,7 @@
       <div class="top10Categories">
         <h6>Top 10 chuyên mục</h6>
         <% for (var i=0; i < top10Cate.length; i++) {%>
-        <div class="top10"><a class="number"  href="/posts/<%= top10Cate[i].category%>"><%= i+1%>.</a><a class="cate" href="#"><%= top10Cate[i].category%></a></div>
+        <div class="top10"><a class="number"  href="/posts/<%= top10Cate[i].category%>/1"><%= i+1%>.</a><a class="cate" href="#"><%= top10Cate[i].category%></a></div>
         <%}%>
       </br></br>
       </div>
@@ -407,7 +407,13 @@
   <script src="/js/popper.min.js"></script>
   <script src="/js/script.js"></script>
   <script src="/js/owl.carousel.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+       if (!Cookies.get('token'))
+       Cookies.set('token',"<%= fbtoken%>");
+    });
+    </script>
 
 </body>
 </html>

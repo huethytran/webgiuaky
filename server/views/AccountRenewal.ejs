@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gia hạn tài khoản</title>
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+</head>
+
+<body style="background-color: #f0e9d3">
+    <% include fragment/header_user %>
+    <% function checkTime(i) 
+    {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    function getDate(datetime)
+    {
+        return checkTime(datetime.getDate()) + "/" + checkTime(datetime.getMonth()) + "/" + datetime.getFullYear();
+    } %>
+    <div class="divtotal" style="background-color: #fff">
+        <div class="container">
+            <div class="row my-2">
+                    <div class="contact">
+                            <h6>Subcriber</h6>
+                            <p>Hãy gia hạn tài khoản của bạn để có thể xem được những bài viết premium mới nhất</p>
+                            <b>Ngày hết hạn: </b><b><%= getDate(user.expDate)%></b>
+                            <div class="form-group">
+                                <% if (user.request == 0 ){%>
+                                <button type="submit" class="btn" onclick="sendRequest()" id="send">Gửi yêu cầu gia hạn tài khoản</button> 
+                                <% }else{ %>
+                                <button type="submit" class="btn" style="color: #ffc107;  background-color: #fff">Đã gửi yêu cầu gia hạn tài khoản</button><%}%>
+                            </div>
+                          </div>
+            </div>
+        </div>
+    </div>
+    <% include fragment/footer %>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        $(document).ready(function () {
+     });
+        function sendRequest()
+        {
+            document.getElementById("send").innerHTML = "Đã gửi yêu cầu gia hạn tài khoản";
+            var token = Cookies.get('token');
+            if (!token) {
+                var inforUrl = location.protocol + '//' + window.location.host + '/';
+               document.location.replace(inforUrl);
+            }
+            var user = {};
+            user._id = "<%= user._id%>";
+            user.request = 1;
+            $.ajax({
+                url: '/api/user/sendrequest',
+                type: 'POST',
+                data: { token: token, audience: navigator.userAgent, user },
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

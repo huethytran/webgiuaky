@@ -1,5 +1,5 @@
 var jwt = require('../helpers/jwt');
-var config = require("../config")
+var config = require("../config");
 var helper = require("../helpers");
 var UserDB = require("../models/User");
 var {PriorityQueue} = require("../helpers/PriorityQueue");
@@ -14,16 +14,28 @@ module.exports = {
     avatar: _post_avatar,
     getinfo: _get_information,
     forgotpassword: _post_forgotpassword,
-    validateToken: _validateToken
+    validateToken: _validateToken,
+    sendrequest: _post_sendrequest
 }
 
+function _post_sendrequest(req, res){
+    UserDB.updateRequest(req.body.user._id, req.body.user, function(err, request){
+        if (err) {
+            console.log("Gửi yêu cầu thất bại");
 
+        }
+        else {
+            console.log("Gửi yêu cầu thành công");
+        }
+    })
+}
 function _post_register(req, res) {
     var data = {
         username: req.body.inputUsername,
         birthday: new Date(),
         email: req.body.inputEmail,
         pwd: req.body.inputPassword,
+        expDate: new Date(),
         avatar: '/images/user-ava.jpg',
         favoriteCategoty: [],
         address: {street:'', ward: '', district: '', city: ''},
@@ -33,6 +45,7 @@ function _post_register(req, res) {
         likes: 0,
         comments: 0,
         shares: 0,
+        request: 0
     };
 
     var result = {};
@@ -85,7 +98,8 @@ function _post_login(req, res) {
                 var option = {issuer: 'web2019', subject: 'dummy@dummy.com',audience: req.body.audience };
                 var playload = {user: data._id, role: data.role};
                 var token = jwt.sign(playload, option);
-
+                if (data.role == 3)
+                    checkAccount(data);
                 req.session.user = {id: data._id, role: data.role};
                 status = 200;
                 result.status = status;
@@ -102,7 +116,11 @@ function _post_login(req, res) {
         }
     })
 }
-
+function checkAccount(user){
+    var now = new Date();
+    if (now.getTime() > user.expDate.getTime())
+        UserDB.updateRole(user._id);
+}
 function _post_updateinfo(req, res) {
     var status = 200;
     UpdateUserInformation(req.user, req.body, (err, record) => {
@@ -142,8 +160,7 @@ function _post_forgotpassword(req, res) {
     })
 }
 function _get_information(req, res) {
-    // console.log(req.url);
-    console.log("Begin update document...")
+    console.log(req.id);
     BuildUserInfomation(req.user.id, function (err, userInfo) {
         if (err) {
             console.log("[User API] Failed to build user information: " + err);
@@ -249,7 +266,6 @@ function PassWordValidate(pwd, pwd2) {
     if (pwd === pwd2) return 0;
     return 2;
 }
-
 function BuildUserInfomation(userUid, cb) {
     if (!userUid) return cb("InvaildUserUid");
     UserDB.getFromUid(userUid, (err, userdata) => {

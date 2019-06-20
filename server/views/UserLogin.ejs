@@ -53,11 +53,12 @@
                 <a href="/user/forgotpassword">Quên mật khẩu?</a>
               </div>
               <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
-                  class="fab fa-google mr-2"></i> Đăng nhập với Google</button>
-              <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i 
-                  class="fab fa-facebook-f mr-2"></i> Đăng nhập với Facebook</button>
+             
             </form>
+            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
+              class="fab fa-google mr-2"></i> Đăng nhập với Google</button>
+         <a href="/user/fb" ><button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i 
+              class="fab fa-facebook-f mr-2"></i> Đăng nhập với Facebook</button></a>
           </div>
         </div>
       </div>
@@ -93,6 +94,26 @@
         }
       });
     })
+   /* function loginfacebook()
+    {
+      $.ajax({
+        url: '/user/fb',
+        type: 'POST',
+        data: { audience: navigator.userAgent},
+        success: function (response) {
+          console.log(response.token);
+          Cookies.set('token', response.token);
+          var inforUrl = location.protocol + '//' + window.location.host  + '/news/home';
+          document.location.replace(inforUrl);
+        },
+        error: function(err) {
+          var msg = baseHTMLmsg.replace('_msgtype', 'danger')
+            .replace('_msgcontent',err.responseJSON.error);
+            console.log(err);
+            $("#message").html(msg);
+        }
+      });
+    }*/
   </script>
 </body>
 

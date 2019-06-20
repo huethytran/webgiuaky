@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="post-data">
                                             <div class="post-category">
-                                              <a href="/posts/<%= hotPosts[0].category%>"><%= hotPosts[0].category%></a>
+                                              <a href="/posts/<%= hotPosts[0].category%>/1"><%= hotPosts[0].category%></a>
                                               <span><%= getDateTime(hotPosts[0].post_date)%></span>
                                                 <i class="far fa-clock"></i>
                                                
@@ -74,7 +74,7 @@
                                                 </div>
                                                 <div class="post-data">
                                                     <div class="post-category">
-                                                      <a href="/posts/<%= hotPosts[1].category%>"><%= hotPosts[1].category%></a>
+                                                      <a href="/posts/<%= hotPosts[1].category%>/1"><%= hotPosts[1].category%></a>
                                                       <span><%= getDateTime(hotPosts[1].post_date)%></span>
                                                         <i class="far fa-clock"></i>
                                                        
@@ -96,7 +96,7 @@
                                                     </div>
                                                     <div class="post-data">
                                                         <div class="post-category">
-                                                          <a href="/posts/<%= hotPosts[2].category%>"><%= hotPosts[2].category%></a>
+                                                          <a href="/posts/<%= hotPosts[2].category%>/1"><%= hotPosts[2].category%></a>
                                                           <span><%= getDateTime(hotPosts[2].post_date)%></span>
                                                             <i class="far fa-clock"></i>
                                                            
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="post-data">
                                         <div class="post-category">
-                                            <a href="/posts/<%= newPosts[i].category%>"><%= newPosts[i].category%></a>
+                                            <a href="/posts/<%= newPosts[i].category%>/1"><%= newPosts[i].category%></a>
                                           </div>
                                           <div class="post-title">
                                             <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>"><p><%= newPosts[i].title%></p></a>
@@ -152,27 +152,61 @@
                         <div class="section-heading dark-style">
                             <h6>Tin mới nhất</h6>
                         </div>
-
-                        <div class="singlepost another-style">
-                                <div class="post-thumb img-200-2">
-                                    <div class="img-container">
-                                  <a href="XemChiTiet2.html">
-                                      <img  src="images/thethao_1.jpg" alt="...">
-                                  </a>
-                                </div>  
-                                </div>
-                                <div class="post-data">
-                                              <div class="post-title">
-                                                <a href="XemChiTiet2.html"><h5> 9 ứng viên cho danh hiệu Giày vàng châu Âu mùa giải 2018/19</h5></a>
-                                                <div class="post-category">
-                                                        <a href="TheThao.html">Thể thao</a>
-                                                        <span>20/04/2019 01:42:55</span>
-                                                          <i class="far fa-clock"></i>                         
-                                                      </div>
-                                                <p>Lionel Messi đang hướng tới lần thứ 6 giành danh hiệu được trao cho chân sút hay nhất tại các giải vô địch quốc gia châu Âu. Mùa này, anh đã ghi tới 34 bàn cho Barca ở La Liga.</p>
-                                              </div>
-                                </div>
+                        <div class="container">
+                            <div class="row">
+                                <% for (var i = 0; i < posts.length; i++) { %>
+                                  <div class="singlepost another-style">
+                                      <div class="post-thumb img-200-2">
+                                          <div class="img-container">
+                                        <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>">
+                                            <img  src="<%= posts[i].image_url%>" alt="<%= posts[i].image_title%>">
+                                        </a>
+                                      </div>  
+                                      </div>
+                                      <div class="post-data">
+                                                    <div class="post-title">
+                                                      <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>"><h5><%= posts[i].title%></h5></a>
+                                                      <div class="post-category">
+                                                              <a href="/posts/<%= posts[i].category%>/1"><%= posts[i].category%></a>
+                                                              <span><%= getDateTime(posts[i].post_date)%></span>
+                                                                <i class="far fa-clock"></i>                         
+                                                            </div>
+                                                      <p><%= posts[i].summary%></p>
+                                                    </div>
+                                      </div>
+                                  </div>
+                                <% } %>
                             </div>
+                                <% if (pages > 0) { %>
+                                    <ul class="pagination text-center">
+                                        <% if (current == 1) { %>
+                                            <li class="disabled"><a>First</a></li>
+                                        <% } else { %>
+                                            <li><a href="/posts/<%= categoryName%>/1">First</a></li>
+                                        <% } %>
+                                        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                        <% if (i !== 1) { %>
+                                            <li class="disabled"><a>...</a></li>
+                                        <% } %>
+                                        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                            <% if (i == current) { %>
+                                                <li class="active"><a><%= i %></a></li>
+                                            <% } else { %>
+                                                <li><a href="/posts/<%= categoryName%>/<%= i %>"><%= i %></a></li>
+                                            <% } %>
+                                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                                <li class="disabled"><a>...</a></li>
+                                            <% } %>
+                                        <% } %>
+                                        <% if (current == pages) { %>
+                                            <li class="disabled"><a>Last</a></li>
+                                        <% } else { %>
+                                            <li><a href="/posts/<%= categoryName%>/<%= pages %>">Last</a></li>
+                                        <% } %>
+                                    </ul>
+                                <% } %>
+                        </div>
+                        
                             <div class="singlepost another-style">
                                     <div class="post-thumb img-200-2">
                                         <div class="img-container">
@@ -225,11 +259,7 @@
                 </div>
             </div>
         </div>
-        <footer class="text-center bg-dark text-white" style="margin-bottom:0; margin-top:80px">
-            <p>Trang web được phát triển bởi Nhật Minh và Huệ Thy</p>
-            <p><a href="https://www.facebook.com/minh.thainhat.7">Thái Nhật Minh</a>|<a href="https://www.facebook.com/sullie.sone">Huệ Thy</a></p>
-            
-    </footer>
+        <% include fragment/footer %>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/popper.min.js"></script>
         <script src="/js/script.js"></script>

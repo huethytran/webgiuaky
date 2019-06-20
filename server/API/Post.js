@@ -29,6 +29,7 @@ function _post_newpost(req, res){
         image_url: req.body.post.image_url,
         summary: req.body.post.summary,
         view: 0,
+        premium: req.body.post.premium,
         status: 2
     };
     for( var i = 0; i< post.tag.length; i++)
@@ -70,7 +71,13 @@ function createTag(temp){
     })
 }
 function _post_uploadcomment(req, res){
-    UserDB.getFromUid(req.user, function(err, userInfo){
+    var userId;
+    if (req.session.user)
+        userId = req.session.user.id;
+    if (req.user)
+        userId = req.user.id;
+    console.log("hello",userId);
+    UserDB.getFromUid(userId, function(err, userInfo){
         if (err) console.log("Lấy user thất bại");
         else {
             var _comment = {};

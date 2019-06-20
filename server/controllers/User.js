@@ -9,7 +9,8 @@ module.exports = {
     resetpassword: _get_resetpassword,
     manager: _get_manager,
     needLogin: _validateLogin,
-    noNeedLogin: _validateNotLogin
+    noNeedLogin: _validateNotLogin,
+    accountrenewal: _get_accountrenewal
 };
 
 
@@ -21,6 +22,13 @@ function _get_manager(req, res) {
     if (req.session.user.role == ROLE.EDITOR) res.redirect('/editor/manager');
     else if (req.session.user.role == ROLE.ADMIN) res.redirect('/admin/manager');
     else res.status(200).send('#');
+}
+function _get_accountrenewal(req, res){
+    UserDB.getFromUid(req.session.user.id, function(err, user){
+        if (err) console.log("Có lỗi xảy ra");
+        else res.render("AccountRenewal", {user: user});
+    })
+    
 }
 
 function _get_login(req, res) {
@@ -67,8 +75,10 @@ function _post_resetpassword(req, res) {
 
 }
 function _get_information(req, res) {
-    
-    res.render("UserInformation", req.session.ejsParams);
+    if (req.session.ejsParams)
+        res.render("UserInformation", req.session.ejsParams);
+     if (req.user)
+     res.render("UserInformation", req.user);
 }
 function _post_forgotpassword(req, res) {
 

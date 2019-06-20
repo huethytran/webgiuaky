@@ -4,8 +4,6 @@ var multer = require('multer');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 const logger = require('morgan');
-//const passport = require("passport");
-//const passportfb = require("passport-facebook").Strategy;
 var app = express();
 var upload = multer();
 
@@ -24,11 +22,9 @@ app.use(session({
    secret: "Shh, its a secret!", resave: false,
    saveUninitialized: false
 }));
+require('./API/passport-facebook')(app);
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
-//require('./helpers/PassportFacebook')(passport);
-//app.use(passport.initialize());
-//app.use(passport.session());
 // init ejs params
 app.use(function (req, res, next) {
    if (!req.session.ejsParams) {

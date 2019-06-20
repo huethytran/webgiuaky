@@ -21,12 +21,14 @@ var userSchema = mongoose.Schema({
     joinDate: Date,
     comments: Number,
     shares: Number,
+    expDate: Date,
     address: {
         street: String,
         ward: String,
         district: String,
         city: String
     },
+    request: Number,
     role: Number,
     activities: [
         {
@@ -60,14 +62,20 @@ exports.create = function (userData, cb) {
                 return cb(err);
             }
             else {
-                return cb(null, data.id);
+                return cb(null, data._id);
             }
 
         });
     });
 }
-
-
+exports.updateRequest = function (id, data, cb) {
+    UserModel.findByIdAndUpdate(id, data,{new: true}, function (err, record) {
+        if (err) return cb(err);
+        if (!data) return cb("Not found");
+        cb(null, record);
+    
+    })
+}
 exports.getFromUid = function (_uid, cb) {
     UserModel.findById(_uid, function (err, data) {
         if (err) return cb(err);
@@ -100,6 +108,12 @@ exports.getFromEmail = function (_email, cb) {
     UserModel.findOne({ email: _email}, function (err, data) {
         if (err) return cb(err);
         cb(null, data);
+    })
+}
+exports.updateRole = function(id){
+    UserModel.findByIdAndUpdate(id, {role: 1}, function(err, record){
+        if (err) console.log(err);
+        else console.log("Update user role");
     })
 }
 exports.update = function (id, data, cb) {
