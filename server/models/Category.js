@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var uri = process.env.DB_URI;
-if (!uri) uri = 'mongodb://localhost/db_test';
+if (!uri) uri = 'mongodb+srv://minhnthai:nhatminh1997@cluster0-5u7gv.mongodb.net/test?retryWrites=true';
 
 mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
 console.log("Category DB: " + uri);
@@ -135,14 +135,14 @@ exports.updateNumberOfPosts = function(Catename, cb){
     })
 }
 exports.update = function(id, option, cb) {
-    CategoryModel.findOneAndUpdate({id: id}, option, (err, record) => {
+    CategoryModel.findOneAndUpdate({_id: id}, option, (err, record) => {
         if (err) {
-            console.log("[CategoryModel] Failed to delete category: " + option);
+            console.log("[CategoryModel] Failed to delete category: %O", option);
             return cb(err);
         }
         if (!record) {
-            console.log("[CategoryModel] Failed to find category: " + option);
-            return cb("Null category");
+            console.log("[CategoryModel] Failed to find category:  %O", option);
+            return cb("NullCategory");
         }
         cb(null, record);
     })

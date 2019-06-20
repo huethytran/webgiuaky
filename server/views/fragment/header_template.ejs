@@ -1,0 +1,90 @@
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/news/home">News</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navHeaderCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navHeaderCollapse">
+                <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" style="padding-top: 14px; padding-bottom: 14px;" href="/news/home">Trang chủ</a></li>
+                        <li class="nav-item dropdown style1">
+                            <a class="nav-link dropdown-toggle menu"  href="#">Tin xã hội</a>
+                            <div class="dropdown-menu bg-dark layer2a">
+                                <%  var list1 = category['Tin xã hội']; %>
+                                <% list1.forEach(element => { %>
+                                    <a class="dropdown-item text-white" href="<%= element.url %>"><%= element.name %></a>
+                                <% }) %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style2">
+                            <a class="nav-link dropdown-toggle menu" href="#">Giải trí</a>
+                            <div class="dropdown-menu bg-dark layer2b">
+                                    <%  var list2 = category['Giải trí']; %>
+                                    <% list2.forEach(element => { %>
+                                        <a class="dropdown-item text-white" href="<%= element.url %>"><%= element.name %></a>
+                                    <% }) %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style3">
+                            <a class="nav-link dropdown-toggle menu" href="#">Thời trang</a>
+                            <div class="dropdown-menu bg-dark layer2c">
+                                    <%  var list3 = category['Thời trang']; %>
+                                    <% list3.forEach(element => { %>
+                                        <a class="dropdown-item text-white" href="<%= element.url %>"><%= element.name %></a>
+                                    <% }) %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style4">
+                            <a class="nav-link dropdown-toggle menu" href="#">Ẩm thực</a>
+                            <div class="dropdown-menu bg-dark layer2d">
+                                    <%  var list4 = category['Ẩm thực']; %>
+                                    <% list4.forEach(element => { %>
+                                        <a class="dropdown-item text-white" href="<%= element.url %>"><%= element.name %></a>
+                                    <% }) %>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style5">
+                            <a class="nav-link dropdown-toggle menu" href="#">Công nghệ</a>
+                            <div class="dropdown-menu bg-dark layer2e">
+                                    <%  var list5 = category['Công nghệ']; %>
+                                    <% list5.forEach(element => { %>
+                                        <a class="dropdown-item text-white" href="<%= element.url %>"><%= element.name %></a>
+                                    <% }) %>
+                            </div>
+                        </li>
+                    </ul>
+        <div class="col-sm-3 col-sm-offset-3">
+            <div class="input-group search">
+                <input type="text" class="form-control" placeholder="Search" id="searchtext">
+                <div class="input-group-append">
+                    <button class="btn btn-warning" type="submit" onclick="searchPosts()" ><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <%- specify %>
+    </div>
+    </div>
+</nav>
+<script>
+    function searchPosts()
+    {
+            var searchtext = document.getElementById("searchtext").value;
+            alert(searchtext);
+            $.ajax({
+                url: '/search/' + searchtext,
+                type: 'GET',
+                data: {  audience: navigator.userAgent, searchtext },
+                success: function (response) {
+                    console.log(response);
+                    var newpostUrl = location.protocol + '//' + window.location.host + '/search/' + searchtext;
+                    document.location.replace(newpostUrl);
+                },
+                error: function (err) {
+                    console.log("hello", err);
+                }
+            });
+        }
+</script>

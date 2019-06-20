@@ -7,6 +7,7 @@ var UserRole = require("../config").UserRole;
 var TagDB = require("../models/Tag");
 var UserDB = require("../models/User");
 var ROLE = require("../config").UserRole;
+var ReBuildHeader = require('../helpers/common').ReBuildHeader;
 module.exports = {
     post_category : _post_category,
     get_category : _get_category,
@@ -29,14 +30,17 @@ function _post_category(req, res) {
     console.log(req.body)
     if (req.query.action == 'create') {
         createCategory(req.body.catName, req.body.catGroup, function (msg) {
+            ReBuildHeader();
             response(res, msg);
         });
     } else if (req.query.action == 'update') {
         updateCategory(req.body.oldname, req.body.newname, req.body.catGroup, function (msg) {
+            ReBuildHeader();
             response(res, msg);
         })
     } else if (req.query.action == 'delete') {
         deleteCategory(req.body.catName, req.body.catGroup, function(msg) {
+            ReBuildHeader();
             response(res, msg);
         })
     } else {

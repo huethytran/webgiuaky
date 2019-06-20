@@ -46,3 +46,42 @@ exports.ToNoneVietnamese = function(str) {
 exports.ToURL = function (str) {
     return str.replace(/\s/g, '-');
 }
+
+var CatDB = require('../models/Category')
+var ejs = require('ejs');
+var fs = require('fs');
+exports.ReBuildHeader = function()
+{
+    var forNonUser = `<ul class="nav nav-tabs ml-auto">
+    <li><a class="nav-link" href="/user/register">Đăng ký</a></li>
+<li><a class="nav-link" href="/user/login">Đăng nhập</a></li>
+</ul>`;
+    var forUser = `<div class="dropdown user">
+    <button class="btn ml-auto btn-dark active dropdown-toggle " type="text"><a href=""
+        id="drowDownUser"><i class="fas fa-2x fa-user-circle" style="color:#ffc107"></i></a></button>
+    <div class="dropdown-menu bg-dark user-dropdown dropdown-menu-right">
+        <a class="dropdown-item text-white" href="/user/information">Trang cá nhân</a>
+        <a class="dropdown-item text-white" href="/user/manager">Trang quản lý</a><hr style="margin: 2px; background-color:#f0e9d3">
+        <a class="dropdown-item text-white" href="/user/logout">Đăng xuất</a>
+    </div>
+</div>`;
+    CatDB.get({}, (err, records) => {
+        if (err) return console.log("Can't build header: " + err);
+        var result = {};
+        records.forEach( el => {
+            if (!result[el.group]) result[el.group] = [];
+            console.log(el.group);
+            result[el.group].push(el);
+        })
+        ejs.renderFile('./views/fragment/header_template.ejs', {category: result, specify: forNonUser}, {}, (err, str) =>
+        {
+            if (err) return console.log("EJS can't render: " + err);
+            fs.writeFileSync('./views/fragment/header.ejs', str, )
+        })
+        ejs.renderFile('./views/fragment/header_template.ejs', {category: result, specify: forUser}, {}, (err, str) =>
+        {
+            if (err) return console.log("EJS can't render: " + err);
+            fs.writeFileSync('./views/fragment/header_user.ejs', str, )
+        })
+    })
+}
