@@ -553,6 +553,7 @@ function createPostEl(data, indexNum) {
 }
 
 function createUserEl(data, indexNum) {
+    console.log(data);
     var tr = document.createElement('tr');
     var index = document.createElement('td'); index.textContent = indexNum;
     

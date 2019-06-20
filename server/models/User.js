@@ -150,7 +150,7 @@ exports.update = function (id, data, cb) {
             if (data.kind) {
                 var model = null;
                 if (data.kind == 'Editor') model = EditorModel;
-                else if (data.kind = 'Subcriber') mode = SubcriberModel;
+                else if (data.kind == 'Subcriber') model = SubcriberModel;
                 console.log("Kind: " + data.kind);
                 model.findByIdAndUpdate(id, data, {new: true}, (err, record_2) => {
                     if (err) return cb(err);

@@ -272,7 +272,12 @@ function _post_user(req, res) {
         UserDB.getFromUid(userid, (err, record) => {
             if (err) return res.status(500).send(err);
             if (!record) return res.status(404).send(`${userid} NotFound`);
-            UserDB.update(userid, {role: role}, (err, record) => {
+            var data = {role: role};
+            if (role == UserRole.SUBSCRIBER) {
+                data.remainDay = 7;
+                data.kind= 'Subcriber';
+            }
+            UserDB.update(userid, data, (err, record) => {
                 if (err) return res.status(500).send(err);
                 console.log(`Set new role: ${role}, record: ${record}`);
                 return res.status(200).send(record);
@@ -458,10 +463,9 @@ function SimpleUser(data) {
     res.joinDate = ToShortDate(data.joinDate);
     res.id = data._id;
     if (data.role == UserRole.SUBSCRIBER) {
-        data.remainDay = data.remainDay;
+        res.remainDay = data.remainDay;
     } else if (data.role == UserRole.EDITOR) {
         res.category = data.category || [];
-        console.log("AAAA: " + data.category);
     }
     return res;
 }

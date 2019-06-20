@@ -45,7 +45,8 @@ function _post_register(req, res) {
         likes: 0,
         comments: 0,
         shares: 0,
-        request: 0
+        request: 0,
+        joinDate: Date.now(),
     };
 
     var result = {};
