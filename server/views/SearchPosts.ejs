@@ -45,6 +45,11 @@
                                     <div class="img-container">
                                   <a href="/postdetail/<%= posts[i].category%>/<%= posts[i]._id%>">
                                       <img  src="<%= posts[i].image_url%>" alt="<%= posts[i].image_title%>">
+                                      <% if (posts[i].premium == 1) {%>
+                                        <div class="premium">
+                                          <a>Premium</a>
+                                        </div>
+                                      <%}%>
                                   </a>
                                 </div>  
                                 </div>
@@ -73,6 +78,11 @@
                                         <div class="img-container">
                                       <a href="/postdetail/<%= post.category%>/<%= post._id%>">
                                           <img class="img" src="<%= post.image_url%>" alt="<%= post.image_title%>">
+                                          <% if (post.premium == 1) {%>
+                                            <div class="premium">
+                                              <a>Premium</a>
+                                            </div>
+                                          <%}%>
                                       </a>
                                     </div>  
                                     </div>

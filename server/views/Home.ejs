@@ -141,6 +141,11 @@
                         <div class="img-container">
                       <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                           <img class="img" src="<%= newPosts[i].image_url%>" alt="<%= newPosts[i].image_title%>">
+                          <% if (newPosts[i].premium == 1) {%>
+                            <div class="premium">
+                              <a>Premium</a>
+                            </div>
+                          <%}%>
                       </a>
                     </div>  
                     </div>
@@ -245,6 +250,11 @@
                   <div class="img-container">
                 <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                     <img class="img" src="<%= newPosts[i].image_url %>" alt="<%= newPosts[i].image_title %>">
+                    <% if (newPosts[i].premium == 1) {%>
+                      <div class="premium">
+                        <a>Premium</a>
+                      </div>
+                    <%}%>
                 </a>
                 </div>
               </div>
@@ -267,6 +277,11 @@
                   <div class="img-container">
                 <a href="/postdetail/<%= newPosts[i].category%>/<%= newPosts[i]._id%>">
                     <img src="<%= newPosts[i].image_url %>" alt="<%= newPosts[i].image_title %>">
+                    <% if (newPosts[i].premium == 1) {%>
+                      <div class="premium">
+                        <a>Premium</a>
+                      </div>
+                    <%}%>
                 </a>
                 </div>
               </div>
@@ -358,6 +373,11 @@
                       <div class="img-container">
                     <a href="/postdetail/<%= top10Cate[i].category%>/<%= top10Cate[i]._id%>">
                         <img src="<%= top10Cate[i].image_url%>" alt="<%= top10Cate.image_title%>">
+                        <% if (top10Cate[i].premium == 1) {%>
+                          <div class="premium">
+                            <a>Premium</a>
+                          </div>
+                        <%}%>
                     </a>
                     </div>
                   </div>
