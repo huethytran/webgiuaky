@@ -96,7 +96,7 @@ function buildPagination(records, pagenum, url) {
             result +=`<li class="page-item"><a class="page-link" href="${url + '?page=' + (pagenum+1)}"><i class="fa fa-angle-double-right"></i></a></li>`;
         }
     }
-
+    result += '</ul>'
     return result;
 }
 
