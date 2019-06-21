@@ -34,12 +34,13 @@ function _load_post_detail(req, res) {
                         
                         if (err) console.log("Có lỗi xảy ra");
                         else{
+                            console.log(`[PostDetail] ${posts.length}`);
                             UserDB.getFromUid(postdetail.author, function(err, author){
                                 var userId = "";
                                 if (req.session.user) 
                                  userId = req.session.user.id;
                             UserDB.getCommentUsersFromUid(usersId, function(err, commentUsers){
-                                if (err) console.log("Có lỗi xảy ra");
+                                if (err) return console.log("Có lỗi xảy ra");
                                 res.render("PostContent", {postdetail: postdetail, comments: comments, posts: posts, userId: userId, commentUsers: commentUsers, author: author.username});
                             })
                     })

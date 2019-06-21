@@ -12,23 +12,15 @@ function _load_home(req, res) {
         userId = req.session.user.id;
     if (req.user)
      fbtoken =  req.session.user.token;
-    PostDB.getNewPosts(function(err, newPosts){
-        if (err) console.log("Có lỗi xảy ra");
-        else {
-            PostDB.getMostViewPosts(function(err, mostViewPosts){
-                if (err) console.log("Có lỗi xảy ra");
-                else {
-                    PostDB.getTop10Categories(function(err, top10Cate){
-                        if (err) console.log("Có lỗi xảy ra");
-                        else {
-                            PostDB.getHotNewsInWeek(function(err, hotNewsInWeek){
-                                if (err) console.log("Có lỗi xảy ra");
-                                else res.render("Home", {newPosts: newPosts, mostViewPosts: mostViewPosts, top10Cate: top10Cate, hotNewsInWeek: hotNewsInWeek, userId: userId, fbtoken: fbtoken});
-                            })
-                        }
-                    })
-                }
-            })
-        }
+ 
+    PostDB.home().then(result => {
+        res.render("Home", {newPosts: result.newPosts, 
+                            mostViewPosts: result.mostViewPosts,
+                            top10Cate: result.top10CatePosts,
+                            hotNewsInWeek: result.hotNewsInWeek,
+                            userId: userId, fbtoken: fbtoken});
+    }).catch(err => {
+        console.log(err);
+        res.render("Message", {msg: err});
     })
 }
