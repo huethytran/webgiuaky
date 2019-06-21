@@ -38,10 +38,14 @@ $(document).ready(() => {
                 success: function (response) {
                     console.log(response);
                     $('#newpost h1').text("Chỉnh sửa bài viết");
+                    $('#newpost').attr('idpost', response._id);
                     $('#post_title').val(response.title);
                     $('#post_summary').val(response.summary);
                     CKEDITOR.instances.post_content.setData(response.content);
                     $('#post_tag').val(response.tag);
+                    $('#sendPost').text("Cập nhật");
+                    $("#postAvatar").attr("src", response.image_url);
+                    $("#post_tag").text("src", response.tag);
                     $('.nav-tabs li:eq(1) a').tab('show');
                 },
                 error: (err) => {
@@ -67,6 +71,17 @@ $(document).ready(() => {
         }
     })
 
+    $("#allBtn").click((e) => {
+        numUpdate = 1;
+        $("#allBtn").attr('class', 'btn btn-primary')
+        $("#approveBtn").attr('class', 'btn btn-outline-primary')
+        $("#publishBtn").attr('class', 'btn btn-outline-primary')
+        $("#rejectBtn").attr('class', 'btn btn-outline-primary')
+        $("#waitingBtn").attr('class', 'btn btn-outline-primary')
+        $("#draftBtn").attr('class', 'btn btn-outline-dark')
+        updatePostTable()
+    })
+
     $("#approveBtn").click((e) => {
         numUpdate = 1;
         $("#approveBtn").attr('class', 'btn btn-primary')
@@ -74,6 +89,7 @@ $(document).ready(() => {
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
         $("#draftBtn").attr('class', 'btn btn-outline-dark')
+        $("#allBtn").attr('class', 'btn btn-outline-primary')
         updatePostTable(null, 3)
     })
 
@@ -84,6 +100,7 @@ $(document).ready(() => {
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
         $("#draftBtn").attr('class', 'btn btn-outline-dark')
+        $("#allBtn").attr('class', 'btn btn-outline-primary')
         updatePostTable(null, 4)
     })
 
@@ -94,6 +111,7 @@ $(document).ready(() => {
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
         $("#draftBtn").attr('class', 'btn btn-outline-dark')
+        $("#allBtn").attr('class', 'btn btn-outline-primary')
         updatePostTable(null, 5)
     })
 
@@ -104,6 +122,7 @@ $(document).ready(() => {
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
         $("#draftBtn").attr('class', 'btn btn-outline-dark')
+        $("#allBtn").attr('class', 'btn btn-outline-primary')
         updatePostTable(null, 2)
     })
 
@@ -114,16 +133,53 @@ $(document).ready(() => {
         $("#rejectBtn").attr('class', 'btn btn-outline-primary')
         $("#waitingBtn").attr('class', 'btn btn-outline-primary')
         $("#approveBtn").attr('class', 'btn btn-outline-primary')
+        $("#allBtn").attr('class', 'btn btn-outline-primary')
         updatePostTable(null, 1)
     })
+
+    $("#post_image").change(function () {
+        var curFiles = this.files;
+        $("#postAvatar").attr("src", window.URL.createObjectURL(curFiles[0]));
+    });
 })
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
 });
-$("#post_image").change(function () {
-    var curFiles = this.files;
+
+// $("#post_image").change(function () {
+//     var curFiles = this.files;
+//     var token = Cookies.get('token');
+//     if (!token) {
+//         var inforUrl = location.protocol + '//' + window.location.host + '/';
+//         document.location.replace(inforUrl);
+//         console.log('Notoken')
+//     }
+
+//     var fd = new FormData();
+//     fd.append("image", curFiles[0])
+//     console.log(fd.toString());
+//     $.ajax({
+//         url: '/api/post/uploadpostimage?token=' + token + "&audience=" + navigator.userAgent,
+//         type: 'POST',
+//         data: fd,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             _image_url = response;
+//         },
+//         error: (err) => {
+//             console.log(err);
+//         }
+//     });
+// });
+
+function uploadpostimage(cb) {
+    var text = $('#sendPost').text();
+    if (text == 'Cập nhật') {
+
+    }
     var token = Cookies.get('token');
     if (!token) {
         var inforUrl = location.protocol + '//' + window.location.host + '/';
@@ -132,7 +188,8 @@ $("#post_image").change(function () {
     }
 
     var fd = new FormData();
-    fd.append("image", curFiles[0])
+    var img = document.getElementById('post_image');
+    fd.append("image", img.files[0])
     console.log(fd.toString());
     $.ajax({
         url: '/api/post/uploadpostimage?token=' + token + "&audience=" + navigator.userAgent,
@@ -142,22 +199,35 @@ $("#post_image").change(function () {
         processData: false,
         success: function (response) {
             _image_url = response;
+            console.log("Upload success");
+            if (cb) cb();
         },
         error: (err) => {
             console.log(err);
         }
     });
-});
+}
 
 $("#sendPost").click(function () {
-    sendPost();
+    var text = $('#sendPost').text();
+    if (text == 'Gửi bài') uploadpostimage(sendPost)
+    else if (text =='Cập nhật') uploadpostimage(() => sendPost(2, true));
+    else {
+        Message("Unkown text button", false);
+    }
+    //sendPost();
 })
 
 $('#savePost').click(() => {
-    sendPost(1);
+    var text = $('#sendPost').text();
+    if (text == 'Gửi bài') uploadpostimage(() => sendPost(1));
+    else if (text =='Cập nhật') uploadpostimage(() => sendPost(1, true));
+    else {
+        Message("Unkown text button", false);
+    }
 })
 
-function sendPost(state) {
+function sendPost(state, isupdate) {
     var token = Cookies.get('token');
     if (!token) {
         var inforUrl = location.protocol + '//' + window.location.host + '/';
@@ -172,16 +242,19 @@ function sendPost(state) {
         summary: document.getElementById("post_summary").value
     }
     if (state) post.status = state;
+    var url = '/api/post/uploadnewpost'
+    if (isupdate) url += '?update=1&id=' +  $('#newpost').attr('idpost');
+
     $.ajax({
-        url: '/api/post/uploadnewpost',
+        url: url,
         type: 'POST',
         data: { token: token, audience: navigator.userAgent, post },
         success: function (response) {
-            location.reload();
+            location.reload(true);
             console.log(response);
         },
         error: function (err) {
-            Message("Không thể đăng bài viết ", err.responseText, false);
+            Message("Không thể đăng bài viết " + err.responseText, false);
             console.log(err);
         }
     });
@@ -241,15 +314,14 @@ function updatePostTable(sources, state) {
                 else if (element.state == 'Từ chối') reject = reject + 1;
                 else if (element.state == 'Chờ duyệt') waiting = waiting + 1;
                 else if (element.state == 'Tạm lưu') draft = draft + 1;
-                console.log(element.state);
             });
+            $("#allBtn").text(`Tất cả (${response.data.length})`);
             $("#approveBtn").text(`Đã được duyệt (${approve})`);
             $("#publishBtn").text(`Đã xuất bản (${publish})`);
             $("#rejectBtn").text(`Bị từ chối (${reject})`);
             $("#waitingBtn").text(`Chưa được duyệt (${waiting})`);
             $("#draftBtn").text(`Tạm lưu (${draft})`);
             numUpdate += 1;
-            console.log("NulUp: " + numUpdate);
             if (numUpdate == maxUpdate) {
                 numUpdate = 0;
                 loadingDialog.modal('hide');
@@ -284,7 +356,7 @@ function updateTable(sources, pagination, table, createElFunc) {
         pageNumber: 1,
         prevText: '<i class="fa fa-angle-double-left"></i>',
         nextText: '<i class="fa fa-angle-double-right"></i>',
-        pageSize: 5,
+        pageSize: 10,
         alias: {
             pageNumber: 'page',
             pageSize: 'perpage'
