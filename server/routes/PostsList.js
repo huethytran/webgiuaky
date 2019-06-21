@@ -7,6 +7,6 @@ var upload = multer({ dest: 'uploads/' })
 module.exports  = () => {
     funcRouter.get('/', controller.categoryposts);
 
-    funcRouter.get('/:CatName', controller.categoryposts);
+    //funcRouter.get('/:CatName', controller.categoryposts);
     return funcRouter;
 }
