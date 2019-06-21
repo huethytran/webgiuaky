@@ -34,15 +34,12 @@
             <div id='allpost' class="container tab-pane active">
                 <h1>Danh sách bài viết</h1>
                 <div class="input-group" style="border-bottom: 5px solid; padding-bottom: 10px">
-                    <button id='approveBtn' type="button" class="btn btn-primary" style="margin-right: 10px">Đã được duyệt & chờ xuất
-                        bản (1)</button>
-                    <button id='publishBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Đã xuất bản
-                        (1)</button>
-                    <button id='rejectBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Bị từ chối
-                        (1)</button>
-                    <button id='waitingBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px">Chưa được duyệt
-                        (1)</button>
-                    <button id='draftBtn' type="button" class="btn btn-outline-dark" style="margin-right: 10px">Lưu tạm</button>
+                    <button id='allBtn' type="button" class="btn btn-primary" style="margin-right: 10px"></button>
+                    <button id='approveBtn' type="button" class="btn btn-primary" style="margin-right: 10px"></button>
+                    <button id='publishBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px"></button>
+                    <button id='rejectBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px"></button>
+                    <button id='waitingBtn' type="button" class="btn btn-outline-primary" style="margin-right: 10px"></button>
+                    <button id='draftBtn' type="button" class="btn btn-outline-dark" style="margin-right: 10px"></button>
                     <div class="input-group-append">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Tìm bài viết">
@@ -63,52 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Bài số 1</td>
-                            <td>Chuyên mục 3</td>
-                            <td><span class="badge badge-success">Đã xuất bản</span></td>
-                            <td>
-                                <div class="input-group">
-                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-danger" type="button"><i
-                                                class="far fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Bài số 2</td>
-                            <td>Chuyên mục 1</td>
-                            <td><span class="badge badge-primary">Đã được duyệt</span></td>
-                            <td>
-                                <div class="input-group">
-                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-danger" type="button"><i
-                                                class="far fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Bài số 3</td>
-                            <td>Chuyên mục 5</td>
-                            <td><span class="badge badge-warning">Chưa được duyệt</span></td>
-                            <td>
-                                <div class="input-group">
-                                    <button class="btn btn-warning" type="button"><i class="far fa-edit"></i></button>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-danger" type="button"><i
-                                                class="far fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
+                        <!-- <tr>
                             <th scope="row">4</th>
                             <td>Bài số 4</td>
                             <td>Chuyên mục 2</td>
@@ -122,7 +74,7 @@
                                     </div>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
                 <div id="pagination_post" class="d-flex justify-content-center">
@@ -143,7 +95,8 @@
                     <input type="file" class="custom-file-input" id="post_image">
                     <label class="custom-file-label" for="post_image">Choose file</label>
                 </div>
-
+                <img id="postAvatar" style="max-width:100%;">
+                <br>
                 <label for="post_content" style="font-weight: bold;">Nội dung:</label>
                 <textarea name="post_content" id="post_content" rows="20" cols="80"></textarea></br>
                 <label for="post_tag" style="font-weight: bold;">Thêm nhãn tag:</label>
