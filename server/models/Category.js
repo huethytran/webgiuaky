@@ -18,6 +18,9 @@ var catSchema = mongoose.Schema({
 });
 
 var CategoryModel = mongoose.model("Category", catSchema);
+exports.model = () => {
+    return CategoryModel;
+}
 
 exports.create = function (name, group, url, cb) {
     CategoryModel.create({

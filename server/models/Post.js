@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var environment = process.env.NODE_ENV; // development
 if (!environment) environment = 'development';
 const stage = require('../config')[environment];
@@ -37,11 +36,12 @@ postSchema.index({
 var PostModel = mongoose.model("Post", postSchema);
 
 // Create
-exports.create = function(postData) {
+exports.create = function(postData, cb) {
     PostModel.create(postData, function (err, data) {
         if (err) {
-            console.log("[PostModel] Failed to add " + postData.uid + " to database")
+            return cb(err);
         }
+        cb(null, data);
     })
 }
 
@@ -100,7 +100,7 @@ exports.getHotNewsCategoryInWeek = function(category, cb){
     var query = PostModel.find({category: category});
     query.where('post_date').gt(thisWeek);
     query.sort({view: -1});
-    query.limit(3);
+    // query.limit(3);
     query.exec(function (err, posts) {
         
         if (err) return cb(err);
@@ -189,7 +189,7 @@ exports.getPagePosts = function (perPage, page, category, cb){
     .sort({post_date: -1})
     .skip((perPage * page) - perPage)
     .limit(perPage)
-    .exec(function (err, posts) {
+    query(function (err, posts) {
         PostModel.count().exec(function(err, count) {
         if (err) return cb(err);
         cb(null, posts, page,Math.ceil(count / perPage) );
@@ -216,4 +216,46 @@ exports.update = function(id, options, cb) {
         if (err) return cb(err);
         cb(null, record);
     })
+}
+
+exports.home = async function() {
+    var newPosts = [];
+    var mostViewPosts = [];
+    var hotNewsInWeek = [];
+
+    var query = PostModel.find({});
+    query.sort({ post_date: -1 });
+    query.limit(10);
+    newPosts = await query.exec();
+
+    query = PostModel.find({});
+    query.sort({view: -1});
+    query.limit(10);
+    mostViewPosts = await query.exec();
+
+    var thisWeek = new Date(Date.now() - (7 * 24 * 60 * 60 * 1000));
+    query = PostModel.find({});
+    query.where('post_date').gt(thisWeek);
+    query.sort({view: -1});
+    query.limit(4);
+    hotNewsInWeek = await query.exec();
+
+    var top10Cate = [];
+    var top10CatePosts = [];
+    var query = PostModel.find({});
+    query.sort({post_date: -1});
+    var posts = await query.exec();
+    for (var i = 0; i < posts.length; i++) {
+        if (top10Cate.length >= posts.length || top10Cate.length >= 10)
+            break;
+        else {
+            if (isInTop10Cate(posts[i].category, top10Cate) == false) {
+                top10Cate.push(posts[i].category);
+                top10CatePosts[top10CatePosts.length] = posts[i];
+            }
+        }
+
+    }
+
+    return {newPosts, mostViewPosts, top10CatePosts, hotNewsInWeek};
 }
