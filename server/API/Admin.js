@@ -426,7 +426,7 @@ function ParseData(search, pagesize, pagenum, records) {
     } else srcData = records;
 
     if (pagenum) {
-        var maxPage = Math.floor(records.length / pagesize) + ((records.length / pagesize) == 0? 0: 1);
+        var maxPage = Math.floor(records.length / pagesize) + ((records.length % pagesize) == 0? 0: 1);
         
         if (pagenum<= maxPage && pagenum > 0) {
             var begin = (pagenum - 1) * pagesize;
