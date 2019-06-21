@@ -555,7 +555,9 @@ function createUserEl(data, indexNum) {
                                 class="fas fa-trash-alt"></i></a>
                         </td>`;
     if (data.role == 'Độc giả') {
-        name.setAttribute('remainDay', data.remainDay);
+        var remainDay = new Date(data.expDate) - Date.now();
+        remainDay = new Date(remainDay);
+        name.setAttribute('remainDay', remainDay.getDate());
     } else if (data.role == 'Biên tập viên') {
         name.setAttribute('category', JSON.stringify(data.category));
     }

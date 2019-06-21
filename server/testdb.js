@@ -39,7 +39,7 @@ mongoose.connect(uristring, { useNewUrlParser: true, useFindAndModify: false });
 //       console.log(shape);
 //       Square.findOneAndUpdate({ name: 'asd' }, {side: 10 },{new: true}, (err, shape) => {
 //       if (err) return console.log(err);
-      
+
 //       Shape.findById({ name: 'asd' }, (err, record) => {
 //         if (err) return console.log(err);
 //         console.log(record);
@@ -48,14 +48,29 @@ mongoose.connect(uristring, { useNewUrlParser: true, useFindAndModify: false });
 
 //   }
 //   })
-  
+
 // });
 
-var PostDB = require("./models/Post");
+// var PostDB = require("./models/Post");
 
-PostDB.home().then(res => {
-  console.log(res.newPosts.length);
-  console.log(res.mostViewPosts.length);
-  console.log(res.top10Cate.length);
-  console.log(res.hotNewsInWeek.length);
+// PostDB.home().then(res => {
+//   console.log(res.newPosts.length);
+//   console.log(res.mostViewPosts.length);
+//   console.log(res.top10Cate.length);
+//   console.log(res.hotNewsInWeek.length);
+// })
+
+var UserDB = require('./models/User');
+
+UserDB.get({ role: 3 }, (err, records) => {
+  if (err) return console.log(err);
+
+  records.forEach(el => {
+    var a = new Date();
+    a.setHours(a.getHours() + 7*24);
+    UserDB.update(el._id, { expDate: a, kind: 'Subcriber' }, (err, record) => {
+      if (err) return res.status(500).send(err);
+      console.log(`Success update: ${el._id}: expDate: ${record.expDate}| remainDay: ${record.remainDay}`);
+    })
+  })
 })

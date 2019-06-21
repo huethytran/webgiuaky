@@ -254,19 +254,24 @@ function _get_user(req, res) {
 
 function _post_user(req, res) {
     var userid = req.body.id;
-    var remainDay = req.body.remainDay;
+    var remainDay = parseInt(req.body.remainDay);
     var role = req.body.role;
     var category = req.body.category;
     console.log(`Post User: ${userid} ${remainDay} ${role} ${category}`);
     var hasData = remainDay || role || category;
     if (!hasData) return res.status(400).send('NoData');
-    if (remainDay && validateRemainDay(remainDay)) {
+    if (remainDay) {
+        if (!validateRemainDay(remainDay)) {
+            console.log("[AdminAPI] Invalid remain day: " + remainDay);
+            return res.status(406).send(`${userid} InvalidRemainDay`);
+        }
         UserDB.getFromUid(userid, (err, record) => {
             if (err) return res.status(500).send(err);
             if (!record) return res.status(404).send(`${userid} NotFound`);
             if (record.role != UserRole.SUBSCRIBER) return res.status(406).send(`${userid} InvaildRole`);
-            var oldValue = record.remainDay || 0;
-            UserDB.update(userid, {remainDay: oldValue + parseInt(remainDay), kind: 'Subcriber'}, (err, record) => {
+            var expDate = record.expDate || new Date();
+            expDate.setHours(expDate.getHours() + remainDay*24);
+            UserDB.update(userid, {expDate: expDate, kind: 'Subcriber'}, (err, record) => {
                 if (err) return res.status(500).send(err);
                 console.log(`Add remain day: ${remainDay}, record: ${record}`);
                 return res.status(200).send(record);
@@ -280,7 +285,9 @@ function _post_user(req, res) {
             if (!record) return res.status(404).send(`${userid} NotFound`);
             var data = {role: role};
             if (role == UserRole.SUBSCRIBER) {
-                data.remainDay = 7;
+                var expDate = Date.now();
+                expDate.setHours(expDate.getHours() + 7*24);
+                data.expDate = expDate;
                 data.kind= 'Subcriber';
             }
             UserDB.update(userid, data, (err, record) => {
@@ -469,7 +476,7 @@ function SimpleUser(data) {
     res.joinDate = ToShortDate(data.joinDate);
     res.id = data._id;
     if (data.role == UserRole.SUBSCRIBER) {
-        res.remainDay = data.remainDay;
+        res.expDate = data.expDate;
     } else if (data.role == UserRole.EDITOR) {
         res.category = data.category || [];
     }
@@ -511,13 +518,13 @@ function roleToNum(role) {
 function ToShortDate(date) {
     var jsDate = new Date(date);
     // console.log(`[ToShortDate] ${date}`);
-    var res = jsDate.getDay() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
+    var res = jsDate.getDate() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
     // console.log(`[ToShortDate] ${res}`);
     return res;
 }
 
 function validateRemainDay(remainDay) {
-    if (remainDay != '3' || remainDay != '7' || remainDay != '10' || remainDay != '14') return false;
+    if (remainDay != 3 && remainDay != 7 && remainDay != 10 && remainDay != 14) return false;
     return true;
 }
 

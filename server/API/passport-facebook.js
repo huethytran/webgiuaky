@@ -35,7 +35,7 @@ module.exports = function(app) {
                                 role: config.UserRole.NORMAL,
                                 birthday: new Date(),
                                 address: { street: '', ward: '', district: '', city: '' },
-                                expDate: new Date(),
+                                // expDate: new Date(),
                                 activities: [],
                                 notifications: [],
                                 likes: 0,

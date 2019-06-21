@@ -21,7 +21,6 @@ var userSchema = mongoose.Schema({
     joinDate: Date,
     comments: Number,
     shares: Number,
-    expDate: Date,
     address: {
         street: String,
         ward: String,
@@ -47,7 +46,7 @@ var userSchema = mongoose.Schema({
 var UserModel = mongoose.model("User", userSchema);
 
 var EditorModel = UserModel.discriminator("Editor", new mongoose.Schema({ category: [String] }));
-var SubcriberModel = UserModel.discriminator("Subcriber", new mongoose.Schema({remainDay: Number}));
+var SubcriberModel = UserModel.discriminator("Subcriber", new mongoose.Schema({expDate: Date}));
 
 exports.create = function (userData, cb) {
     bcrypt.hash(userData.pwd, stage.saltingRounds, function (err, hash) {

@@ -35,7 +35,7 @@ function _post_register(req, res) {
         birthday: new Date(),
         email: req.body.inputEmail,
         pwd: req.body.inputPassword,
-        expDate: new Date(),
+        // expDate: new Date(),
         avatar: '/images/user-ava.jpg',
         favoriteCategoty: [],
         address: {street:'', ward: '', district: '', city: ''},
