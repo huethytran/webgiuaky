@@ -8,8 +8,38 @@ var CatDB = require("../models/Category");
 const pagesize = 7;
 
 module.exports = {
-    categoryposts: _load_category_posts
+    categoryposts: _load_category_posts,
+    tagposts: _load_tag_posts
 };
+
+function _load_tag_posts(req, res, next) {
+    console.log("[Tag]");
+    var re = /\/tag\/(.*)/.exec(req.originalUrl);
+    if (!re) return next();
+    var userId = req.session.user || "";
+    //var istag = /\/tag\/(.*)/.test(req.originalUrl);
+    console.log(re + ' ' + req.originalUrl);
+    var tag = re[1];
+    var page = req.query.page;
+    var tagUrl = req.originalUrl;
+    if (page) tagUrl = tagUrl.split('?')[0];
+    if (!page) page = 1;
+    console.log(`${tag} ${page} ${tagUrl}`);
+    if (!tag) return res.render("Message", {msg: "MissingTag"});
+    
+    PostDB.get({tag: tag}, (err, records) => {
+        if (err) return next();
+
+        var s = buildPagination(records.length, page, tagUrl);
+        var posts = SplitData(page, records);
+        res.render("PostsList", { newPosts: null,
+            hotPosts: null,
+            categoryName: tag,
+            userId: userId,
+            pagination: s,
+            posts: posts });
+    });
+}
 
 function _load_category_posts(req, res, next) {
     var categoryUrl = req.originalUrl;
@@ -39,20 +69,7 @@ function _load_category_posts(req, res, next) {
         }
 
         var catName = record.name;
-        // PostDB.getNewCategoryPosts(catName, function(err, newPosts){
-        //     if (err)  return res.render("Message", {msg: err});
-        //     if (!newPosts) return res.render("Message", {msg: "NoDataNewPost"});
-        //     PostDB.getHotNewsCategoryInWeek(catName, function (err, hotPosts) {
-
-        //         if (err) return res.render("Message", { msg: err });
-        //         if (!hotPosts) return res.render("Message", {msg: "NoDataHotPost"});
-        //         var s = buildPagination(hotPosts, page, categoryUrl);
-        //         console.log(hotPosts.length);
-        //         hotPosts = SplitData(3, page, hotPosts);
-        //         console.log(hotPosts.length);
-        //         res.render("PostsList", { newPosts: newPosts, hotPosts: hotPosts, categoryName: catName, userId: userId, pagination: s });
-        //     })
-        // })
+      
         var begin = (page - 1) * pagesize;
         var end = begin + pagesize;
         PostDB.category(catName, begin, end).then(result => {
@@ -68,18 +85,7 @@ function _load_category_posts(req, res, next) {
             res.render("Message", {msg: err});
         })
     })
-    // PostDB.getNewCategoryPosts(req.params.CatName, function(err, newPosts){
-    //     if (err) console.log("Có lỗi xảy ra");
-    //     else {
-    //         PostDB.getHotNewsCategoryInWeek(req.params.CatName, function(err, hotPosts){
-    //             var userId = "";
-    //              if (req.session.user) 
-    //              userId = req.session.user.id;
-    //             if (err) console.log("Có lỗi xảy ra");
-    //             else res.render("PostsList", {newPosts: newPosts, hotPosts: hotPosts, categoryName: req.params.CatName, userId: userId});
-    //         })
-    //     }
-    // })
+
 }
 
 function buildPagination(total, pagenum, url) {
@@ -114,7 +120,6 @@ function buildPagination(total, pagenum, url) {
     result += '</ul>'
     return result;
 }
-
 
 function SplitData(pagenum, records) {
     pagenum = Number.parseInt(pagenum, 10);
