@@ -1,0 +1,121 @@
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/news/home">News</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navHeaderCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navHeaderCollapse">
+                <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" style="padding-top: 14px; padding-bottom: 14px;" href="/news/home">Trang chủ</a></li>
+                        <li class="nav-item dropdown style1">
+                            <a class="nav-link dropdown-toggle menu"  href="#">Tin xã hội</a>
+                            <div class="dropdown-menu bg-dark layer2a">
+                                
+                                
+                                    <a class="dropdown-item text-white" href="/tin-xa-hoi/the-thao">Thể thao</a>
+                                
+                                    <a class="dropdown-item text-white" href="tin-xa-hoi/du-lich">Du lịch</a>
+                                
+                                    <a class="dropdown-item text-white" href="tin-xa-hoi/khoa-hoc">Khoa học</a>
+                                
+                                    <a class="dropdown-item text-white" href="tin-xa-hoi/van-hoa">Văn hóa</a>
+                                
+                                    <a class="dropdown-item text-white" href="tin-xa-hoi/giao-duc">Giáo dục</a>
+                                
+                                    <a class="dropdown-item text-white" href="tin-xa-hoi/phap-luat">Pháp luật</a>
+                                
+                                    <a class="dropdown-item text-white" href="/tin-xa-hoi/xa-hoi">Xã hội</a>
+                                
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style2">
+                            <a class="nav-link dropdown-toggle menu" href="#">Giải trí</a>
+                            <div class="dropdown-menu bg-dark layer2b">
+                                    
+                                    
+                                        <a class="dropdown-item text-white" href="/giai-tri/am-nhac">Âm nhạc</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/giai-tri/dien-anh">Điện ảnh</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/giai-tri/hau-truong">Hậu trường</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/giai-tri/phong-van-sao">Phỏng vấn sao</a>
+                                    
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style3">
+                            <a class="nav-link dropdown-toggle menu" href="#">Thời trang</a>
+                            <div class="dropdown-menu bg-dark layer2c">
+                                    
+                                    
+                                        <a class="dropdown-item text-white" href="/thoi-trang/mac-dep">Mặc đẹp</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/thoi-trang/lam-dep">Làm đẹp</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/thoi-trang/thoi-trang-sao">Thời trang sao</a>
+                                    
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style4">
+                            <a class="nav-link dropdown-toggle menu" href="#">Ẩm thực</a>
+                            <div class="dropdown-menu bg-dark layer2d">
+                                    
+                                    
+                                        <a class="dropdown-item text-white" href="/am-thuc/dia-diem-an-uong">Địa điểm ăn uống</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/am-thuc/mon-ngon">Món ngon</a>
+                                    
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown style5">
+                            <a class="nav-link dropdown-toggle menu" href="#">Công nghệ</a>
+                            <div class="dropdown-menu bg-dark layer2e">
+                                    
+                                    
+                                        <a class="dropdown-item text-white" href="/cong-nghe/mobile">Mobile</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/cong-nghe/ai">AI</a>
+                                    
+                                        <a class="dropdown-item text-white" href="/cong-nghe/smart-home">Smart Home</a>
+                                    
+                            </div>
+                        </li>
+                    </ul>
+        <div class="col-sm-3 col-sm-offset-3">
+            <div class="input-group search">
+                <input type="text" class="form-control" placeholder="Search" id="searchtext">
+                <div class="input-group-append">
+                    <button class="btn btn-warning" type="submit" onclick="searchPosts()" ><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs ml-auto">
+            <li><a class="nav-link" href="/user/register">Đăng ký</a></li>
+            <li><a class="nav-link" href="/user/login">Đăng nhập</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+<script>
+    function searchPosts()
+    {
+            var searchtext = document.getElementById("searchtext").value;
+            alert(searchtext);
+            $.ajax({
+                url: '/search/' + searchtext,
+                type: 'GET',
+                data: {  audience: navigator.userAgent, searchtext },
+                success: function (response) {
+                    console.log(response);
+                    var newpostUrl = location.protocol + '//' + window.location.host + '/search/' + searchtext;
+                    document.location.replace(newpostUrl);
+                },
+                error: function (err) {
+                    console.log("hello", err);
+                }
+            });
+        }
+</script>
