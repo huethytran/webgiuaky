@@ -5,6 +5,8 @@ var UserDB = require("../models/User");
 var CommentDB = require("../models/Comment");
 var CatDB = require("../models/Category");
 
+const pagesize = 7;
+
 module.exports = {
     categoryposts: _load_category_posts
 };
@@ -37,19 +39,33 @@ function _load_category_posts(req, res, next) {
         }
 
         var catName = record.name;
-        PostDB.getNewCategoryPosts(catName, function(err, newPosts){
-            if (err)  return res.render("Message", {msg: err});
-            if (!newPosts) return res.render("Message", {msg: "NoDataNewPost"});
-            PostDB.getHotNewsCategoryInWeek(catName, function (err, hotPosts) {
+        // PostDB.getNewCategoryPosts(catName, function(err, newPosts){
+        //     if (err)  return res.render("Message", {msg: err});
+        //     if (!newPosts) return res.render("Message", {msg: "NoDataNewPost"});
+        //     PostDB.getHotNewsCategoryInWeek(catName, function (err, hotPosts) {
 
-                if (err) return res.render("Message", { msg: err });
-                if (!hotPosts) return res.render("Message", {msg: "NoDataHotPost"});
-                var s = buildPagination(hotPosts, page, categoryUrl);
-                console.log(hotPosts.length);
-                hotPosts = SplitData(3, page, hotPosts);
-                console.log(hotPosts.length);
-                res.render("PostsList", { newPosts: newPosts, hotPosts: hotPosts, categoryName: catName, userId: userId, pagination: s });
-            })
+        //         if (err) return res.render("Message", { msg: err });
+        //         if (!hotPosts) return res.render("Message", {msg: "NoDataHotPost"});
+        //         var s = buildPagination(hotPosts, page, categoryUrl);
+        //         console.log(hotPosts.length);
+        //         hotPosts = SplitData(3, page, hotPosts);
+        //         console.log(hotPosts.length);
+        //         res.render("PostsList", { newPosts: newPosts, hotPosts: hotPosts, categoryName: catName, userId: userId, pagination: s });
+        //     })
+        // })
+        var begin = (page - 1) * pagesize;
+        var end = begin + pagesize;
+        PostDB.category(catName, begin, end).then(result => {
+            var s = buildPagination(result.total, page, categoryUrl);
+            res.render("PostsList", { newPosts: result.newPosts,
+                                    hotPosts: result.hotPosts,
+                                    categoryName: catName,
+                                    userId: userId,
+                                    pagination: s,
+                                    posts: result.posts });
+        }).catch(err => {
+            console.log(err);
+            res.render("Message", {msg: err});
         })
     })
     // PostDB.getNewCategoryPosts(req.params.CatName, function(err, newPosts){
@@ -66,9 +82,8 @@ function _load_category_posts(req, res, next) {
     // })
 }
 
-function buildPagination(records, pagenum, url) {
-    const pagesize = 3;
-    var maxPage = Math.floor(records.length / pagesize) + ((records.length % pagesize) == 0? 0: 1);
+function buildPagination(total, pagenum, url) {
+    var maxPage = Math.floor(total / pagesize) + ((total % pagesize) == 0? 0: 1);
     var result = '<ul class="pagination">';
     if (pagenum<= maxPage && pagenum > 0) {
         if (pagenum == 1) {
@@ -101,8 +116,7 @@ function buildPagination(records, pagenum, url) {
 }
 
 
-function SplitData(pagesize, pagenum, records) {
-    pagesize = Number.parseInt(pagesize, 10);
+function SplitData(pagenum, records) {
     pagenum = Number.parseInt(pagenum, 10);
     var data = [];
     var srcData = []

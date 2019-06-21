@@ -259,3 +259,30 @@ exports.home = async function() {
 
     return {newPosts, mostViewPosts, top10CatePosts, hotNewsInWeek};
 }
+
+exports.category = async function(category, begin, end) {
+    var newPosts = [];
+    var hotPosts = [];
+    var posts = [];
+    var query = PostModel.find({category: category});
+    query.sort({post_date: -1});
+    query.limit(4);
+    newPosts = await query.exec();
+
+    var thisWeek = new Date(Date.now() - (7 * 24 * 60 * 60 * 1000));
+    query = PostModel.find({category: category});
+    query.where('post_date').gt(thisWeek);
+    query.sort({view: -1});
+    query.limit(3);
+    hotPosts = await query.exec();
+    
+    query = PostModel.find({category: category});
+    query.skip(begin);
+    query.limit(end - begin);
+    posts = await query.exec();
+    console.log('posts size: ' + posts.length);
+    query = PostModel.countDocuments({category: category});
+    var total = await query.exec();
+    console.log(`${begin} ${end} ${total}`);
+    return {newPosts, hotPosts, posts, total};
+}
