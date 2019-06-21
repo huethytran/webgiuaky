@@ -1,5 +1,6 @@
 var jwt = require("../helpers/jwt");
 var ROLE = require("../config").UserRole;
+var UserDB = require("../models/User");
 module.exports = {
     register: _get_register,
     login: _get_login,
@@ -22,7 +23,7 @@ function _get_manager(req, res) {
     if (req.session.user.role == ROLE.EDITOR) res.redirect('/editor/manager');
     else if (req.session.user.role == ROLE.ADMIN) res.redirect('/admin/manager');
     else if (req.session.user.role == ROLE.WRITER) res.redirect('/writter/newpost');
-    else res.redirect('/');
+    else res.redirect('/user/accountrenewal');
 }
 function _get_accountrenewal(req, res){
     UserDB.getFromUid(req.session.user.id, function(err, user){

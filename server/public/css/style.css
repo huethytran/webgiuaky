@@ -1322,6 +1322,16 @@ h3.h3-carousel a{
 h3.h3-carousel a:hover, h3.h3-carousel a:focus{
     color: #ffc107;
 }
+.premium{
+    background-color: orangered;
+    position: relative;
+    text-align: center;
+    
+}
+.premium a{
+    font-weight: 550;
+    font-size: 16px;
+}
 .category-carousel{
     background-color: #ffc107;
     position: absolute;

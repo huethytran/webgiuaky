@@ -185,6 +185,11 @@
                               <div class="img-container">
                             <a href="/postdetail/<%= mostViewPosts[i].category%>/<%= mostViewPosts[i]._id%>">
                                 <img src="<%= mostViewPosts[i].image_url %>" alt="<%= mostViewPosts[i].image_title %>">
+                                <% if (mostViewPosts[i].premium == 1) {%>
+                                  <div class="premium">
+                                    <a>Premium</a>
+                                  </div>
+                                <%}%>
                             </a>
                           </div>
                           </div>

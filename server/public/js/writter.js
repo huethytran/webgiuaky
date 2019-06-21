@@ -46,6 +46,7 @@ $(document).ready(() => {
                     $('#sendPost').text("Cập nhật");
                     $("#postAvatar").attr("src", response.image_url);
                     $("#post_tag").text("src", response.tag);
+                    $('#post_premium').val(response.premium);
                     $('.nav-tabs li:eq(1) a').tab('show');
                 },
                 error: (err) => {
