@@ -520,8 +520,9 @@ function createPostEl(data, indexNum) {
     var publishDate = document.createElement('td'); publishDate.textContent = data.publishDate;
     var view = document.createElement('td'); view.textContent = data.view;
     var action = document.createElement('td');
+    var url = '/postdetail/' + data.category + '/' + data.id;
     action.innerHTML = `<td>
-                        <a href="${data.url}" class="view" title="View" data-toggle="tooltip"><i class="fas fa-eye"></i></a>
+                        <a href="${url}" class="view" title="View" data-toggle="tooltip"><i class="fas fa-eye"></i></a>
                         <a  class="edit" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>
                         <a  class="delete" title="Delete" data-toggle="tooltip"><i
                                 class="fas fa-trash-alt"></i></a>
