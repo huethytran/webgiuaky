@@ -68,7 +68,7 @@ function _get_resetpassword(req, res) {
         res.render("Message", {msg: msg});
         return;
     }
-
+    console.log("CCCC: " + JSON.stringify(data))
     res.render("ForgotPassword", {step: 2, uid: data.uid});
 }
 

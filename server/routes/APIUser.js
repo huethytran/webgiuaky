@@ -10,7 +10,7 @@ module.exports = () => {
     userAPI.post('/login',          controller.login);
     userAPI.post('/sendrequest',    controller.validateToken, controller.sendrequest);
     userAPI.get('/information',     controller.validateToken, controller.getinfo);
-    userAPI.post('/resetpassword',  controller.validateToken, controller.resetpassword);
+    userAPI.post('/resetpassword',  controller.resetpassword);
     userAPI.post('/information',    controller.validateToken, controller.updateinfo);
     userAPI.post('/avatar',         controller.validateToken, upload.single('image'), controller.avatar);
     return userAPI;

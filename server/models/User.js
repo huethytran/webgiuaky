@@ -136,7 +136,7 @@ exports.update = function (id, data, cb) {
                         cb(null, record_2);
 
                     })
-                } else cb(null, record);
+                } else cb(null, record_1);
         
             })
         }).catch(function(err) {

@@ -179,6 +179,7 @@ function _get_information(req, res) {
 function _post_resetpw(req, res) {
     if (req.query.from && req.query.from ==='email') {
         var uid = req.query.email;
+        console.log("AAA: " + uid);
         if (PassWordValidate(req.body.inputPassword, req.body.inputConfirmPassword) ==0) {
             data = {pwd: req.body.inputPassword};
             UserDB.update(uid, data, (err, record) => {
